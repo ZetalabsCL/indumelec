@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `indumelec`.`quote_history` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `indumelec`.`role` (
                                                 `id` INT NOT NULL,
-                                                `description` VARCHAR(100) NULL,
+                                                `role` VARCHAR(100) NULL,
                                                 PRIMARY KEY (`id`))
   ENGINE = InnoDB;
 
