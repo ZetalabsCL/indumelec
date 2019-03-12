@@ -1,4 +1,4 @@
-package com.zetalabs.indumelec.web;
+package com.zetalabs.indumelec;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
