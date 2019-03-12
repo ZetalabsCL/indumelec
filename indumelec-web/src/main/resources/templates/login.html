@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8" />
         <title>Sistema de gesti&oacute;n Indumelec</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Indumelec, sistema de gestión, app" name="description" />
-        <meta content="Zetañabs SpA" name="author" />
+        <meta content="Indumelec, Sistema de Gesti&oacute;n, App" name="description" />
+        <meta content="Zetalabs S.A." name="author" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+        <link th:href="@{/images/favicon.ico}" rel="shortcut icon">
 
-<!-- App css -->
-<link href="css/icons.min.css" rel="stylesheet" type="text/css" />
-<link href="css/app.min.css" rel="stylesheet" type="text/css" />
-
+        <!-- App css -->
+        <link th:href="@{/css/icons.min.css}" rel="stylesheet" type="text/css" />
+        <link th:href="@{/css/app.min.css}" rel="stylesheet" type="text/css" />
+    </head>
 
     <body class="authentication-bg">
 
@@ -80,7 +80,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        2019 © Indumelec - Zetalabs SpA
+                        2019 © Indumelec - Zetalabs S.A.
                     </div>
            
                 </div>
@@ -88,6 +88,6 @@
         </footer>
 
         <!-- App js -->
-        <script src="js/app.min.js"></script>
+        <script th:src="@{/js/app.min.js}"></script>
     </body>
 </html>
