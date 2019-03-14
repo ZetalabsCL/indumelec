@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Role {
     @Id
     @Column(name = "role_id")
-    private int id;
+    private int roleId;
     @Column(name = "role")
     private String role;
 }
