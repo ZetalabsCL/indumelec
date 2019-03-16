@@ -1,187 +1,204 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-    <th:block th:replace="~{fragments/head}"/>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
 
-    <body data-layout="topnav" class="">
-        <div class="wrapper">
-            <div class="content-page">
-                <div class="content">
-                    <th:block th:replace="~{fragments/topbar}"/>
+<th:block layout:fragment="welcome">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Administrador</a></li>
+                        <li class="breadcrumb-item active">Nuevo Usuario</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Ingreso de Nuevo Usuario</h4>
+            </div>
+        </div>
+        <div class="col-12">
 
-                    <th:block th:replace="~{fragments/topnav :: admin}"/>
+        </div>
+    </div>
+</th:block>
 
-                    <div class="container-fluid">
+<th:block layout:fragment="content">
+    <form th:action="@{/admin/user/save}" method="post">
+        <input th:type="hidden" name="id" th:field="${newUser.userId}" />
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Datos del Usuario </h4>
+                        <br>
                         <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box">
-                                    <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Administrador</a></li>
-                                            <li class="breadcrumb-item active">Nuevo Usuario</li>
-                                        </ol>
-                                    </div>
-                                    <h4 class="page-title">Ingreso de Nuevo Usuario</h4>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="name">Nombre:</label>
+                                    <input id="name" name="name" type="text" class="form-control" placeholder="Ingrese el Nombre del Usuario" th:field="${newUser.name}">
                                 </div>
                             </div>
-                            <div class="col-12">
-
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="role">Rol:</label>
+                                    <select id="role" name="role" class="form-control" th:field="${newUser.role}">
+                                        <option value="1">Administrador</option>
+                                        <option value="2">Usuario</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input id="email" name="email" type="text" class="form-control" placeholder="Ingrese el E-Mail del Usuario" th:field="${newUser.email}">
+                                </div>
                             </div>
                         </div>
 
-                        <form th:action="@{/admin/user/save}" method="post">
-                        <input th:type="hidden" name="id" th:field="${newUser.userId}" />
                         <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="header-title">Datos del Usuario </h4>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="name">Nombre:</label>
-                                                    <input id="name" name="name" type="text" class="form-control" placeholder="Ingrese el Nombre del Usuario" th:field="${newUser.name}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="role">Rol:</label>
-                                                    <select id="role" name="role" class="form-control" th:field="${newUser.role}">
-                                                        <option value="1">Administrador</option>
-                                                        <option value="2">Usuario</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="email">Email:</label>
-                                                    <input id="email" name="email" type="text" class="form-control" placeholder="Ingrese el E-Mail del Usuario" th:field="${newUser.email}">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="password">Contraseña:</label>
-                                                    <input id="password" name="password" type="password" class="form-control" placeholder="Ingrese el password" th:field="${newUser.password}">
-                                                    <span class="help-block">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="password">Contraseña:</label>
+                                    <input id="password" name="password" type="password" class="form-control" placeholder="Ingrese el password" th:field="${newUser.password}">
+                                    <span class="help-block">
                                                         <small>Ingrese una clave que contenga letras, n&uacute;meros y simbolos</small>
                                                     </span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label for="password2">Repita Contraseña:</label>
-                                                    <input id="password2" name="password2" type="password" class="form-control" placeholder="Re-Ingrese el password">
-                                                    <span class="help-block">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="password2">Repita Contraseña:</label>
+                                    <input id="password2" name="password2" type="password" class="form-control" placeholder="Re-Ingrese el password">
+                                    <span class="help-block">
                                                         <small>Re-Ingrese la clave que us&oacute; en el casillero anterior</small>
                                                     </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card bg-dark text-white">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-4">&nbsp;</div>
-                                            <div class="col-2">
-                                                <button class="btn btn-success" name="Submit" type="Submit" th:text="'Agregar Nueva Usuario'"/>
-                                            </div>
-                                            <div class="col-3">&nbsp;</div>
-                                        </div>
-                                                
-                                        <div id="alert-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                                            <div class="modal-dialog modal-sm">
-                                                <div class="modal-content modal-filled bg-success">
-                                                    <div class="modal-body p-4">
-                                                        <div class="text-center">
-                                                            <i class="dripicons-checkmark h1"></i>
-                                                            <h4 class="mt-2">Usuario Agregado correctamente!</h4>
-                                                            <p class="mt-3">Si quieres realizar acciones con el usuario, utiliza la tabla de abajo para editar o eliminar datos.</p>
-                                                            <button type="button" class="btn btn-light my-2" data-dismiss="modal">Aceptar</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h4 class="header-title">Usuarios Existentes</h4>
-                                        <p class="text-muted font-14">
-                                            Listado de usuarios existentes, habilitados para ingresar en el sistema
-                                        </p>
-
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <h4 class="header-title"></h4>
-                                                <div class="table-responsive">
-                                                    <table id="usuarios-table" class="table mt-4">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>#</th>
-                                                                <th>Usuario</th>
-                                                                <th>Email</th>
-                                                                <th class="text-right">Editar / Eliminar</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr th:each="user : ${userList}">
-                                                                <td>1</td>
-                                                                <td th:text="${user.name}"/>
-                                                                <td th:text="${user.email}"/>
-                                                                <td class="text-right">
-                                                                    <a th:href="@{/admin/user/edit/__${user.userId}__}" class="btn btn-warning">Editar Usuario</a> -
-                                                                    <a th:href="@{/admin/user/delete/__${user.userId}__}" class="btn btn-danger">Eliminar Usuario</a>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-
-                                                    <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                                                        <div class="modal-dialog modal-sm">
-                                                            <div class="modal-content modal-filled bg-danger">
-                                                                <div class="modal-body p-4">
-                                                                    <div class="text-center">
-                                                                        <i class="dripicons-wrong h1"></i>
-                                                                        <h4 class="mt-2">Usuario elimnado correctamente!</h4>
-                                                                        <p class="mt-3">El usuario seleccionado, fue eliminado correctamente.</p>
-                                                                        <button type="button" class="btn btn-light my-2" data-dismiss="modal">Aceptar</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </form>
                     </div>
                 </div>
-
-                <th:block th:replace="~{fragments/footer}"/>
             </div>
         </div>
 
-        <th:block th:replace="~{fragments/scripts}"/>
-    </body>
+        <div class="row">
+            <div class="col-12">
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">&nbsp;</div>
+                            <div class="col-2">
+                                <button class="btn btn-success" name="Submit" type="Submit" th:text="'Agregar Nueva Usuario'"/>
+                            </div>
+                            <div class="col-3">&nbsp;</div>
+                        </div>
+
+                        <div id="alert-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content modal-filled bg-success">
+                                    <div class="modal-body p-4">
+                                        <div class="text-center">
+                                            <i class="dripicons-checkmark h1"></i>
+                                            <h4 class="mt-2">Usuario Agregado correctamente!</h4>
+                                            <p class="mt-3">Si quieres realizar acciones con el usuario, utiliza la tabla de abajo para editar o eliminar datos.</p>
+                                            <button type="button" class="btn btn-light my-2" data-dismiss="modal">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Usuarios Existentes</h4>
+                        <p class="text-muted font-14">
+                            Listado de usuarios existentes, habilitados para ingresar en el sistema
+                        </p>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <h4 class="header-title"></h4>
+                                <div class="table-responsive">
+                                    <table id="usuarios-table" class="table mt-4">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Usuario</th>
+                                            <th>Email</th>
+                                            <th class="text-right">Editar / Eliminar</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="user : ${userList}">
+                                            <td>1</td>
+                                            <td th:text="${user.name}"/>
+                                            <td th:text="${user.email}"/>
+                                            <td class="text-right">
+                                                <a th:href="@{/admin/user/edit/__${user.userId}__}" class="btn btn-warning">Editar Usuario</a> -
+                                                <a th:href="@{/admin/user/delete/__${user.userId}__}" class="btn btn-danger">Eliminar Usuario</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content modal-filled bg-danger">
+                                                <div class="modal-body p-4">
+                                                    <div class="text-center">
+                                                        <i class="dripicons-wrong h1"></i>
+                                                        <h4 class="mt-2">Usuario elimnado correctamente!</h4>
+                                                        <p class="mt-3">El usuario seleccionado, fue eliminado correctamente.</p>
+                                                        <button type="button" class="btn btn-light my-2" data-dismiss="modal">Aceptar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        $(document).ready(function() {
+            $('#usuarios-table').DataTable( {
+                responsive: true,
+                /*dom: 'Bfrtip',*/
+                dom:"<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-7'i><'col-sm-5'p>>",
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ], "language": {
+                    "lengthMenu": "Mostrando _MENU_ registros por p&aacute;gina",
+                    buttons: {
+                        copy: 'Copiar'
+                    },
+                    "zeroRecords": "Sin resultados - lo siento!",
+                    "info": "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay registros disponibles",
+                    "search": "Buscar",
+                    "infoFiltered": "(filtrados de _MAX_ registros totales)",
+                    "paginate": {
+                        "previous": "Anterior",
+                        "next": "Siguiente"
+                    }
+                }
+            },  );
+        } );
+    </script>
+</th:block>
 </html>

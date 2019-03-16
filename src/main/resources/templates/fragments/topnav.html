@@ -1,18 +1,20 @@
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="admin">
+<th:block xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <div class="topnav">
         <div class="container-fluid">
             <nav class="navbar navbar-dark navbar-expand-lg topnav-menu">
                 <div class="collapse navbar-collapse" id="topnav-menu-content">
                     <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="mdi mdi-access-point mr-1"></i>Mantenedores <div class="arrow-down"></div>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                <a th:href="@{/admin/company}" class="dropdown-item">Empresas</a>
-                                <a th:href="@{/admin/user}" class="dropdown-item">Usuarios</a>
-                            </div>
-                        </li>
+                        <div sec:authorize="hasRole('Admin')">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="mdi mdi-access-point mr-1"></i>Mantenedores <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    <a th:href="@{/admin/company}" class="dropdown-item">Empresas</a>
+                                    <a th:href="@{/admin/user}" class="dropdown-item">Usuarios</a>
+                                </div>
+                            </li>
+                        </div>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="mdi mdi-access-point mr-1"></i>Cotizaciones <div class="arrow-down"></div>
@@ -22,36 +24,16 @@
                                 <a href="nuevo-presupuesto.html" class="dropdown-item">Nueva Cotizacion</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="mdi mdi-access-point mr-1"></i>Producci&oacute;n <div class="arrow-down"></div>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                <a href="estado-produccion.html" class="dropdown-item">Estado ordenes de Producci&oacute;n</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-</th:block>
-
-<th:block xmlns:th="http://www.thymeleaf.org" th:fragment="user">
-    <div class="topnav">
-        <div class="container-fluid">
-            <nav class="navbar navbar-dark navbar-expand-lg topnav-menu">
-                <div class="collapse navbar-collapse" id="topnav-menu-content">
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="mdi mdi-access-point mr-1"></i>Cotizaciones <div class="arrow-down"></div>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                <a href="cotizaciones.html" class="dropdown-item">Ver Cotizaciones</a>
-                                <a href="nuevo-presupuesto.html" class="dropdown-item">Nueva Cotizacion</a>
-                            </div>
-                        </li>
+                        <div sec:authorize="hasRole('Admin')">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="mdi mdi-access-point mr-1"></i>Producci&oacute;n <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    <a href="estado-produccion.html" class="dropdown-item">Estado ordenes de Producci&oacute;n</a>
+                                </div>
+                            </li>
+                        </div>
                     </ul>
                 </div>
             </nav>
