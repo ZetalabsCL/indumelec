@@ -1,4 +1,4 @@
-package com.zetalabs.indumelec.controller;
+package com.zetalabs.indumelec.controller.admin;
 
 import com.zetalabs.indumelec.model.Company;
 import com.zetalabs.indumelec.repository.CompanyRepository;
@@ -20,8 +20,7 @@ public class CompanyMaintainerController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/company");
 
-        model.addAttribute("companyList", companyRepository.findAll());
-        model.addAttribute("company", new Company());
+        setDefaultModel(model);
 
         return modelAndView;
     }
@@ -44,8 +43,7 @@ public class CompanyMaintainerController {
 
         companyRepository.deleteById(id);
 
-        model.addAttribute("companyList", companyRepository.findAll());
-        model.addAttribute("company", new Company());
+        setDefaultModel(model);
 
         return modelAndView;
     }
@@ -57,9 +55,13 @@ public class CompanyMaintainerController {
 
         companyRepository.save(company);
 
-        model.addAttribute("company", new Company());
-        model.addAttribute("companyList", companyRepository.findAll());
+        setDefaultModel(model);
 
         return modelAndView;
+    }
+
+    private void setDefaultModel(Model model){
+        model.addAttribute("companyList", companyRepository.findAll());
+        model.addAttribute("company", new Company());
     }
 }
