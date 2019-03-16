@@ -11,6 +11,7 @@ public class Role {
     @Id
     @Column(name = "role_id")
     private int roleId;
-    @Column(name = "role")
+
+    @Column(name = "role", length = 100)
     private String role;
 }

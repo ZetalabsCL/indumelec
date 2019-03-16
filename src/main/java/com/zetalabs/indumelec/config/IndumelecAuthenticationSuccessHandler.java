@@ -24,8 +24,7 @@ public class IndumelecAuthenticationSuccessHandler implements AuthenticationSucc
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
                                         HttpServletResponse httpServletResponse, Authentication authentication)
-            throws RuntimeException
-    {
+            throws RuntimeException, IOException{
         HttpSession session = httpServletRequest.getSession();
         User authUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         session.setAttribute("username", authUser.getUsername());
@@ -34,26 +33,15 @@ public class IndumelecAuthenticationSuccessHandler implements AuthenticationSucc
 
         httpServletResponse.setStatus(HttpServletResponse.SC_OK);
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        authorities.forEach(authority ->
-        {
-            if(authority.getAuthority().equals("Admin"))
-            {
-                session.setAttribute("role", AppRole.ADMIN);
-                try {
-                    httpServletResponse.sendRedirect("/admin/dashboard");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            } else if (authority.getAuthority().equals("User")) {
-                session.setAttribute("role", AppRole.USER);
 
-                try {
-                    httpServletResponse.sendRedirect("/user/dashboard");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+        Boolean isAdmin = authorities.stream().anyMatch(obj -> obj.getAuthority().equals("Admin"));
 
+        if (isAdmin) {
+            session.setAttribute("role", AppRole.ADMIN);
+            httpServletResponse.sendRedirect("/admin/dashboard");
+        } else {
+            session.setAttribute("role", AppRole.USER);
+            httpServletResponse.sendRedirect("/user/dashboard");
+        }
     }
 }
