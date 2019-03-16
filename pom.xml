@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.zetalabs.indumelec</groupId>
-	<artifactId>indumelec-web</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>indumelec-web</name>
+	<artifactId>indumelec</artifactId>
+	<version>1.0.0</version>
+	<name>indumelec</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
