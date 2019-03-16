@@ -1,6 +1,5 @@
 package com.zetalabs.indumelec.controller;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +15,11 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value={"/admin/home"}, method = RequestMethod.GET)
-    public ModelAndView loginUser(){
+    @RequestMapping(value={"/logout"}, method = RequestMethod.GET)
+    public ModelAndView logout(){
+        SecurityContextHolder.getContext().setAuthentication(null);
         ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        modelAndView.setViewName("admin/dashboard");
+        modelAndView.setViewName("login");
         return modelAndView;
     }
 }

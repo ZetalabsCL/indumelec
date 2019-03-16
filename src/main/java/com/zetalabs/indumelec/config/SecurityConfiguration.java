@@ -29,6 +29,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
 
+    @Autowired
+    private IndumelecAuthenticationSuccessHandler indumelecAuthenticationSuccessHandler;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
@@ -43,10 +46,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         .antMatchers("/").permitAll()
         .antMatchers("/login").permitAll()
-        .antMatchers("/admin/**").hasAuthority("Admin").anyRequest()
+        .antMatchers("/admin/**").hasAuthority("Admin")
+        .antMatchers("/user/**").hasAuthority("User").anyRequest()
         .authenticated().and().csrf().disable().formLogin()
         .loginPage("/login").failureUrl("/login?error=true")
-        .defaultSuccessUrl("/admin/home")
+        .successHandler(indumelecAuthenticationSuccessHandler)
         .usernameParameter("email")
         .passwordParameter("password")
         .and().logout()
