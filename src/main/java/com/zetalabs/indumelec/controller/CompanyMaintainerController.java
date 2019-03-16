@@ -19,6 +19,7 @@ public class CompanyMaintainerController {
     public ModelAndView index(Model model){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/company");
+
         model.addAttribute("companyList", companyRepository.findAll());
         model.addAttribute("company", new Company());
 
@@ -26,7 +27,7 @@ public class CompanyMaintainerController {
     }
 
     @RequestMapping(value={"/admin/company/edit/{id}"}, method = RequestMethod.GET)
-    public ModelAndView companyEditForm(Model model, @PathVariable(name = "id") Long id) {
+    public ModelAndView edit(Model model, @PathVariable(name = "id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/company");
 
@@ -36,12 +37,27 @@ public class CompanyMaintainerController {
         return modelAndView;
     }
 
-    @RequestMapping(value={"/admin/company/save"}, method = RequestMethod.POST)
-    public ModelAndView companyEditForm(Model model, Company company) {
+    @RequestMapping(value={"/admin/company/delete/{id}"}, method = RequestMethod.GET)
+    public ModelAndView delete(Model model, @PathVariable(name = "id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/company");
 
-        model.addAttribute("company", companyRepository.save(company));
+        companyRepository.deleteById(id);
+
+        model.addAttribute("companyList", companyRepository.findAll());
+        model.addAttribute("company", new Company());
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value={"/admin/company/save"}, method = RequestMethod.POST)
+    public ModelAndView save(Model model, Company company) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("admin/company");
+
+        companyRepository.save(company);
+
+        model.addAttribute("company", new Company());
         model.addAttribute("companyList", companyRepository.findAll());
 
         return modelAndView;
