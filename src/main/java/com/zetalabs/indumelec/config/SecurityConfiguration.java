@@ -30,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private String rolesQuery;
 
     @Autowired
-    private IndumelecAuthenticationSuccessHandler indumelecAuthenticationSuccessHandler;
+    private IndumelecAuthenticationHandler indumelecAuthenticationHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/user/**").hasAuthority("User").anyRequest()
         .authenticated().and().csrf().disable().formLogin()
         .loginPage("/login").failureUrl("/login?error=true")
-        .successHandler(indumelecAuthenticationSuccessHandler)
+        .successHandler(indumelecAuthenticationHandler)
         .usernameParameter("email")
         .passwordParameter("password")
         .and().logout()

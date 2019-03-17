@@ -3,7 +3,8 @@ package com.zetalabs.indumelec.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -16,7 +17,7 @@ public class Quote {
     private Long quoteId;
 
     @Column(name = "entry_date")
-    private Date entryDate;
+    private LocalDateTime entryDate;
 
     @Column(name = "reference", length = 100)
     private String reference;
@@ -47,6 +48,12 @@ public class Quote {
 
     @Column(name = "signature", length = 100)
     private String signature;
+
+    @Column(name = "status")
+    private Integer status;
+
+    @Column(name = "amount")
+    private BigDecimal amount = BigDecimal.ZERO;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")

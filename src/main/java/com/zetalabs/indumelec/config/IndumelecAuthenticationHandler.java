@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 @Component
-public class IndumelecAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class IndumelecAuthenticationHandler implements AuthenticationSuccessHandler {
     @Autowired
     private UserRepository userRepository;
 

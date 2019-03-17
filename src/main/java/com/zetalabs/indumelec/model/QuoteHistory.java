@@ -3,7 +3,7 @@ package com.zetalabs.indumelec.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -15,7 +15,7 @@ public class QuoteHistory {
     private Long historyId;
 
     @Column(name = "entry_date")
-    private Date entryDate;
+    private LocalDateTime entryDate;
 
     @Column(name = "description")
     private String description;

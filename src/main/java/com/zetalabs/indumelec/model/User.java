@@ -3,7 +3,7 @@ package com.zetalabs.indumelec.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -31,7 +31,7 @@ public class User {
     private String updatedBy;
 
     @Column(name = "updated_on")
-    private Date updatedOn;
+    private LocalDateTime updatedOn;
 
     private Integer role;
 

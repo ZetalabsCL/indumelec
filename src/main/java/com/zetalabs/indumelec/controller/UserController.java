@@ -1,7 +1,7 @@
 package com.zetalabs.indumelec.controller;
 
 import com.zetalabs.indumelec.model.User;
-import com.zetalabs.indumelec.repository.QuoteRepository;
+import com.zetalabs.indumelec.service.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class UserController {
     @Autowired
-    private QuoteRepository quoteRepository;
+    private QuoteService quoteService;
 
     @RequestMapping(value={"/user/dashboard"}, method = RequestMethod.GET)
     public ModelAndView dashboard(HttpSession session, Model model){
@@ -23,7 +23,8 @@ public class UserController {
 
         User loggedUser = (User) session.getAttribute("user");
 
-        model.addAttribute("quoteList", quoteRepository.getInProgressQuotes());
+        model.addAttribute("quoteList", quoteService.getQuoteList());
+        model.addAttribute("quotesInformation", quoteService.getQuotesInformation());
 
         return modelAndView;
     }

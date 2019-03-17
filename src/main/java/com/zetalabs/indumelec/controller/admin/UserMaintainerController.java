@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -92,7 +94,7 @@ public class UserMaintainerController {
         user.setRoles(roleList);
         user.setActive("Y");
         user.setUpdatedBy(loggedUser.getEmail());
-        user.setUpdatedOn(new Date());
+        user.setUpdatedOn(LocalDateTime.now());
 
         userRepository.save(user);
 
