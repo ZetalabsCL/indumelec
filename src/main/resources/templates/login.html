@@ -1,32 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8" />
-        <title>Sistema de gesti&oacute;n Indumelec</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="Indumelec, Sistema de Gesti&oacute;n, App" name="description" />
-        <meta content="Zetalabs S.A." name="author" />
-        <!-- App favicon -->
-        <link th:href="@{/images/favicon.ico}" rel="shortcut icon">
-
-        <!-- App css -->
-        <link th:href="@{/css/icons.min.css}" rel="stylesheet" type="text/css" />
-        <link th:href="@{/css/app.min.css}" rel="stylesheet" type="text/css" />
-    </head>
+    <th:block th:replace="~{fragments/head}"/>
 
     <body class="authentication-bg">
-
         <div class="account-pages mt-5 mb-5">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-5">
                         <div class="card">
-
-                            <!-- Logo -->
                             <div class="card-header pt-4 pb-4 text-center bg-primary">
-                                <a href="login.html">
-                                  <!--  <span><img src="images/logo.png" alt="" height="18"></span>-->
-                                </a>
+
                             </div>
 
                             <div class="card-body p-4">
@@ -34,11 +17,13 @@
                                 <div class="text-center w-75 m-auto">
                                     <h4 class="text-dark-50 text-center mt-0 font-weight-bold">Ingreso</h4>
                                     <p class="text-muted mb-4">Ingresa al sistema de gesti&oacute;n.</p>
-                                    
+                                    <div id="errors" th:if="${(param.error != null) and (param.error)}">
+                                        <p class="error">Usuario o clave incorrecta</p>
+                                    </div>
+
                                 </div>
 
                                 <form th:action="@{/login}" method="post">
-
                                     <div class="form-group">
                                         <label for="email">Usuario</label>
                                         <input type="text" id="email" name="email" th:placeholder="Email" class="form-control" />
@@ -60,33 +45,16 @@
                                     <div class="form-group mb-0 text-center">
                                         <button class="btn btn-primary" name="Submit" value="Login" type="Submit" th:text="Login"></button>
                                     </div>
-
                                 </form>
-                            </div> <!-- end card-body -->
+                            </div>
                         </div>
-                        <!-- end card -->
-                        <!-- end row -->
-
-                    </div> <!-- end col -->
-                </div>
-                <!-- end row -->
-            </div>
-            <!-- end container -->
-        </div>
-        <!-- end page -->
-
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        2019 © Indumelec - Zetalabs S.A.
                     </div>
-           
                 </div>
             </div>
-        </footer>
+        </div>
 
-        <!-- App js -->
+        <th:block th:replace="~{fragments/footer}"/>
+
         <script th:src="@{/js/app.min.js}"></script>
     </body>
 </html>

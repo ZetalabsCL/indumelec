@@ -1,4 +1,4 @@
-package com.zetalabs.indumelec.model;
+package com.zetalabs.indumelec.model.types;
 
 public enum AppRole {
     ADMIN("Administrador"),

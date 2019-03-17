@@ -20,6 +20,9 @@ public class QuoteHistory {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "status")
+    private Integer status;
+
     @Column(name = "quote_id")
     private Long quoteId;
 

@@ -1,6 +1,6 @@
 package com.zetalabs.indumelec.config;
 
-import com.zetalabs.indumelec.model.AppRole;
+import com.zetalabs.indumelec.model.types.AppRole;
 import com.zetalabs.indumelec.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
