@@ -24,7 +24,7 @@
 </th:block>
 
 <th:block layout:fragment="content">
-    <form th:action="@{/shared/quote/save}" method="post">
+    <form th:action="@{/shared/quote/save}" method="post" th:object="${quote}">
         <input th:type="hidden" name="id" th:field="${quote.quoteId}" />
         <div class="row">
             <div class="col-12">
@@ -91,25 +91,25 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="quantity">Cantidad:</label>
-                                    <input id="quantity" name="quantity" type="text" class="form-control" placeholder="Ingrese Cantidad" th:field="${quoteDetail.quantity}">
+                                    <input id="quantity" name="quantity" type="text" class="form-control" placeholder="Ingrese Cantidad" th:field="${quote.quoteDetail.quantity}">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="description">Descripci&oacute;n:</label>
-                                    <input id="description" name="description" type="text" class="form-control" placeholder="Ingrese Descripci&oacute;n" th:field="${quoteDetail.description}">
+                                    <input id="description" name="description" type="text" class="form-control" placeholder="Ingrese Descripci&oacute;n" th:field="${quote.quoteDetail.description}">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="measure">Medidas:</label>
-                                    <input id="measure" name="measures" type="text" class="form-control" placeholder="Ingrese Medidas" th:field="${quoteDetail.measure}">
+                                    <input id="measure" name="measures" type="text" class="form-control" placeholder="Ingrese Medidas" th:field="${quote.quoteDetail.measure}">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="price">Precio:</label>
-                                    <input id="price" name="price" type="text" class="form-control" placeholder="Ingrese Precio" th:field="${quoteDetail.price}">
+                                    <input id="price" name="price" type="text" class="form-control" placeholder="Ingrese Precio" th:field="${quote.quoteDetail.price}">
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -134,11 +134,11 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr th:each="detail, iter : ${quote.quoteDetails}">
-                                                <input th:type="hidden" th:field="${quote.quoteDetails[__${iter.index}__].quantity}" />
-                                                <input th:type="hidden" th:field="${quote.quoteDetails[__${iter.index}__].description}" />
-                                                <input th:type="hidden" th:field="${quote.quoteDetails[__${iter.index}__].measure}" />
-                                                <input th:type="hidden" th:field="${quote.quoteDetails[__${iter.index}__].price}" />
+                                            <tr th:each="detail, iter : ${quote.quoteDetailsList}">
+                                                <input type="hidden" th:field="${quote.quoteDetailsList[__${iter.index}__].quantity}"/>
+                                                <input type="hidden" th:field="${quote.quoteDetailsList[__${iter.index}__].description}"/>
+                                                <input type="hidden" th:field="${quote.quoteDetailsList[__${iter.index}__].measure}"/>
+                                                <input type="hidden" th:field="${quote.quoteDetailsList[__${iter.index}__].price}"/>
                                                 <td th:text="${iter.index + 1}"/>
                                                 <td th:text="${detail.quantity}"/>
                                                 <td th:text="${detail.description}"/>

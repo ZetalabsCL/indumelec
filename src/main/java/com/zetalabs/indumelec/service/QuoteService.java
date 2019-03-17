@@ -1,9 +1,10 @@
 package com.zetalabs.indumelec.service;
 
-import com.zetalabs.indumelec.model.Quote;
+import com.zetalabs.indumelec.model.*;
 import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.model.vo.ChartInfo;
 import com.zetalabs.indumelec.model.vo.Statistic;
+import com.zetalabs.indumelec.repository.CompanyRepository;
 import com.zetalabs.indumelec.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +15,17 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class QuoteService {
     @Autowired
     private QuoteRepository quoteRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     public List<Quote> getQuoteList(){
         return quoteRepository.getInProgressQuotes();
@@ -144,5 +150,57 @@ public class QuoteService {
         }
 
         return value.round(m).doubleValue();
+    }
+
+    public void saveQuote(User user, Quote quote){
+        quote.setUser(user);
+        quote.setEntryDate(LocalDateTime.now());
+        quote.setStatus(Status.REVIEW);
+
+        Company company = companyRepository.findByTaxId(quote.getCompany().getTaxId());
+
+        if (company == null){
+            companyRepository.save(quote.getCompany());
+        } else {
+            quote.setCompany(company);
+        }
+
+        quote.setQuoteHistories(getInitialQuoteHistory(user));
+        quote.setQuoteDetails(getQuoteDetails(quote.getQuoteDetailsList()));
+
+        quoteRepository.save(quote);
+    }
+
+    private Set<QuoteDetail> getQuoteDetails(List<QuoteDetail> quoteDetailList){
+        Set<QuoteDetail> quoteDetails = new HashSet<>();
+        int count = 1;
+
+        for (QuoteDetail quoteDetail : quoteDetailList){
+            quoteDetail.setOrderId(count++);
+        }
+
+        quoteDetails.addAll(quoteDetailList);
+
+        return quoteDetails;
+    }
+
+    private Set<QuoteHistory> getInitialQuoteHistory(User user){
+        Set<QuoteHistory> quoteHistories = new HashSet<>();
+
+        QuoteHistory quoteHistory = new QuoteHistory();
+        quoteHistory.setDescription("Cotizacion Ingresada");
+        quoteHistory.setEntryDate(LocalDateTime.now());
+        quoteHistory.setStatus(Status.NEW);
+        quoteHistory.setUser(user);
+        quoteHistories.add(quoteHistory);
+
+        quoteHistory = new QuoteHistory();
+        quoteHistory.setDescription("Cotizacion Enviada a Revision");
+        quoteHistory.setEntryDate(LocalDateTime.now());
+        quoteHistory.setStatus(Status.REVIEW);
+        quoteHistory.setUser(user);
+        quoteHistories.add(quoteHistory);
+
+        return quoteHistories;
     }
 }

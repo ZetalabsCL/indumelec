@@ -3,7 +3,9 @@ package com.zetalabs.indumelec.controller;
 import com.zetalabs.indumelec.model.Company;
 import com.zetalabs.indumelec.model.Quote;
 import com.zetalabs.indumelec.model.QuoteDetail;
+import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.service.QuoteService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashSet;
+import javax.servlet.http.HttpSession;
+import java.util.LinkedList;
 
 @Controller
 public class QuoteController {
@@ -24,12 +27,11 @@ public class QuoteController {
         modelAndView.setViewName("shared/newquote");
 
         Quote quote = new Quote();
-        quote.setQuoteDetails(new HashSet<>());
-        quote.setQuoteHistories(new HashSet<>());
+        quote.setQuoteDetailsList(new LinkedList<>());
         quote.setCompany(new Company());
+        quote.setQuoteDetail(new QuoteDetail());
 
         model.addAttribute("quote", quote);
-        model.addAttribute("quoteDetail", new QuoteDetail());
 
         return modelAndView;
     }
@@ -46,27 +48,33 @@ public class QuoteController {
     }
 
     @RequestMapping(params = "add", value={"/shared/quote/save"}, method = RequestMethod.POST)
-    public ModelAndView add(Model model, Quote quote, QuoteDetail quoteDetail){
+    public ModelAndView add(Model model, Quote quote){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("shared/newquote");
 
-        if (quote.getQuoteDetails()==null){
-            quote.setQuoteDetails(new HashSet<>());
+        if (quote.getQuoteDetailsList() == null){
+            quote.setQuoteDetailsList(new LinkedList<>());
         }
 
-        quoteDetail.setOrderId(quote.getQuoteDetails().size() + 1);
-        quote.getQuoteDetails().add(quoteDetail);
+        QuoteDetail newQuoteDetail = new QuoteDetail();
+        BeanUtils.copyProperties(quote.getQuoteDetail(), newQuoteDetail);
 
-        model.addAttribute("quote", quote);
-        model.addAttribute("quoteDetail", new QuoteDetail());
+        newQuoteDetail.setOrderId(quote.getQuoteDetailsList().size() + 1);
+        quote.getQuoteDetailsList().add(newQuoteDetail);
+
+        quote.setQuoteDetail(new QuoteDetail());
 
         return modelAndView;
     }
 
     @RequestMapping(params = "save", value={"/shared/quote/save"}, method = RequestMethod.POST)
-    public ModelAndView save(Model model, Quote quote){
+    public ModelAndView save(HttpSession session, Model model, Quote quote){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("shared/showquotes");
+
+        User loggedUser = (User) session.getAttribute("user");
+
+        quoteService.saveQuote(loggedUser, quote);
 
         model.addAttribute("quoteList", quoteService.getQuoteList());
         model.addAttribute("quotesInformation", quoteService.getQuotesInformation());
