@@ -19,7 +19,7 @@ public class UserController {
     @RequestMapping(value={"/user/dashboard"}, method = RequestMethod.GET)
     public ModelAndView dashboard(HttpSession session, Model model){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/dashboard");
+        modelAndView.setViewName("user/dashboard");
 
         User loggedUser = (User) session.getAttribute("user");
 
