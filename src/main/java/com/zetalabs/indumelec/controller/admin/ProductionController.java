@@ -1,6 +1,6 @@
 package com.zetalabs.indumelec.controller.admin;
 
-import com.zetalabs.indumelec.model.types.QuoteStatus;
+import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.service.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,10 +19,10 @@ public class ProductionController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/production");
 
-        model.addAttribute("cutQuoteList", quoteService.getQuoteListByStatus(QuoteStatus.CUT));
-        model.addAttribute("productionQuoteList", quoteService.getQuoteListByStatus(QuoteStatus.PRODUCTION));
-        model.addAttribute("buildQuoteList", quoteService.getQuoteListByStatus(QuoteStatus.BUILD));
-        model.addAttribute("deliveryQuoteList", quoteService.getQuoteListByStatus(QuoteStatus.DELIVERY));
+        model.addAttribute("cutQuoteList", quoteService.getQuoteListByStatus(Status.CUT));
+        model.addAttribute("productionQuoteList", quoteService.getQuoteListByStatus(Status.PRODUCTION));
+        model.addAttribute("buildQuoteList", quoteService.getQuoteListByStatus(Status.BUILD));
+        model.addAttribute("deliveryQuoteList", quoteService.getQuoteListByStatus(Status.DELIVERY));
 
         return modelAndView;
     }

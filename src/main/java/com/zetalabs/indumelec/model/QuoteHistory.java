@@ -1,6 +1,6 @@
 package com.zetalabs.indumelec.model;
 
-import com.zetalabs.indumelec.model.types.QuoteStatus;
+import com.zetalabs.indumelec.model.types.Status;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,7 +22,7 @@ public class QuoteHistory {
     private String description;
 
     @Column(name = "status")
-    private QuoteStatus status;
+    private Status status;
 
     @Column(name = "quote_id")
     private Long quoteId;

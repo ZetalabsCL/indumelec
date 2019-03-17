@@ -145,8 +145,8 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="company : ${companyList}">
-                                            <td>1</td>
+                                        <tr th:each="company, iter : ${companyList}">
+                                            <td th:text="${iter.index + 1}"/>
                                             <td th:text="${company.name}" />
                                             <td th:text="${company.taxId}" />
                                             <td th:text="${company.contact}" />

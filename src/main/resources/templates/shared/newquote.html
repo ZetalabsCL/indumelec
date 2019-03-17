@@ -24,264 +24,244 @@
 </th:block>
 
 <th:block layout:fragment="content">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="header-title">Datos del Cliente </h4>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="rut-cliente">Rut Cliente:</label>
-                                <input type="text" class="form-control" name="rut-cliente" placeholder="Ingrese el Rut del Cliente">
+    <form th:action="@{/shared/quote/save}" method="post">
+        <input th:type="hidden" name="id" th:field="${quote.quoteId}" />
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Datos del Cliente </h4>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="taxid">Rut Cliente:</label>
+                                    <input id="taxid" name="taxid" type="text" class="form-control" placeholder="Ingrese el Rut del Cliente" th:field="${quote.company.taxId}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Nombre Cliente:</label>
+                                    <input id="name" name="name" type="text" class="form-control" placeholder="Ingrese el Nombre del Cliente" th:field="${quote.company.name}">
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="nombre-cliente">Nombre Cliente:</label>
-                                <input type="text" class="form-control" name="nombre-cliente" placeholder="Ingrese el Nombre del Cliente">
-                            </div>
-                        </div>
-                        <!-- end col -->
-                    </div> <!-- end row -->
 
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="rut-cliente">Contacto:</label>
-                                <input type="text" class="form-control" name="contacto-cliente" placeholder="Ingrese el Contacto del Cliente">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="contact">Contacto:</label>
+                                    <input id="contact" name="contact" type="text" class="form-control" placeholder="Ingrese el Contacto del Cliente" th:field="${quote.company.contact}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="fono-cliente">Tel&eacute;fono:</label>
-                                <input type="text" class="form-control" name="fono-cliente" placeholder="Ingrese el Tel&eacute;fono del Cliente">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="phone">Tel&eacute;fono:</label>
+                                    <input id="phone" name="phone" type="text" class="form-control" placeholder="Ingrese el Tel&eacute;fono del Cliente" th:field="${quote.company.phone}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="celular-cliente">Celular:</label>
-                                <input type="text" class="form-control" name="celular-cliente" placeholder="Ingrese el Celular del Cliente">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="cellphone">Celular:</label>
+                                    <input id="cellphone" name="cellphone" type="text" class="form-control" placeholder="Ingrese el Celular del Cliente" th:field="${quote.company.cellphone}">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="mail-cliente">E-Mail:</label>
-                                <input type="text" class="form-control" name="mail-cliente" placeholder="Ingrese el E-Mail del Cliente">
-                            </div>
-                        </div>
-                        <!-- end col -->
-                    </div>
-                </div> <!-- end card-body-->
-            </div> <!-- end card-->
-        </div> <!-- end col-->
-    </div>
-    <!-- end row-->
-
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="header-title">Productos y Servicios</h4>
-                    <p class="text-muted font-14">
-                        Ingrese el listado de productos o servicios solicitados por el cliente
-                    </p>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <table id="cotizaciones-table" class="table mt-4">
-                                    <thead>
-                                    <tr><th>#</th>
-                                        <th>Cantidad</th>
-                                        <th>Descripci&oacute;n</th>
-                                        <th>Medidas</th>
-                                        <th class="text-right">Precio</th>
-                                    </tr></thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <b>Laptop</b> <br>
-                                            Brand Model VGN-TXN27N/B
-                                            11.1" Notebook PC
-                                        </td>
-                                        <td>1</td>
-                                        <td>25x30</td>
-                                        <td class="text-right">$1799.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>
-                                            <b>Warranty</b> <br>
-                                            Two Year Extended Warranty -
-                                            Parts and Labor
-                                        </td>
-                                        <td>3</td>
-                                        <td>450x100</td>
-                                        <td class="text-right">$1497.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>
-                                            <b>LED</b> <br>
-                                            80cm (32) HD Ready LED TV
-                                        </td>
-                                        <td>2</td>
-                                        <td>15x15</td>
-                                        <td class="text-right">$824.00</td>
-                                    </tr>
-
-                                    </tbody>
-                                    <div class="row">
-                                        <div class="col-sm"></div>
-                                        <div class="col-sm"></div>
-                                        <div class="col col-lg-2"><h4><button class="btn btn-success" id="addRow">Agregar nueva linea</button></h4></div>
-                                    </div>
-
-                                </table>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email">E-Mail:</label>
+                                    <input id="email" name="email" type="text" class="form-control"placeholder="Ingrese el E-Mail del Cliente" th:field="${quote.company.email}">
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                </div> <!-- end card-body -->
-            </div> <!-- end card-->
-        </div> <!-- end col -->
-    </div>
-    <!-- end row -->
-
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="header-title">Textos Adicionales</h4>
-                    <p class="text-muted font-14 mb-3">
-                        Ingrese indicaciones o textos adicionales a fines a la cotizaci&oacute;n
-                    </p>
-
-                    <!-- without label-->
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="referencia">Referencia:</label>
-                                <input type="text" class="form-control" name="referencia" placeholder="Ingrese las Referencias">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="nombre-cliente">Por la fabricaci&oacute;n de:</label>
-                                <input type="text" class="form-control" name="nombre-cliente" placeholder="Ingrese datos adicionales referentes a la fabricaci&oacute;n">
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- end card-body -->
-            </div> <!-- end card-->
-        </div> <!-- end col -->
-    </div>
-    <!-- end row -->
-
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="header-title">Textos Adicionales</h4>
-                    <p class="text-muted font-14 mb-3">
-                        Ingrese indicaciones o textos adicionales a fines a la cotizaci&oacute;n
-                    </p>
-
-                    <!-- without label-->
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="forma-pago">Forma de Pago:</label>
-                                <select class="form-control" id="forma-pago">
-                                    <option>Contado</option>
-                                    <option>Cheque</option>
-                                    <option>Efectivo</option>
-                                    <option>30 D&iacute;s</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="pago-especial">Pago Especial:</label>
-                                <input type="text" class="form-control" name="pago-especial" placeholder="Ingrese el detalle del pago especial">
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="forma-pago">Entrega:</label>
-                                <select class="form-control" id="forma-pago">
-                                    <option>En oficinas del Cliente</option>
-                                    <option>Despacho</option>
-                                    <option>Retiro por parte del Cliente</option>
-                                    <option>Despacho a terreno</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="comentarios">Comentarios:</label>
-                                <input type="text" class="form-control" name="comentarios" placeholder="Comentarios de la forma de Pago">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="pago-especial">Entregas Parciales:</label>
-                                <input type="text" class="form-control" name="entregas-parciales" placeholder="Detalle de Entregas Parciales">
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="pago-especial">Lugar entrega especial:</label>
-                                <input type="text" class="form-control" name="pago-especial" placeholder="Ingrese el detalle del pago especial">
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="forma-pago">Facturar por:</label>
-                                <select class="form-control" id="forma-pago">
-                                    <option>Jara & Jara</option>
-                                    <option>Indumelec</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="forma-pago">Firma:</label>
-                                <select class="form-control" id="forma-pago">
-                                    <option>Carlos Jara Casanova</option>
-                                    <option>Patricio Jara</option>
-                                    <option>Carlos Jara Belmar</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- end card-body -->
-            </div> <!-- end card-->
-        </div> <!-- end col -->
-    </div>
-    <!-- end row -->
-
-    <div class="row">
-        <div class="col-12">
-            <div class="card bg-dark text-white">
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-3">&nbsp;</div>
-                        <div class="col-3"><a href="solicitud-ok.html" class="btn btn-success">Guardar Nueva Cotizaci&oacute;n</a></div>
-                        <div class="col-3"><a href="javascript: void(0);" class="btn btn-danger">Descartar Datos no guardados</a></div>
-                        <div class="col-3">&nbsp;</div>
-                    </div>
-
-                </div> <!-- end card-body-->
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Productos y Servicios</h4>
+                        <p class="text-muted font-14">
+                            Ingrese el listado de productos o servicios solicitados por el cliente
+                        </p>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="quantity">Cantidad:</label>
+                                    <input id="quantity" name="quantity" type="text" class="form-control" placeholder="Ingrese Cantidad" th:field="${quoteDetail.quantity}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="description">Descripci&oacute;n:</label>
+                                    <input id="description" name="description" type="text" class="form-control" placeholder="Ingrese Descripci&oacute;n" th:field="${quoteDetail.description}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="measure">Medidas:</label>
+                                    <input id="measure" name="measures" type="text" class="form-control" placeholder="Ingrese Medidas" th:field="${quoteDetail.measure}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="price">Precio:</label>
+                                    <input id="price" name="price" type="text" class="form-control" placeholder="Ingrese Precio" th:field="${quoteDetail.price}">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <h4><button id="add" name="add" class="btn btn-success" style="position: relative;top:-9px;" type="submit" value="addRow">Agregar nueva linea</button></h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table id="cotizaciones-table" class="table mt-4">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Cantidad</th>
+                                                <th>Descripci&oacute;n</th>
+                                                <th>Medidas</th>
+                                                <th class="text-right">Precio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="detail, iter : ${quote.quoteDetails}">
+                                                <input th:type="hidden" th:field="${quote.quoteDetails[__${iter.index}__].quantity}" />
+                                                <input th:type="hidden" th:field="${quote.quoteDetails[__${iter.index}__].description}" />
+                                                <input th:type="hidden" th:field="${quote.quoteDetails[__${iter.index}__].measure}" />
+                                                <input th:type="hidden" th:field="${quote.quoteDetails[__${iter.index}__].price}" />
+                                                <td th:text="${iter.index + 1}"/>
+                                                <td th:text="${detail.quantity}"/>
+                                                <td th:text="${detail.description}"/>
+                                                <td th:text="${detail.measure}"/>
+                                                <td th:text="${detail.price}"/>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Textos Adicionales</h4>
+                        <p class="text-muted font-14 mb-3">
+                            Ingrese indicaciones o textos adicionales a fines a la cotizaci&oacute;n
+                        </p>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="reference">Referencia:</label>
+                                    <input id="reference" name="reference" type="text" class="form-control" placeholder="Ingrese las Referencias" th:field="${quote.reference}">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="manufacture">Por la fabricaci&oacute;n de:</label>
+                                    <input id="manufacture" name="manufacture" type="text" class="form-control" placeholder="Ingrese datos adicionales referentes a la fabricaci&oacute;n" th:field="${quote.manufacture}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="paymentType">Forma de Pago:</label>
+                                    <select id="paymentType" name="paymentType" class="form-control" th:field="${quote.paymentType}">
+                                        <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.PaymentType).values() }" th:value="${item}" th:text="${item.description}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="otherPayment">Pago Especial:</label>
+                                    <input id="otherPayment" name="otherPayment" type="text" class="form-control" placeholder="Ingrese el detalle del pago especial" th:field="${quote.otherPayment}">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="deliveryType">Entrega:</label>
+                                    <select id="deliveryType" name="deliveryType" class="form-control" th:field="${quote.deliveryType}">
+                                        <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.DeliveryType).values() }" th:value="${item}" th:text="${item.description}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="comments">Comentarios:</label>
+                                    <input id="comments" name="comments" type="text" class="form-control" placeholder="Comentarios de la forma de Pago" th:field="${quote.comments}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="partialDelivery">Entregas Parciales:</label>
+                                    <input id="partialDelivery" name="partialDelivery" type="text" class="form-control" placeholder="Detalle de Entregas Parciales" th:field="${quote.partialDelivery}">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="deliveryLocation">Lugar entrega especial:</label>
+                                    <input id="deliveryLocation" name="deliveryLocation" type="text" class="form-control" placeholder="Ingrese el detalle del pago especial" th:field="${quote.deliveryLocation}">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="invoice">Facturar por:</label>
+                                    <select id="invoice" name="invoice" class="form-control" th:field="${quote.invoice}">
+                                        <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.InvoiceType).values() }" th:value="${item}" th:text="${item.description}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="signature">Firma:</label>
+                                    <select id="signature" name="signature" class="form-control" th:field="${quote.signature}">
+                                        <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.SignatureType).values() }" th:value="${item}" th:text="${item.description}"/>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card bg-dark text-white">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3">&nbsp;</div>
+                            <div class="col-3">
+                                <button id="save" name="save" class="btn btn-success" style="position: relative;top:-9px;" type="submit" value="save">Guardar Nueva Cotizaci&oacute;n</button>
+                            </div>
+                            <div class="col-3">
+                                <a th:href="@{/shared/quote/show}" class="btn btn-danger">Descartar Datos no guardados</a>
+                            </div>
+                            <div class="col-3">&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </th:block>
 
 <th:block layout:fragment="script">

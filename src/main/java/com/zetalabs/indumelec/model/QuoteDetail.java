@@ -14,13 +14,16 @@ public class QuoteDetail {
     private Long detailId;
 
     @Column(name = "order_id")
-    private int orderId;
+    private Integer orderId;
 
     @Column(name = "description", length = 100)
     private String description;
 
     @Column(name = "measure", length = 30)
     private String measure;
+
+    @Column(name = "quantity")
+    private Integer quantity;
 
     @Column(name = "price")
     private Double price;

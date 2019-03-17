@@ -1,7 +1,7 @@
 package com.zetalabs.indumelec.service;
 
 import com.zetalabs.indumelec.model.Quote;
-import com.zetalabs.indumelec.model.types.QuoteStatus;
+import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.model.vo.ChartInfo;
 import com.zetalabs.indumelec.model.vo.Statistic;
 import com.zetalabs.indumelec.repository.QuoteRepository;
@@ -25,7 +25,7 @@ public class QuoteService {
         return quoteRepository.getInProgressQuotes();
     }
 
-    public List<Quote> getQuoteListByStatus(QuoteStatus status){
+    public List<Quote> getQuoteListByStatus(Status status){
         return quoteRepository.getQuotesByStatusEquals(status);
     }
 
@@ -45,11 +45,11 @@ public class QuoteService {
     private Statistic getStatisticByDate(LocalDateTime requestDate){
         Statistic statistic = new Statistic();
 
-        Long total = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusNotIn(requestDate, Arrays.asList(QuoteStatus.REJECTED));
-        Long inReview = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusIn(requestDate, Arrays.asList(QuoteStatus.REVIEW));
-        Long closed = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusIn(requestDate, Arrays.asList(QuoteStatus.COMPLETED));
-        Long inProgress = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusNotIn(requestDate, Arrays.asList(QuoteStatus.REVIEW,
-                QuoteStatus.REJECTED, QuoteStatus.COMPLETED));
+        Long total = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusNotIn(requestDate, Arrays.asList(Status.REJECTED));
+        Long inReview = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusIn(requestDate, Arrays.asList(Status.REVIEW));
+        Long closed = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusIn(requestDate, Arrays.asList(Status.COMPLETED));
+        Long inProgress = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusNotIn(requestDate, Arrays.asList(Status.REVIEW,
+                Status.REJECTED, Status.COMPLETED));
 
         statistic.setReviewed(getPorcentaje(inReview, total));
         statistic.setProgress(getPorcentaje(inProgress, total));

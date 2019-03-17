@@ -3,7 +3,7 @@ package com.zetalabs.indumelec.model.types;
 import lombok.Getter;
 
 @Getter
-public enum QuoteStatus {
+public enum Status {
     NEW(0),
     REVIEW(1),
     APPROVED(2),
@@ -16,7 +16,7 @@ public enum QuoteStatus {
 
     private Integer statusId;
 
-    QuoteStatus(Integer statusId){
+    Status(Integer statusId){
         this.statusId=statusId;
     }
 }

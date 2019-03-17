@@ -135,8 +135,8 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="user : ${userList}">
-                                            <td>1</td>
+                                        <tr th:each="user, iter : ${userList}">
+                                            <td th:text="${iter.index + 1}"/>
                                             <td th:text="${user.name}"/>
                                             <td th:text="${user.email}"/>
                                             <td class="text-right">

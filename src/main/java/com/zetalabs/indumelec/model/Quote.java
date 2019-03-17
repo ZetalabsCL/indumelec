@@ -1,6 +1,6 @@
 package com.zetalabs.indumelec.model;
 
-import com.zetalabs.indumelec.model.types.QuoteStatus;
+import com.zetalabs.indumelec.model.types.*;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,14 +26,14 @@ public class Quote {
     @Column(name = "manufacture", length = 100)
     private String manufacture;
 
-    @Column(name = "payment_type", length = 100)
-    private String paymentType;
+    @Column(name = "payment_type")
+    private PaymentType paymentType;
 
     @Column(name = "other_payment", length = 100)
     private String otherPayment;
 
-    @Column(name = "delivery_type", length = 100)
-    private String deliveryType;
+    @Column(name = "delivery_type")
+    private DeliveryType deliveryType;
 
     @Column(name = "comments", length = 100)
     private String comments;
@@ -44,14 +44,14 @@ public class Quote {
     @Column(name = "delivery_location", length = 100)
     private String deliveryLocation;
 
-    @Column(name = "invoice", length = 100)
-    private String invoice;
+    @Column(name = "invoice")
+    private InvoiceType invoice;
 
-    @Column(name = "signature", length = 100)
-    private String signature;
+    @Column(name = "signature")
+    private SignatureType signature;
 
     @Column(name = "status")
-    private QuoteStatus status;
+    private Status status;
 
     @Column(name = "amount")
     private BigDecimal amount = BigDecimal.ZERO;
