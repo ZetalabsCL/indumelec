@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -71,14 +72,18 @@ public class QuoteService {
 
     public ChartInfo getSalesProjection(){
         ChartInfo chartInfo = new ChartInfo();
-        LocalDateTime currentWeek = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
-        LocalDateTime startCurrentWeek = currentWeek.with(DayOfWeek.MONDAY);
-        LocalDateTime previousWeek = currentWeek.minusDays(7);
-        LocalDateTime previousStartWeek = startCurrentWeek.minusDays(7);
+        LocalDate currentDate = LocalDate.now();
+        LocalDate previousDate = currentDate.minusDays(8);
+
+        LocalDateTime currentWeek = currentDate.plusDays(1).atStartOfDay().minusSeconds(1);
+        LocalDateTime startToday = currentWeek.toLocalDate().atStartOfDay();
+        LocalDateTime startCurrentWeek = currentWeek.minusDays(7).toLocalDate().atStartOfDay();
+        LocalDateTime previousWeek = previousDate.plusDays(1).atStartOfDay().minusSeconds(1);
+        LocalDateTime previousStartWeek = previousWeek.minusDays(7).toLocalDate().atStartOfDay();
 
         Double amountCurrentWeek = quoteRepository.getQuoteAmountByPeriod(startCurrentWeek, currentWeek);
         Double amountPreviousWeek = quoteRepository.getQuoteAmountByPeriod(previousStartWeek, previousWeek);
-        Double todayAmount = quoteRepository.getQuoteAmountByEntryDate(currentWeek);
+        Double todayAmount = quoteRepository.getQuoteAmountByPeriod(startToday, currentWeek);
 
         if (amountCurrentWeek !=null) {
             chartInfo.setCurrentWeek(amountCurrentWeek);
@@ -103,14 +108,18 @@ public class QuoteService {
 
     public ChartInfo getQuotesInformation(){
         ChartInfo chartInfo = new ChartInfo();
-        LocalDateTime currentWeek = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
-        LocalDateTime startCurrentWeek = currentWeek.with(DayOfWeek.MONDAY);
-        LocalDateTime previousWeek = currentWeek.minusDays(7);
-        LocalDateTime previousStartWeek = startCurrentWeek.minusDays(7);
+        LocalDate currentDate = LocalDate.now();
+        LocalDate previousDate = currentDate.minusDays(8);
+
+        LocalDateTime currentWeek = currentDate.plusDays(1).atStartOfDay().minusSeconds(1);
+        LocalDateTime startToday = currentWeek.toLocalDate().atStartOfDay();
+        LocalDateTime startCurrentWeek = currentWeek.minusDays(7).toLocalDate().atStartOfDay();
+        LocalDateTime previousWeek = previousDate.plusDays(1).atStartOfDay().minusSeconds(1);
+        LocalDateTime previousStartWeek = previousWeek.minusDays(7).toLocalDate().atStartOfDay();
 
         Long quantityCurrentWeek = quoteRepository.countQuoteByEntryDateBetween(startCurrentWeek, currentWeek);
         Long quantityPreviousWeek = quoteRepository.countQuoteByEntryDateBetween(previousStartWeek, previousWeek);
-        Long todayQuantity = quoteRepository.countQuoteByEntryDateEquals(currentWeek);
+        Long todayQuantity = quoteRepository.countQuoteByEntryDateBetween(startToday, currentWeek);
 
         if (quantityCurrentWeek !=null) {
             chartInfo.setCurrentWeek(Double.valueOf(quantityCurrentWeek));
