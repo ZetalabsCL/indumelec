@@ -1,5 +1,6 @@
-package com.zetalabs.indumelec.controller.admin;
+package com.zetalabs.indumelec.controller;
 
+import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,15 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
-public class AdminController {
+public class UserController {
     @Autowired
     private QuoteRepository quoteRepository;
 
-    @RequestMapping(value={"/admin/dashboard"}, method = RequestMethod.GET)
-    public ModelAndView dashboard(Model model){
+    @RequestMapping(value={"/user/dashboard"}, method = RequestMethod.GET)
+    public ModelAndView dashboard(HttpSession session, Model model){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/dashboard");
+
+        User loggedUser = (User) session.getAttribute("user");
 
         model.addAttribute("quoteList", quoteRepository.getInProgressQuotes());
 

@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
-    @Query("SELECT DISTINCT q FROM Quote q INNER JOIN q.quoteHistories qh WHERE qh.status not in (?1)")
-    List<Quote> getQuotesNotIn(List<Integer> statusList);
+    @Query("SELECT DISTINCT q FROM Quote q INNER JOIN q.quoteHistories qh WHERE qh.status not in (3,8)")
+    List<Quote> getInProgressQuotes();
+
+    @Query("SELECT DISTINCT q FROM Quote q INNER JOIN q.quoteHistories qh WHERE q.user.userId = ?1 and qh.status not in (3,8)")
+    List<Quote> getInProgressQuotesByUserId(Long userId);
 }

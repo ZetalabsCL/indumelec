@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+
+<th:block layout:fragment="welcome">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Cotizaci&oacute;n</a></li>
+                        <li class="breadcrumb-item active">Nueva Cotizaci&oacute;n</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Formulario de Nueva Cotizaci&oacute;n</h4>
+            </div>
+        </div>
+        <div class="col-12">
+
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Datos del Cliente </h4>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="rut-cliente">Rut Cliente:</label>
+                                <input type="text" class="form-control" name="rut-cliente" placeholder="Ingrese el Rut del Cliente">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombre-cliente">Nombre Cliente:</label>
+                                <input type="text" class="form-control" name="nombre-cliente" placeholder="Ingrese el Nombre del Cliente">
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div> <!-- end row -->
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="rut-cliente">Contacto:</label>
+                                <input type="text" class="form-control" name="contacto-cliente" placeholder="Ingrese el Contacto del Cliente">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="fono-cliente">Tel&eacute;fono:</label>
+                                <input type="text" class="form-control" name="fono-cliente" placeholder="Ingrese el Tel&eacute;fono del Cliente">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="celular-cliente">Celular:</label>
+                                <input type="text" class="form-control" name="celular-cliente" placeholder="Ingrese el Celular del Cliente">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="mail-cliente">E-Mail:</label>
+                                <input type="text" class="form-control" name="mail-cliente" placeholder="Ingrese el E-Mail del Cliente">
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+    </div>
+    <!-- end row-->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Productos y Servicios</h4>
+                    <p class="text-muted font-14">
+                        Ingrese el listado de productos o servicios solicitados por el cliente
+                    </p>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table id="cotizaciones-table" class="table mt-4">
+                                    <thead>
+                                    <tr><th>#</th>
+                                        <th>Cantidad</th>
+                                        <th>Descripci&oacute;n</th>
+                                        <th>Medidas</th>
+                                        <th class="text-right">Precio</th>
+                                    </tr></thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <b>Laptop</b> <br>
+                                            Brand Model VGN-TXN27N/B
+                                            11.1" Notebook PC
+                                        </td>
+                                        <td>1</td>
+                                        <td>25x30</td>
+                                        <td class="text-right">$1799.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>
+                                            <b>Warranty</b> <br>
+                                            Two Year Extended Warranty -
+                                            Parts and Labor
+                                        </td>
+                                        <td>3</td>
+                                        <td>450x100</td>
+                                        <td class="text-right">$1497.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>
+                                            <b>LED</b> <br>
+                                            80cm (32) HD Ready LED TV
+                                        </td>
+                                        <td>2</td>
+                                        <td>15x15</td>
+                                        <td class="text-right">$824.00</td>
+                                    </tr>
+
+                                    </tbody>
+                                    <div class="row">
+                                        <div class="col-sm"></div>
+                                        <div class="col-sm"></div>
+                                        <div class="col col-lg-2"><h4><button class="btn btn-success" id="addRow">Agregar nueva linea</button></h4></div>
+                                    </div>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- end card-body -->
+            </div> <!-- end card-->
+        </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Textos Adicionales</h4>
+                    <p class="text-muted font-14 mb-3">
+                        Ingrese indicaciones o textos adicionales a fines a la cotizaci&oacute;n
+                    </p>
+
+                    <!-- without label-->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="referencia">Referencia:</label>
+                                <input type="text" class="form-control" name="referencia" placeholder="Ingrese las Referencias">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="nombre-cliente">Por la fabricaci&oacute;n de:</label>
+                                <input type="text" class="form-control" name="nombre-cliente" placeholder="Ingrese datos adicionales referentes a la fabricaci&oacute;n">
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end card-body -->
+            </div> <!-- end card-->
+        </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Textos Adicionales</h4>
+                    <p class="text-muted font-14 mb-3">
+                        Ingrese indicaciones o textos adicionales a fines a la cotizaci&oacute;n
+                    </p>
+
+                    <!-- without label-->
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="forma-pago">Forma de Pago:</label>
+                                <select class="form-control" id="forma-pago">
+                                    <option>Contado</option>
+                                    <option>Cheque</option>
+                                    <option>Efectivo</option>
+                                    <option>30 D&iacute;s</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="pago-especial">Pago Especial:</label>
+                                <input type="text" class="form-control" name="pago-especial" placeholder="Ingrese el detalle del pago especial">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="forma-pago">Entrega:</label>
+                                <select class="form-control" id="forma-pago">
+                                    <option>En oficinas del Cliente</option>
+                                    <option>Despacho</option>
+                                    <option>Retiro por parte del Cliente</option>
+                                    <option>Despacho a terreno</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="comentarios">Comentarios:</label>
+                                <input type="text" class="form-control" name="comentarios" placeholder="Comentarios de la forma de Pago">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="pago-especial">Entregas Parciales:</label>
+                                <input type="text" class="form-control" name="entregas-parciales" placeholder="Detalle de Entregas Parciales">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="pago-especial">Lugar entrega especial:</label>
+                                <input type="text" class="form-control" name="pago-especial" placeholder="Ingrese el detalle del pago especial">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="forma-pago">Facturar por:</label>
+                                <select class="form-control" id="forma-pago">
+                                    <option>Jara & Jara</option>
+                                    <option>Indumelec</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="forma-pago">Firma:</label>
+                                <select class="form-control" id="forma-pago">
+                                    <option>Carlos Jara Casanova</option>
+                                    <option>Patricio Jara</option>
+                                    <option>Carlos Jara Belmar</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end card-body -->
+            </div> <!-- end card-->
+        </div> <!-- end col -->
+    </div>
+    <!-- end row -->
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-dark text-white">
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-3">&nbsp;</div>
+                        <div class="col-3"><a href="solicitud-ok.html" class="btn btn-success">Guardar Nueva Cotizaci&oacute;n</a></div>
+                        <div class="col-3"><a href="javascript: void(0);" class="btn btn-danger">Descartar Datos no guardados</a></div>
+                        <div class="col-3">&nbsp;</div>
+                    </div>
+
+                </div> <!-- end card-body-->
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        $(document).ready(function() {
+            $('#cotizaciones-table').DataTable( {
+                responsive: true,
+                /*dom: 'Bfrtip',*/
+                dom:"<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-7'i><'col-sm-5'p>>",
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ], "language": {
+                    "lengthMenu": "Mostrando _MENU_ registros por p&aacute;gina",
+                    buttons: {
+                        copy: 'Copiar'
+                    },
+                    "zeroRecords": "Sin resultados - lo siento!",
+                    "info": "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay registros disponibles",
+                    "search": "Buscar",
+                    "infoFiltered": "(filtrados de _MAX_ registros totales)",
+                    "paginate": {
+                        "previous": "Anterior",
+                        "next": "Siguiente"
+                    }
+                }
+            },  );
+        } );
+    </script>
+</th:block>
+</html>

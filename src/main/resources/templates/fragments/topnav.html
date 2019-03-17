@@ -5,6 +5,20 @@
                 <div class="collapse navbar-collapse" id="topnav-menu-content">
                     <ul class="navbar-nav">
                         <div sec:authorize="hasAuthority('Admin')">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/dashboard}" id="topnav-apps" role="button">
+                                    <i class="mdi mdi-home"> </i>Home <div class=""></div>
+                                </a>
+                            </li>
+                        </div>
+                        <div sec:authorize="hasAuthority('User')">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/user/dashboard}" id="topnav-apps" role="button">
+                                    <i class="mdi mdi-home"> </i>Home <div class=""></div>
+                                </a>
+                            </li>
+                        </div>
+                        <div sec:authorize="hasAuthority('Admin')">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="mdi mdi-access-point mr-1"></i>Mantenedores <div class="arrow-down"></div>
@@ -20,8 +34,8 @@
                                 <i class="mdi mdi-access-point mr-1"></i>Cotizaciones <div class="arrow-down"></div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                <a href="cotizaciones.html" class="dropdown-item">Ver Cotizaciones</a>
-                                <a href="nuevo-presupuesto.html" class="dropdown-item">Nueva Cotizacion</a>
+                                <a th:href="@{/shared/newquote}" class="dropdown-item">Nueva Cotizacion</a>
+                                <a th:href="@{/shared/showquotes}" class="dropdown-item">Ver Cotizaciones</a>
                             </div>
                         </li>
                         <div sec:authorize="hasAuthority('Admin')">
