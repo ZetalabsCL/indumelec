@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum QuoteStatus {
+    NEW(0),
     REVIEW(1),
     APPROVED(2),
     REJECTED(3),

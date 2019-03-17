@@ -1,5 +1,6 @@
 package com.zetalabs.indumelec.model;
 
+import com.zetalabs.indumelec.model.types.QuoteStatus;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -50,7 +51,7 @@ public class Quote {
     private String signature;
 
     @Column(name = "status")
-    private Integer status;
+    private QuoteStatus status;
 
     @Column(name = "amount")
     private BigDecimal amount = BigDecimal.ZERO;

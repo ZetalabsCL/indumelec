@@ -25,6 +25,10 @@ public class QuoteService {
         return quoteRepository.getInProgressQuotes();
     }
 
+    public List<Quote> getQuoteListByStatus(QuoteStatus status){
+        return quoteRepository.getQuotesByStatusEquals(status);
+    }
+
     public Statistic getStatistic(){
         LocalDateTime currentDate = LocalDateTime.now();
         LocalDateTime previousDate = currentDate.minusDays(30);
@@ -41,11 +45,11 @@ public class QuoteService {
     private Statistic getStatisticByDate(LocalDateTime requestDate){
         Statistic statistic = new Statistic();
 
-        Long total = quoteRepository.getCountOfQuotesByStatusNotIn(requestDate, Arrays.asList(QuoteStatus.REJECTED.getStatusId()));
-        Long inReview = quoteRepository.getCountOfQuotesByStatusIn(requestDate, Arrays.asList(QuoteStatus.REVIEW.getStatusId()));
-        Long closed = quoteRepository.getCountOfQuotesByStatusIn(requestDate, Arrays.asList(QuoteStatus.COMPLETED.getStatusId()));
-        Long inProgress = quoteRepository.getCountOfQuotesByStatusNotIn(requestDate, Arrays.asList(QuoteStatus.REVIEW.getStatusId(),
-                QuoteStatus.REJECTED.getStatusId(), QuoteStatus.COMPLETED.getStatusId()));
+        Long total = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusNotIn(requestDate, Arrays.asList(QuoteStatus.REJECTED));
+        Long inReview = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusIn(requestDate, Arrays.asList(QuoteStatus.REVIEW));
+        Long closed = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusIn(requestDate, Arrays.asList(QuoteStatus.COMPLETED));
+        Long inProgress = quoteRepository.countQuoteByEntryDateIsLessThanEqualAndStatusNotIn(requestDate, Arrays.asList(QuoteStatus.REVIEW,
+                QuoteStatus.REJECTED, QuoteStatus.COMPLETED));
 
         statistic.setReviewed(getPorcentaje(inReview, total));
         statistic.setProgress(getPorcentaje(inProgress, total));
@@ -98,9 +102,9 @@ public class QuoteService {
         LocalDateTime previousWeek = currentWeek.minusDays(7);
         LocalDateTime previousStartWeek = startCurrentWeek.minusDays(7);
 
-        Long quantityCurrentWeek = quoteRepository.getCountOfQuotesByPeriod(startCurrentWeek, currentWeek);
-        Long quantityPreviousWeek = quoteRepository.getCountOfQuotesByPeriod(previousStartWeek, previousWeek);
-        Long todayQuantity = quoteRepository.getCountOfQuotesByEntryDate(currentWeek);
+        Long quantityCurrentWeek = quoteRepository.countQuoteByEntryDateBetween(startCurrentWeek, currentWeek);
+        Long quantityPreviousWeek = quoteRepository.countQuoteByEntryDateBetween(previousStartWeek, previousWeek);
+        Long todayQuantity = quoteRepository.countQuoteByEntryDateEquals(currentWeek);
 
         if (quantityCurrentWeek !=null) {
             chartInfo.setCurrentWeek(Double.valueOf(quantityCurrentWeek));
