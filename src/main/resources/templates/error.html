@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <th:block th:replace="~{fragments/head}"/>
 
 <body class="authentication-bg">
@@ -52,8 +52,15 @@
                             </table>
                         </div>
 
-                        <div class="text-center w-75 m-auto">
-                            <a th:href="@{/}">Volver a la Pagina Principal</a>
+                        <div sec:authorize="hasAuthority('Admin')">
+                            <div class="text-center w-75 m-auto">
+                                <a th:href="@{/admin/dashboard}">Volver a la Pagina Principal</a>
+                            </div>
+                        </div>
+                        <div sec:authorize="hasAuthority('User')">
+                            <div class="text-center w-75 m-auto">
+                                <a th:href="@{/user/dashboard}">Volver a la Pagina Principal</a>
+                            </div>
                         </div>
                     </div>
                 </div>
