@@ -10,6 +10,7 @@ import com.zetalabs.indumelec.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.time.LocalDate;
@@ -146,6 +147,7 @@ public class QuoteService {
         return value.round(m).doubleValue();
     }
 
+    @Transactional
     public void saveQuote(User user, Quote quote){
         quote.setUser(user);
         quote.setEntryDate(LocalDateTime.now());
