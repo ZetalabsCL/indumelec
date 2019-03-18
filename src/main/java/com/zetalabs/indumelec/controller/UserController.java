@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 
-@Controller("userMaintainerController")
+@Controller
 public class UserController {
     @Autowired
     private QuoteService quoteService;
