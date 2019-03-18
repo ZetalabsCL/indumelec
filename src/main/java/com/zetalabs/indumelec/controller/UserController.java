@@ -1,6 +1,5 @@
 package com.zetalabs.indumelec.controller;
 
-import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.service.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,8 +19,6 @@ public class UserController {
     public ModelAndView dashboard(HttpSession session, Model model){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user/dashboard");
-
-        User loggedUser = (User) session.getAttribute("user");
 
         model.addAttribute("quoteList", quoteService.getQuoteList());
         model.addAttribute("quotesInformation", quoteService.getQuotesInformation());
