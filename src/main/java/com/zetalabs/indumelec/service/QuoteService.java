@@ -162,9 +162,18 @@ public class QuoteService {
         }
 
         quote.setQuoteHistories(getInitialQuoteHistory(user));
+        quote.setAmount(getQuoteAmount(quote.getQuoteDetailsList()));
         quote.setQuoteDetails(getQuoteDetails(quote.getQuoteDetailsList()));
 
         quoteRepository.save(quote);
+    }
+
+    private BigDecimal getQuoteAmount(List<QuoteDetail> quoteDetailList){
+        BigDecimal quoteAmount = BigDecimal.ZERO;
+
+        quoteDetailList.stream().forEach(t -> quoteAmount.add(BigDecimal.valueOf(t.getPrice())));
+
+        return quoteAmount;
     }
 
     private Set<QuoteDetail> getQuoteDetails(List<QuoteDetail> quoteDetailList){
