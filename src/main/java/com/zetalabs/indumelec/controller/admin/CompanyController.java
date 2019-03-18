@@ -1,7 +1,7 @@
 package com.zetalabs.indumelec.controller.admin;
 
 import com.zetalabs.indumelec.model.Company;
-import com.zetalabs.indumelec.service.CompanyMaintainerService;
+import com.zetalabs.indumelec.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class CompanyMaintainerController {
+public class CompanyController {
     @Autowired
-    private CompanyMaintainerService companyMaintainerService;
+    private CompanyService companyService;
 
     @RequestMapping(value={"/admin/company"}, method = RequestMethod.GET)
     public ModelAndView index(Model model){
@@ -30,7 +30,7 @@ public class CompanyMaintainerController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/company");
 
-        Company company = companyMaintainerService.getCompanyById(id);
+        Company company = companyService.getCompanyById(id);
 
         setDefaultModel(model, company);
 
@@ -42,7 +42,7 @@ public class CompanyMaintainerController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/company");
 
-        companyMaintainerService.delete(id);
+        companyService.delete(id);
 
         setDefaultModel(model);
 
@@ -54,7 +54,7 @@ public class CompanyMaintainerController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/company");
 
-        companyMaintainerService.save(company);
+        companyService.save(company);
 
         setDefaultModel(model);
 
@@ -62,7 +62,7 @@ public class CompanyMaintainerController {
     }
 
     private void setDefaultModel(Model model, Company company){
-        model.addAttribute("companyList", companyMaintainerService.getCompanyList());
+        model.addAttribute("companyList", companyService.getCompanyList());
         model.addAttribute("company", company);
     }
 

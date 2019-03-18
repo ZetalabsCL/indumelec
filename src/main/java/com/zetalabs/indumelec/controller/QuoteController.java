@@ -41,14 +41,13 @@ public class QuoteController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("shared/showquotes");
 
-        model.addAttribute("quoteList", quoteService.getQuoteList());
-        model.addAttribute("quotesInformation", quoteService.getQuotesInformation());
+        setDefaultModel(model);
 
         return modelAndView;
     }
 
     @RequestMapping(params = "add", value={"/shared/quote/save"}, method = RequestMethod.POST)
-    public ModelAndView add(Model model, Quote quote){
+    public ModelAndView add(Quote quote){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("shared/newquote");
 
@@ -76,9 +75,13 @@ public class QuoteController {
 
         quoteService.saveQuote(loggedUser, quote);
 
-        model.addAttribute("quoteList", quoteService.getQuoteList());
-        model.addAttribute("quotesInformation", quoteService.getQuotesInformation());
+        setDefaultModel(model);
 
         return modelAndView;
+    }
+
+    private void setDefaultModel(Model model){
+        model.addAttribute("quoteList", quoteService.getQuoteList());
+        model.addAttribute("quotesInformation", quoteService.getQuotesInformation());
     }
 }

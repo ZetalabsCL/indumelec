@@ -1,7 +1,7 @@
 package com.zetalabs.indumelec.controller.admin;
 
 import com.zetalabs.indumelec.model.User;
-import com.zetalabs.indumelec.service.UserMaintainerService;
+import com.zetalabs.indumelec.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class UserMaintainerController {
+public class UserController {
     @Autowired
-    private UserMaintainerService userMaintainerService;
+    private UserService userService;
 
     @RequestMapping(value={"/admin/user"}, method = RequestMethod.GET)
     public ModelAndView index(HttpSession session, Model model){
@@ -36,7 +36,7 @@ public class UserMaintainerController {
 
         User loggedUser = (User) session.getAttribute("user");
 
-        User user = userMaintainerService.getUserById(id);
+        User user = userService.getUserById(id);
 
         setDefaultModel(loggedUser, model, user);
 
@@ -50,7 +50,7 @@ public class UserMaintainerController {
 
         User loggedUser = (User) session.getAttribute("user");
 
-        userMaintainerService.delete(id);
+        userService.delete(id);
 
         setDefaultModel(loggedUser, model);
 
@@ -64,7 +64,7 @@ public class UserMaintainerController {
 
         User loggedUser = (User) session.getAttribute("user");
 
-        userMaintainerService.save(loggedUser, user);
+        userService.save(loggedUser, user);
 
         setDefaultModel(loggedUser, model);
 
@@ -72,7 +72,7 @@ public class UserMaintainerController {
     }
 
     private void setDefaultModel(User loggedUser, Model model, User user){
-        model.addAttribute("userList", userMaintainerService.getUserList(loggedUser));
+        model.addAttribute("userList", userService.getUserList(loggedUser));
         model.addAttribute("newUser", user);
     }
 
