@@ -1,7 +1,7 @@
 package com.zetalabs.indumelec.controller.admin;
 
 import com.zetalabs.indumelec.model.Company;
-import com.zetalabs.indumelec.repository.CompanyRepository;
+import com.zetalabs.indumelec.service.CompanyMaintainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class CompanyMaintainerController {
     @Autowired
-    private CompanyRepository companyRepository;
+    private CompanyMaintainerService companyMaintainerService;
 
     @RequestMapping(value={"/admin/company"}, method = RequestMethod.GET)
     public ModelAndView index(Model model){
@@ -30,8 +30,9 @@ public class CompanyMaintainerController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/company");
 
-        model.addAttribute("companyList", companyRepository.findAll());
-        model.addAttribute("company", companyRepository.findByCompanyId(id));
+        Company company = companyMaintainerService.getCompanyById(id);
+
+        setDefaultModel(model, company);
 
         return modelAndView;
     }
@@ -41,7 +42,7 @@ public class CompanyMaintainerController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/company");
 
-        companyRepository.deleteById(id);
+        companyMaintainerService.delete(id);
 
         setDefaultModel(model);
 
@@ -53,15 +54,19 @@ public class CompanyMaintainerController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/company");
 
-        companyRepository.save(company);
+        companyMaintainerService.save(company);
 
         setDefaultModel(model);
 
         return modelAndView;
     }
 
+    private void setDefaultModel(Model model, Company company){
+        model.addAttribute("companyList", companyMaintainerService.getCompanyList());
+        model.addAttribute("company", company);
+    }
+
     private void setDefaultModel(Model model){
-        model.addAttribute("companyList", companyRepository.findAll());
-        model.addAttribute("company", new Company());
+        setDefaultModel(model, new Company());
     }
 }
