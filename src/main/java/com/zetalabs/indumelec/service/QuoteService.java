@@ -171,7 +171,9 @@ public class QuoteService {
     private BigDecimal getQuoteAmount(List<QuoteDetail> quoteDetailList){
         BigDecimal quoteAmount = BigDecimal.ZERO;
 
-        quoteDetailList.stream().forEach(t -> quoteAmount.add(BigDecimal.valueOf(t.getPrice())));
+        for (QuoteDetail detail : quoteDetailList) {
+            quoteAmount = quoteAmount.add(detail.getPrice());
+        }
 
         return quoteAmount;
     }
