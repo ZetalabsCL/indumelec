@@ -20,6 +20,11 @@ public class CompanyService {
          return companyRepository.findByCompanyId(companyId);
     }
 
+    public Company getCompanyByTaxId(String taxId){
+
+        return companyRepository.findByTaxId(taxId);
+    }
+
     public void delete(Long companyId){
         companyRepository.deleteById(companyId);
     }
