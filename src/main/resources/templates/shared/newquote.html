@@ -281,7 +281,11 @@
                         $("#email").val(data.email);
                     },
                     error: function () {
-                        console.log('Tax Id not found');
+                        $("#name").val('');
+                        $("#contact").val('');
+                        $("#phone").val('');
+                        $("#cellphone").val('');
+                        $("#email").val('');
                     }
                 });
             });
