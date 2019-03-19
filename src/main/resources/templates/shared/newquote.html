@@ -267,6 +267,25 @@
 <th:block layout:fragment="script">
     <script>
         $(document).ready(function() {
+            $("#taxid").change(function() {
+                $.ajax({
+                    url: '/api/company/search',
+                    type: "post",
+                    data: { taxId: $("#taxid").val() },
+                    dataType: "json",
+                    success: function (data) {
+                        $("#name").val(data.name);
+                        $("#contact").val(data.contact);
+                        $("#phone").val(data.phone);
+                        $("#cellphone").val(data.cellphone);
+                        $("#email").val(data.email);
+                    },
+                    error: function () {
+                        console.log('Tax Id not found');
+                    }
+                });
+            });
+
             $('#cotizaciones-table').DataTable( {
                 responsive: true,
                 /*dom: 'Bfrtip',*/
