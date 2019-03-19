@@ -116,7 +116,7 @@
                                     <th>Fecha</th>
                                     <th>Referencia</th>
                                     <th>Monto</th>
-                                    <th>&nbsp;</th>
+                                    <th class="text-right">Aprobar / Rechazar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -126,18 +126,13 @@
                                     <td th:text="${quote.entryDate}"/>
                                     <td th:text="${quote.reference}"/>
                                     <td th:text="${#numbers.formatDecimal(quote.amount, 0, 'POINT', 0, 'COMMA')}"/>
-                                    <td>&nbsp;</td>
+                                    <td th:if="${T(com.zetalabs.indumelec.model.types.Status).REVIEW == quote.status}" class="text-right">
+                                        <a th:href="@{/admin/dashboard/approve/__${quote.quoteId}__}" class="btn btn-info"><i class="mdi mdi-comment-check-outline"></i> Aprobar</a>&nbsp;
+                                        <a th:href="@{/admin/dashboard/reject/__${quote.quoteId}__}" class="btn btn-danger"><i class="mdi mdi-comment-remove-outline"></i> Rechazar</a>
+                                    </td>
+                                    <td th:unless="${T(com.zetalabs.indumelec.model.types.Status).REVIEW == quote.status}">&nbsp;</td>
                                 </tr>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Empresa</th>
-                                    <th>Fecha</th>
-                                    <th>Referencia</th>
-                                    <th>&nbsp;</th>
-                                </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>

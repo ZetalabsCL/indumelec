@@ -21,6 +21,9 @@ public class Quote {
     @Column(name = "entry_date")
     private LocalDateTime entryDate;
 
+    @Column(name = "last_update")
+    private LocalDateTime lastUpdate;
+
     @Column(name = "reference", length = 100)
     private String reference;
 
@@ -67,10 +70,14 @@ public class Quote {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "quote_id")
+    @OrderColumn(name = "order_id")
+    @OrderBy("order_id")
     private Set<QuoteDetail> quoteDetails;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "quote_id")
+    @OrderColumn(name = "entry_date")
+    @OrderBy("entry_date")
     private Set<QuoteHistory> quoteHistories;
 
     @Transient
