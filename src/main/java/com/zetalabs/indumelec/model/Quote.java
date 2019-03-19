@@ -2,6 +2,7 @@ package com.zetalabs.indumelec.model;
 
 import com.zetalabs.indumelec.model.types.*;
 import lombok.Data;
+import org.hibernate.annotations.Sort;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -68,16 +69,14 @@ public class Quote {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "quote_id")
-    @OrderColumn(name = "order_id")
-    @OrderBy("order_id")
+    @OrderBy("order_id ASC")
     private Set<QuoteDetail> quoteDetails;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "quote_id")
-    @OrderColumn(name = "entry_date")
-    @OrderBy("entry_date")
+    @OrderBy("entry_date ASC")
     private Set<QuoteHistory> quoteHistories;
 
     @Transient
