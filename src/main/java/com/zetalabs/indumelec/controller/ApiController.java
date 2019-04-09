@@ -22,9 +22,14 @@ public class ApiController {
     }
 
     @RequestMapping("/api/company/list")
-    public Map<String, List<Company>> companyList() {
-        Map<String, List<Company>> result = new HashMap<>();
-        result.put("data", companyService.getCompanyList());
+    public Map<String, Object> companyList() {
+        Map<String, Object> result = new HashMap<>();
+        List<Company> companyList = companyService.getCompanyList();
+
+        result.put("data", companyList);
+        result.put("draw", 1);
+        result.put("recordsTotal", companyList.size());
+        result.put("recordsFiltered", companyList.size());
 
         return result;
     }

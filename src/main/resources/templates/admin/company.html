@@ -148,9 +148,7 @@
     <script>
         $(document).ready(function() {
             $('#empresas-table').DataTable( {
-                "processing": true,
-                "serverSide": true,
-                "responsive": true,
+                responsive: true,
                 ajax: '/api/company/list',
                 columns: [
                     {'data': 'companyId'},
