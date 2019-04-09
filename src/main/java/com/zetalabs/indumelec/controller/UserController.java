@@ -8,20 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
-
 @Controller
 public class UserController {
     @Autowired
     private QuoteService quoteService;
 
     @RequestMapping(value={"/user/dashboard"}, method = RequestMethod.GET)
-    public ModelAndView dashboard(HttpSession session, Model model){
+    public ModelAndView dashboard(Model model){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user/dashboard");
 
         model.addAttribute("quoteList", quoteService.getQuoteList());
-        model.addAttribute("quotesInformation", quoteService.getQuotesInformation());
 
         return modelAndView;
     }

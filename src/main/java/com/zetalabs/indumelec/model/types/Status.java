@@ -4,19 +4,20 @@ import lombok.Getter;
 
 @Getter
 public enum Status {
-    NEW(0),
-    REVIEW(1),
-    APPROVED(2),
-    REJECTED(3),
-    CUT(4),
-    PRODUCTION(5),
-    BUILD(6),
-    DELIVERY(7),
-    COMPLETED(8);
+    NEW("Nueva"),
+    REVIEW("En Revision"),
+    APPROVED("Aprobada"),
+    REJECTED("Rechazada"),
+    PROJECT("Proyecto"),
+    CUT("Corte - Plegado"),
+    PRODUCTION("Producci&oacute;n"),
+    BUILD("Armado"),
+    DELIVERY("Despacho"),
+    COMPLETED("Completada");
 
-    private Integer statusId;
+    private String description;
 
-    Status(Integer statusId){
-        this.statusId=statusId;
+    Status(String description){
+        this.description=description;
     }
 }

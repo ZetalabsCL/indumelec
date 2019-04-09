@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
 
@@ -252,8 +253,11 @@
                             <div class="col-3">
                                 <button id="save" name="save" class="btn btn-success" style="position: relative;top:-9px;" type="submit" value="save">Guardar Nueva Cotizaci&oacute;n</button>
                             </div>
-                            <div class="col-3">
-                                <a th:href="@{/shared/quote/show}" class="btn btn-danger">Descartar Datos no guardados</a>
+                            <div class="col-3" sec:authorize="hasAuthority('Admin')">
+                                <a th:href="@{/admin/dashboard}" class="btn btn-danger">Descartar Datos no guardados</a>
+                            </div>
+                            <div class="col-3" sec:authorize="hasAuthority('User')">
+                                <a th:href="@{/user/dashboard}" class="btn btn-danger">Descartar Datos no guardados</a>
                             </div>
                             <div class="col-3">&nbsp;</div>
                         </div>

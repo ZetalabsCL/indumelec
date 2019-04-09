@@ -4,6 +4,7 @@ import com.zetalabs.indumelec.model.Company;
 import com.zetalabs.indumelec.model.Quote;
 import com.zetalabs.indumelec.model.QuoteDetail;
 import com.zetalabs.indumelec.model.User;
+import com.zetalabs.indumelec.model.types.AppRole;
 import com.zetalabs.indumelec.service.QuoteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +37,6 @@ public class QuoteController {
         return modelAndView;
     }
 
-    @RequestMapping(value={"/shared/quote/show"}, method = RequestMethod.GET)
-    public ModelAndView showquotes(Model model){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shared/showquotes");
-
-        setDefaultModel(model);
-
-        return modelAndView;
-    }
-
     @RequestMapping(params = "add", value={"/shared/quote/save"}, method = RequestMethod.POST)
     public ModelAndView add(Quote quote){
         ModelAndView modelAndView = new ModelAndView();
@@ -67,21 +58,17 @@ public class QuoteController {
     }
 
     @RequestMapping(params = "save", value={"/shared/quote/save"}, method = RequestMethod.POST)
-    public ModelAndView save(HttpSession session, Model model, Quote quote){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shared/showquotes");
-
+    public String save(HttpSession session, Model model, Quote quote){
         User loggedUser = (User) session.getAttribute("user");
+        Object role = session.getAttribute("role");
+        String destination="redirect:/user/dashboard";
 
         quoteService.saveQuote(loggedUser, quote);
 
-        setDefaultModel(model);
+        if (AppRole.ADMIN.equals(role)){
+            destination = "redirect:/admin/dashboard";
+        }
 
-        return modelAndView;
-    }
-
-    private void setDefaultModel(Model model){
-        model.addAttribute("quoteList", quoteService.getQuoteList());
-        model.addAttribute("quotesInformation", quoteService.getQuotesInformation());
+        return destination;
     }
 }

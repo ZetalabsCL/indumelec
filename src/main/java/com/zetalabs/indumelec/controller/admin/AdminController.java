@@ -1,6 +1,7 @@
 package com.zetalabs.indumelec.controller.admin;
 
 import com.zetalabs.indumelec.model.User;
+import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.service.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,9 +57,6 @@ public class AdminController {
     }
 
     private void setDefaultModel(Model model){
-        model.addAttribute("quoteList", quoteService.getQuoteList());
-        model.addAttribute("statistic", quoteService.getStatistic());
-        model.addAttribute("salesProjection", quoteService.getSalesProjection());
+        model.addAttribute("quoteList", quoteService.getQuoteListByStatus(Status.REVIEW));
     }
-
 }

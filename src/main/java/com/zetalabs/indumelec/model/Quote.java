@@ -22,6 +22,9 @@ public class Quote {
     @Column(name = "entry_date")
     private LocalDateTime entryDate;
 
+    @Column(name = "delivery_date")
+    private LocalDateTime deliveryDate;
+
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
@@ -60,6 +63,12 @@ public class Quote {
 
     @Column(name = "amount")
     private BigDecimal amount = BigDecimal.ZERO;
+
+    @Column(name = "work_order_code", length = 100)
+    private String workOrderCode;
+
+    @Column(name = "quote_code", length = 100)
+    private String quoteCode;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
