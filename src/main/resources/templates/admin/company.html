@@ -17,9 +17,6 @@
                 <h4 class="page-title">Ingreso de Nueva Empresa</h4>
             </div>
         </div>
-        <div class="col-12">
-
-        </div>
     </div>
 </th:block>
 
@@ -164,12 +161,28 @@
         $(document).ready(function() {
             $('#empresas-table').DataTable( {
                 responsive: true,
-                /*dom: 'Bfrtip',*/
                 dom:"<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-7'i><'col-sm-5'p>>",
                 buttons: [
-                    'copy', 'excel', 'pdf'
+                    {
+                        extend: 'excel',
+                        text: 'Excel',
+                        className: 'btn btn-default',
+                        title: 'Empresas',
+                        exportOptions: {
+                            columns: ':visible:not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: 'Pdf',
+                        className: 'btn btn-default',
+                        title: 'Empresas',
+                        exportOptions: {
+                            columns: ':visible:not(:last-child)'
+                        }
+                    }
                 ], "language": {
                     "lengthMenu": "Mostrando _MENU_ registros por p&aacute;gina",
                     buttons: {
