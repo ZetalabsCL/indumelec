@@ -3,14 +3,13 @@ package com.zetalabs.indumelec.controller;
 import com.zetalabs.indumelec.model.Company;
 import com.zetalabs.indumelec.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ApiController {
@@ -18,34 +17,15 @@ public class ApiController {
     private CompanyService companyService;
 
     @RequestMapping("/api/company/search")
-    public ResponseEntity companySearch(@RequestParam("taxId") String taxId) {
-        ResponseEntity responseEntity = getResponse();
-        Company company = companyService.getCompanyByTaxId(taxId);
-
-        if (company != null) {
-            responseEntity = new ResponseEntity<>(company, responseEntity.getHeaders(), HttpStatus.OK);
-        }
-
-        return responseEntity;
+    public Company companySearch(@RequestParam("taxId") String taxId) {
+        return companyService.getCompanyByTaxId(taxId);
     }
 
     @RequestMapping("/api/company/list")
-    public ResponseEntity companyList() {
-        ResponseEntity responseEntity = getResponse();
-        List<Company> companyList = companyService.getCompanyList();
+    public Map<String, List<Company>> companyList() {
+        Map<String, List<Company>> result = new HashMap<>();
+        result.put("data", companyService.getCompanyList());
 
-        if (companyList != null) {
-            responseEntity = new ResponseEntity<>(companyList, responseEntity.getHeaders(), HttpStatus.OK);
-        }
-
-        return responseEntity;
-    }
-
-    private ResponseEntity getResponse(){
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json");
-        ResponseEntity responseEntity = new ResponseEntity<>(headers, HttpStatus.OK);
-
-        return responseEntity;
+        return result;
     }
 }

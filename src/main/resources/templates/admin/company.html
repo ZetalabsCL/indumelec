@@ -118,18 +118,6 @@
                                             <th class="text-right">Editar / Eliminar</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
-                                        <tr th:each="company, iter : ${companyList}">
-                                            <td th:text="${iter.index + 1}"/>
-                                            <td th:text="${company.name}" />
-                                            <td th:text="${company.taxId}" />
-                                            <td th:text="${company.contact}" />
-                                            <td class="text-right">
-                                                <a th:href="@{/admin/company/edit/__${company.companyId}__}" class="btn btn-warning"><i class="mdi mdi-comment-processing-outline"></i> Editar</a> -
-                                                <a th:href="@{/admin/company/delete/__${company.companyId}__}" class="btn btn-danger"><i class="mdi mdi-comment-remove-outline"></i> Eliminar</a>
-                                            </td>
-                                        </tr>
-                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -160,8 +148,28 @@
     <script>
         $(document).ready(function() {
             $('#empresas-table').DataTable( {
-                responsive: true,
-                dom:"<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
+                "processing": true,
+                "serverSide": true,
+                "responsive": true,
+                ajax: '/api/company/list',
+                columns: [
+                    {'data': 'companyId'},
+                    {'data': 'name'},
+                    {'data': 'taxId'},
+                    {'data': 'contact'},
+                    {
+                        'data': 'companyId',
+                        'searchable': false,
+                        'sortable': false,
+                        'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {
+                            $(nTd).addClass('text-right');
+                            $(nTd).html(
+                                '<a id="edit" href="/admin/company/edit/' + oData.companyId + '" class="btn btn-warning"><i class="mdi mdi-comment-processing-outline"></i> Editar</a> - ' +
+                                '<a id="delete" href="/admin/company/delete/' + oData.companyId + '" class="btn btn-danger"><i class="mdi mdi-comment-remove-outline"></i> Eliminar</a>');
+                        }
+                    }
+                ],
+                dom: "<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-7'i><'col-sm-5'p>>",
                 buttons: [
@@ -183,23 +191,21 @@
                             columns: ':visible:not(:last-child)'
                         }
                     }
-                ], "language": {
-                    "lengthMenu": "Mostrando _MENU_ registros por p&aacute;gina",
-                    buttons: {
-                        copy: 'Copiar'
-                    },
-                    "zeroRecords": "Sin resultados - lo siento!",
-                    "info": "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
-                    "infoEmpty": "No hay registros disponibles",
-                    "search": "Buscar",
-                    "infoFiltered": "(filtrados de _MAX_ registros totales)",
-                    "paginate": {
-                        "previous": "Anterior",
-                        "next": "Siguiente"
+                ],
+                language: {
+                    lengthMenu: "Mostrando _MENU_ registros por p&aacute;gina",
+                    zeroRecords: "Sin resultados - lo siento!",
+                    info: "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay registros disponibles",
+                    search: "Buscar",
+                    infoFiltered: "(filtrados de _MAX_ registros totales)",
+                    paginate: {
+                        previous: "Anterior",
+                        next: "Siguiente"
                     }
                 }
             });
-        } );
+        });
     </script>
 </th:block>
 </html>
