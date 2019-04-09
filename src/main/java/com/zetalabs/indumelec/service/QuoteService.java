@@ -59,8 +59,10 @@ public class QuoteService {
     private BigDecimal getQuoteAmount(List<QuoteDetail> quoteDetailList){
         BigDecimal quoteAmount = BigDecimal.ZERO;
 
-        for (QuoteDetail detail : quoteDetailList) {
-            quoteAmount = quoteAmount.add(detail.getPrice());
+        if (quoteDetailList!=null) {
+            for (QuoteDetail detail : quoteDetailList) {
+                quoteAmount = quoteAmount.add(detail.getPrice());
+            }
         }
 
         return quoteAmount;

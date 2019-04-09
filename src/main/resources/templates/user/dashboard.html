@@ -27,7 +27,7 @@
                                 <td th:text="${quote.workOrderCode}"/>
                                 <td th:text="${quote.company.name}"/>
                                 <td th:text="${quote.status.getDescription()}"/>
-                                <td th:text="${quote.deliveryDate}"/>
+                                <td class="text-center" th:text="${#temporals.format(quote.deliveryDate, 'dd/MM/yyyy')}"/>
                                 <td th:text="${quote.reference}"/>
                             </tr>
                             </tbody>
@@ -65,7 +65,7 @@
                         "next": "Siguiente"
                     }
                 }
-            },  );
+            });
         } );
     </script>
 </th:block>
