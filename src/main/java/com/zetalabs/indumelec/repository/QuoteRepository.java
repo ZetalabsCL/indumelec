@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
-    List<Quote> getQuotesByStatusEquals(Status status);
+    List<Quote> getQuotesByStatusEqualsOrderByDeliveryDate(Status status);
 
-    @Query("SELECT q FROM Quote q WHERE q.status not in (0,1,2,3,8)")
+    @Query("SELECT q FROM Quote q WHERE q.status not in (0,1,2,3,8) order by q.deliveryDate")
     List<Quote> getInProgressQuotes();
 }

@@ -1,8 +1,15 @@
-package com.zetalabs.indumelec.controller;
+package com.zetalabs.indumelec.api.controller;
 
 import com.zetalabs.indumelec.model.Company;
+import com.zetalabs.indumelec.model.Quote;
+import com.zetalabs.indumelec.model.User;
+import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.service.CompanyService;
+import com.zetalabs.indumelec.service.QuoteService;
+import com.zetalabs.indumelec.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class ApiController {
+public class ApiCompanyController {
     @Autowired
     private CompanyService companyService;
 

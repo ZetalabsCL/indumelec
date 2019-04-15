@@ -40,6 +40,10 @@ public class UserService {
         return user;
     }
 
+    public User getUserByMail(String mail){
+        return userRepository.findByEmail(mail);
+    }
+
     public void delete(Long userId){
         userRepository.deleteById(userId);
     }

@@ -19,6 +19,7 @@ public class ProductionController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/production");
 
+        model.addAttribute("projectQuoteList", quoteService.getQuoteListByStatus(Status.PROJECT));
         model.addAttribute("cutQuoteList", quoteService.getQuoteListByStatus(Status.CUT));
         model.addAttribute("productionQuoteList", quoteService.getQuoteListByStatus(Status.PRODUCTION));
         model.addAttribute("buildQuoteList", quoteService.getQuoteListByStatus(Status.BUILD));

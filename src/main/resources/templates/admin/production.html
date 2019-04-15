@@ -33,18 +33,37 @@
                         Tome las ordenes individualmente desde la zona puntuada para desplazarlas.
                     </p>
 
-                    <div class="row" data-plugin="dragula" data-containers="[&quot;corte-plegado&quot;, &quot;produccion&quot;, &quot;armado&quot;, &quot;despacho&quot;]" data-handleclass="dragula-handle">
-                        <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-1">&nbsp;</div>
+                        <div class="col-md-2">
+                            <div class="bg-light p-2 p-lg-4">
+                                <h5 class="mt-0">PROYECTO</h5>
+                                <div id="proyecto" class="py-2" title="Proyecto" data-code="PROJECT">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${projectQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.quoteCode}">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                </div>
+                                                <span class="dragula-handle"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
                             <div class="bg-light p-2 p-lg-4">
                                 <h5 class="mt-0">CORTE - PLEGADO</h5>
-                                <div id="corte-plegado" class="py-2">
-                                    <div class="card mb-0 mt-2" th:each="quote : ${cutQuoteList}">
+                                <div id="corte-plegado" class="py-2" title="Corte/Plegado" data-code="CUT">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${cutQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.quoteCode}">
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <h5 class="mb-1 mt-1" th:text="${quote.quoteId}"/>
+                                                    <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
-                                                    <p class="mb-0" th:text="${quote.entryDate}"/>
                                                 </div>
                                                 <span class="dragula-handle"></span>
                                             </div>
@@ -54,17 +73,16 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="bg-light p-2 p-lg-4">
-                                <h5 class="mt-0">PRODUCCI&Oacute;N</h5>
-                                <div id="produccion" class="py-2">
-                                    <div class="card mb-0 mt-2" th:each="quote : ${productionQuoteList}">
+                                <h5 class="mt-0">PRODUCCION</h5>
+                                <div id="produccion" class="py-2" title="Producci&oacute;n" data-code="PRODUCTION">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${productionQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.quoteCode}">
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <h5 class="mb-1 mt-1" th:text="${quote.quoteId}"/>
+                                                    <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
-                                                    <p class="mb-0" th:text="${quote.entryDate}"/>
                                                 </div>
                                                 <span class="dragula-handle"></span>
                                             </div>
@@ -74,17 +92,16 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="bg-light p-2 p-lg-4">
                                 <h5 class="mt-0">ARMADO</h5>
-                                <div id="armado" class="py-2">
-                                    <div class="card mb-0 mt-2" th:each="quote : ${buildQuoteList}">
+                                <div id="armado" class="py-2" title="Armado" data-code="BUILD">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${buildQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.quoteCode}">
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <h5 class="mb-1 mt-1" th:text="${quote.quoteId}"/>
+                                                    <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
-                                                    <p class="mb-0" th:text="${quote.entryDate}"/>
                                                 </div>
                                                 <span class="dragula-handle"></span>
                                             </div>
@@ -94,18 +111,16 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="bg-light p-2 p-lg-4">
                                 <h5 class="mt-0">DESPACHO</h5>
-                                <div id="despacho" class="py-2">
-
-                                    <div class="card mb-0 mt-2" th:each="quote : ${deliveryQuoteList}">
+                                <div id="despacho" class="py-2" title="Despacho" data-code="DELIVERY">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${deliveryQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.quoteCode}">
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <h5 class="mb-1 mt-1" th:text="${quote.quoteId}"/>
+                                                    <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
-                                                    <p class="mb-0" th:text="${quote.entryDate}"/>
                                                 </div>
                                                 <span class="dragula-handle"></span>
                                             </div>
@@ -119,5 +134,76 @@
             </div>
         </div>
     </div>
+
+    <div id="commentDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Orden de Producci&oacute;n</h4>
+                    <input type="hidden" id="quoteId"/>
+                    <input type="hidden" id="from"/>
+                    <input type="hidden" id="to"/>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark" id="commentWorkOrder">&nbsp;</h5>
+                    <h5 class="mt-0 text-dark" id="commentTitle">&nbsp;</h5>
+                    <div class="form-group">
+                        <label for="comments">Comentarios:</label>
+                        <textarea class="form-control" id="comments" name="comments" placeholder="Comentarios" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="aceptar" href="#" class="btn btn-primary">Aceptar</a>&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            dragula([ document.getElementById('proyecto'),  document.getElementById('corte-plegado'),  document.getElementById('produccion'),
+                    document.getElementById('armado'),  document.getElementById('despacho')],
+                { revertOnSpill: true })
+                .on('drop', function(el, target, source, sibling){
+                    $('#quoteId').val(el.id);
+                    $('#from').val($('#'+source.id).data('code'));
+                    $('#to').val($('#'+target.id).data('code'));
+
+                    $('#commentWorkOrder').text('Orden: ' + $('#'+el.id).data('work'));
+                    $('#commentTitle').text('Movimiento: ' + source.title + ' a ' + target.title);
+                    $('#commentDialog').modal('show');
+                })
+
+            $('#aceptar').on('click', function(){
+                if ($("#comments").val()!='') {
+                    $('#commentWorkOrder').text('');
+                    $('#commentTitle').text('');
+
+                    $.ajax({
+                        url: '/api/quote/production',
+                        type: "post",
+                        data: {
+                            quoteId: $("#quoteId").val(),
+                            comments: $("#comments").val(),
+                            from: $("#from").val(),
+                            to: $("#to").val(),
+                            userId: /*[[${session.username}]]*/ 'default'
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            $('#commentDialog').modal('hide');
+                        },
+                        error: function () {
+                            console.log('error');
+                        }
+                    });
+                } else {
+
+                }
+            });
+        });
+    </script>
 </th:block>
 </html>

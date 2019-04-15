@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 @Controller
@@ -22,15 +24,24 @@ public class QuoteController {
     @Autowired
     private QuoteService quoteService;
 
+    @RequestMapping(value={"/shared/quote/list"}, method = RequestMethod.GET)
+    public ModelAndView dashboard(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("shared/list");
+
+        return modelAndView;
+    }
+
     @RequestMapping(value={"/shared/quote/new"}, method = RequestMethod.GET)
     public ModelAndView newquote(Model model){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shared/newquote");
+        modelAndView.setViewName("shared/new");
 
         Quote quote = new Quote();
         quote.setQuoteDetailsList(new LinkedList<>());
         quote.setCompany(new Company());
         quote.setQuoteDetail(new QuoteDetail());
+        quote.setDeliveryDate(LocalDate.now());
 
         model.addAttribute("quote", quote);
 
@@ -40,7 +51,7 @@ public class QuoteController {
     @RequestMapping(params = "add", value={"/shared/quote/save"}, method = RequestMethod.POST)
     public ModelAndView add(Quote quote){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shared/newquote");
+        modelAndView.setViewName("shared/new");
 
         if (quote.getQuoteDetailsList() == null){
             quote.setQuoteDetailsList(new LinkedList<>());
@@ -62,6 +73,9 @@ public class QuoteController {
         User loggedUser = (User) session.getAttribute("user");
         Object role = session.getAttribute("role");
         String destination="redirect:/user/dashboard";
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        quote.setDeliveryDate(LocalDate.parse(quote.getDeliveryDateStr(), formatter));
 
         quoteService.saveQuote(loggedUser, quote);
 

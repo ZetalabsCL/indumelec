@@ -37,7 +37,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="taxid">Rut Cliente:</label>
-                                    <input id="taxid" name="taxid" type="text" class="form-control" placeholder="Ingrese el Rut del Cliente" th:field="${quote.company.taxId}">
+                                    <input id="taxid" name="taxid" type="text" class="form-control" placeholder="Ingrese el Rut del Cliente (XX.XXX.XXX-X" th:field="${quote.company.taxId}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -58,13 +58,13 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="phone">Tel&eacute;fono:</label>
-                                    <input id="phone" name="phone" type="text" class="form-control" placeholder="Ingrese el Tel&eacute;fono del Cliente" th:field="${quote.company.phone}">
+                                    <input id="phone" name="phone" type="text" class="form-control" placeholder="T&eacute;lefono (562) XXXX XXXX" th:field="${quote.company.phone}">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="cellphone">Celular:</label>
-                                    <input id="cellphone" name="cellphone" type="text" class="form-control" placeholder="Ingrese el Celular del Cliente" th:field="${quote.company.cellphone}">
+                                    <input id="cellphone" name="cellphone" type="text" class="form-control" placeholder="Celular (569) XXXX XXXX" th:field="${quote.company.cellphone}">
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -194,7 +194,7 @@
                                     <input id="otherPayment" name="otherPayment" type="text" class="form-control" placeholder="Ingrese el detalle del pago especial" th:field="${quote.otherPayment}">
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label for="deliveryType">Entrega:</label>
                                     <select id="deliveryType" name="deliveryType" class="form-control" th:field="${quote.deliveryType}">
@@ -202,10 +202,16 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label for="comments">Comentarios:</label>
                                     <input id="comments" name="comments" type="text" class="form-control" placeholder="Comentarios de la forma de Pago" th:field="${quote.comments}">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="deliveryDate">Fecha Entrega:</label>
+                                    <input type="text" class="form-control date" id="deliveryDate" name="deliveryDate" data-toggle="date-picker" data-single-date-picker="true" th:field="${quote.deliveryDateStr}" />
                                 </div>
                             </div>
                         </div>
@@ -267,6 +273,9 @@
 <th:block layout:fragment="script">
     <script>
         $(document).ready(function() {
+            initPaymentType();
+            initDeliveryType();
+
             $("#taxid").change(function() {
                 $.ajax({
                     url: '/api/company/search',
@@ -288,6 +297,14 @@
                         $("#email").val('');
                     }
                 });
+            });
+
+            $("#paymentType").change(function() {
+                initPaymentType();
+            });
+
+            $("#deliveryType").change(function() {
+                initDeliveryType();
             });
 
             $('#cotizaciones-table').DataTable( {
@@ -313,8 +330,28 @@
                         "next": "Siguiente"
                     }
                 }
-            },  );
+            });
         } );
+
+        function initPaymentType(){
+            var selectedPaymentType = $("#paymentType").val();
+
+            if (selectedPaymentType=='DEFAULT') {
+                $("#otherPayment").prop('disabled', false);
+            } else {
+                $("#otherPayment").prop('disabled', true);
+            }
+        }
+
+        function initDeliveryType(){
+            var selectedDeliveryType = $("#deliveryType").val();
+
+            if (selectedDeliveryType=='DEFAULT') {
+                $("#comments").prop('disabled', false);
+            } else {
+                $("#comments").prop('disabled', true);
+            }
+        }
     </script>
 </th:block>
 </html>

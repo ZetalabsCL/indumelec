@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum PaymentType {
+    DEFAULT("Selecione forma de pago"),
     SPOT("Contado"),
     CHECK("Cheque"),
     CASH("Efectivo"),

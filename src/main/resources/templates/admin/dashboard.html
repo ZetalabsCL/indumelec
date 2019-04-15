@@ -10,9 +10,11 @@
                 <div class="card-body">
                     <h4 class="header-title mt-2">Cotizaciones en Evaluaci&oacute;n</h4>
                     <div class="table-responsive">
-                        <table class="table table-centered table-hover mb-0" id="example">
+                        <input type="hidden" id="quoteId" name="quoteId" value="" />
+                        <table class="table table-centered table-hover mb-0" id="quote-table">
                             <thead>
                                 <tr>
+                                    <th># Cotizaci&oacute;n</th>
                                     <th>Empresa</th>
                                     <th>Fecha Ingreso</th>
                                     <th>Fecha de Entrega</th>
@@ -21,21 +23,64 @@
                                     <th class="text-right">Aprobar / Rechazar</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr th:each="quote : ${quoteList}">
-                                    <td th:text="${quote.company.name}"/>
-                                    <td class="text-center" th:text="${#temporals.format(quote.entryDate, 'dd/MM/yyyy')}"/>
-                                    <td class="text-center" th:text="${#temporals.format(quote.deliveryDate, 'dd/MM/yyyy')}"/>
-                                    <td th:text="${quote.reference}"/>
-                                    <td th:text="${#numbers.formatDecimal(quote.amount, 0, 'POINT', 0, 'COMMA')}"/>
-                                    <td class="text-right">
-                                        <a th:href="@{/admin/dashboard/approve/__${quote.quoteId}__}" class="btn btn-info"><i class="mdi mdi-comment-check-outline"></i> Aprobar</a>&nbsp;
-                                        <a th:href="@{/admin/dashboard/reject/__${quote.quoteId}__}" class="btn btn-danger"><i class="mdi mdi-comment-remove-outline"></i> Rechazar</a>
-                                    </td>
-                                </tr>
-                            </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="approveQuoteDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel">Confirmar Cotizaci&oacute;n</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">&iquest;Esta seguro que desea aceptar la cotizacion?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-target="#workOrderNumberDialog" data-toggle="modal" data-dismiss="modal">Aceptar Cotizaci&oacute;n</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Volver</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="workOrderNumberDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="multiple-twoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-dark" id="multiple-twoModalLabel">Ingrese N&uacute;mero OT</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="workOrder">N&uacute;mero OT:</label>
+                        <input type="text" class="form-control" id="workOrder" name="workOrder" placeholder="Ingrese el # de OT">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="generateWorkOrder">Genera OT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rejectQuoteDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Rechazar Cotizaci&oacute;n</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">&iquest;Esta seguro que desea rechazar la cotizacion?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"  id="rejectQuote">Rechazar Cotizaci&oacute;n</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Volver</button>
                 </div>
             </div>
         </div>
@@ -43,31 +88,102 @@
 </th:block>
 
 <th:block layout:fragment="script">
-    <script>
+    <script th:inline="javascript">
         $(document).ready(function() {
-            $('#example').DataTable( {
+            $("#generateWorkOrder").on('click', function(){
+                if ($("#workOrder").val() != '') {
+                    $.ajax({
+                        url: '/api/quote/approve',
+                        type: "post",
+                        data: {quoteId: $("#quoteId").val(), workOrder: $("#workOrder").val(), userId: /*[[${session.username}]]*/ 'default' },
+                        dataType: "json",
+                        success: function (data) {
+                            $('#quote-table').DataTable().ajax.reload();
+                        },
+                        error: function () {
+                            console.log('error');
+                        }
+                    });
+                }
+            });
+
+            $("#rejectQuote").on('click', function(){
+                $.ajax({
+                    url: '/api/quote/reject',
+                    type: "post",
+                    data: { quoteId: $("#quoteId").val(), userId: /*[[${session.username}]]*/ 'default' },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#quote-table').DataTable().ajax.reload();
+                    },
+                    error: function () {
+                    }
+                });
+            });
+
+            $('#quote-table').DataTable( {
                 responsive: true,
-                /*dom: 'Bfrtip',*/
-                dom:"<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
+                ajax: '/api/quote/reviewList',
+                columns: [
+                    {'data': 'quoteCode'},
+                    {'data': 'company'},
+                    {'data': 'entryDate', 'className': 'text-center'},
+                    {'data': 'deliveryDate', 'className': 'text-center'},
+                    {'data': 'reference'},
+                    {'data': 'amount', 'className': 'text-right'},
+                    {
+                        'data': null,
+                        'searchable': false,
+                        'sortable': false,
+                        'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {
+                            $(nTd).addClass('text-right');
+                            $(nTd).html(
+                                '<a id="approve_' + oData.quoteId + '" href="#" class="btn btn-info approveRejectQuote" data-toggle="modal" data-target="#approveQuoteDialog"><i class="mdi mdi-comment-check-outline"></i> Aprobar</a>&nbsp;' +
+                                '<a id="reject_' + oData.quoteId +'" href="#" class="btn btn-danger approveRejectQuote" data-toggle="modal" data-target="#rejectQuoteDialog"><i class="mdi mdi-comment-remove-outline"></i> Rechazar</a>');
+                        }
+                    }
+                ],
+                dom: "<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-7'i><'col-sm-5'p>>",
                 buttons: [
-                    'copy', 'excel', 'pdf'
-                ], "language": {
-                    "lengthMenu": "Mostrando _MENU_ registros por p&aacute;gina",
-                    buttons: {
-                        copy: 'Copiar'
+                    {
+                        extend: 'excel',
+                        text: 'Excel',
+                        className: 'btn btn-default',
+                        title: 'Cotizaciones',
+                        exportOptions: {
+                            columns: ':visible:not(:last-child)'
+                        }
                     },
-                    "zeroRecords": "Sin resultados - lo siento!",
-                    "info": "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
-                    "infoEmpty": "No hay registros disponibles",
-                    "search": "Buscar",
-                    "infoFiltered": "(filtrados de _MAX_ registros totales)",
-                    "paginate": {
-                        "previous": "Anterior",
-                        "next": "Siguiente"
+                    {
+                        extend: 'pdf',
+                        text: 'Pdf',
+                        className: 'btn btn-default',
+                        title: 'Cotizaciones',
+                        exportOptions: {
+                            columns: ':visible:not(:last-child)'
+                        }
+                    }
+                ],
+                language: {
+                    lengthMenu: "Mostrando _MENU_ registros por p&aacute;gina",
+                    zeroRecords: "Sin resultados - lo siento!",
+                    info: "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay registros disponibles",
+                    search: "Buscar",
+                    infoFiltered: "(filtrados de _MAX_ registros totales)",
+                    paginate: {
+                        previous: "Anterior",
+                        next: "Siguiente"
                     }
                 }
+            });
+
+            $("#quote-table tbody").on('click', 'a', function(){
+                var quoteId = $(this).attr('id');
+                var id = quoteId.split("_");
+                $("#quoteId").val(id[1]);
             });
         } );
     </script>

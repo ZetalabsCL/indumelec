@@ -34,7 +34,8 @@
                                 <i class="mdi mdi-access-point mr-1"></i>Cotizaciones <div class="arrow-down"></div>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                <a th:href="@{/shared/quote/new}" class="dropdown-item">Nueva Cotizacion</a>
+                                <a th:href="@{/shared/quote/new}" class="dropdown-item">Nueva Cotizaci&oacute;n</a>
+                                <a th:href="@{/shared/quote/list}" class="dropdown-item" sec:authorize="hasAuthority('Admin')">Ver Cotizaciones</a>
                             </div>
                         </li>
                         <div sec:authorize="hasAuthority('Admin')">
@@ -47,6 +48,16 @@
                                 </div>
                             </li>
                         </div>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown top-right">
+                            <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="mdi mdi-account mr-1"></i><span class="account-user-name" th:text="${session.username}" th:unless="${session == null}" /> <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                <a th:href="@{/logout}" class="dropdown-item"><b>Cerrar Sesi&oacute;n</b></a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </nav>

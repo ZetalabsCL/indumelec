@@ -1,14 +1,30 @@
 package com.zetalabs.indumelec.model;
 
-import com.zetalabs.indumelec.model.types.*;
+import com.zetalabs.indumelec.model.types.DeliveryType;
+import com.zetalabs.indumelec.model.types.InvoiceType;
+import com.zetalabs.indumelec.model.types.PaymentType;
+import com.zetalabs.indumelec.model.types.SignatureType;
+import com.zetalabs.indumelec.model.types.Status;
 import lombok.Data;
-import org.hibernate.annotations.Sort;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
 
 @Data
 @Entity
@@ -23,7 +39,7 @@ public class Quote {
     private LocalDateTime entryDate;
 
     @Column(name = "delivery_date")
-    private LocalDateTime deliveryDate;
+    private LocalDate deliveryDate;
 
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
@@ -64,8 +80,8 @@ public class Quote {
     @Column(name = "amount")
     private BigDecimal amount = BigDecimal.ZERO;
 
-    @Column(name = "work_order_code", length = 100)
-    private String workOrderCode;
+    @Column(name = "work_order", length = 100)
+    private String workOrder;
 
     @Column(name = "quote_code", length = 100)
     private String quoteCode;
@@ -81,16 +97,24 @@ public class Quote {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "quote_id")
     @OrderBy("order_id ASC")
-    private Set<QuoteDetail> quoteDetails;
+    private SortedSet<QuoteDetail> quoteDetails;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "quote_id")
     @OrderBy("entry_date ASC")
-    private Set<QuoteHistory> quoteHistories;
+    private SortedSet<QuoteHistory> quoteHistories;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "quote_id")
+    @OrderBy("entry_date ASC")
+    private SortedSet<QuoteDocument> quoteDocuments;
 
     @Transient
     private List<QuoteDetail> quoteDetailsList;
 
     @Transient
     private QuoteDetail quoteDetail;
+
+    @Transient
+    private String deliveryDateStr;
 }

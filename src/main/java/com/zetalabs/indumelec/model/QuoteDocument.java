@@ -1,21 +1,29 @@
 package com.zetalabs.indumelec.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.zetalabs.indumelec.model.types.Status;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "quote_history")
-public class QuoteHistory implements Serializable, Comparable<QuoteHistory> {
+@Table(name = "quote_document")
+public class QuoteDocument implements Serializable, Comparable<QuoteDocument> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "history_id")
-    private Long historyId;
+    @Column(name = "document_id")
+    private Long documentId;
 
     @Column(name = "entry_date")
     private LocalDateTime entryDate;
@@ -26,8 +34,9 @@ public class QuoteHistory implements Serializable, Comparable<QuoteHistory> {
     @Column(name = "comments")
     private String comments;
 
-    @Column(name = "status")
-    private Status status;
+    @Lob
+    @Column(name = "data")
+    private byte[] data;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -35,7 +44,7 @@ public class QuoteHistory implements Serializable, Comparable<QuoteHistory> {
     private User user;
 
     @Override
-    public int compareTo(QuoteHistory other){
+    public int compareTo(QuoteDocument other){
         return this.entryDate.compareTo(other.entryDate);
     }
 }

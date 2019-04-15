@@ -5,18 +5,23 @@ import com.zetalabs.indumelec.model.Quote;
 import com.zetalabs.indumelec.model.QuoteDetail;
 import com.zetalabs.indumelec.model.QuoteHistory;
 import com.zetalabs.indumelec.model.User;
+import com.zetalabs.indumelec.model.types.InvoiceType;
 import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.repository.CompanyRepository;
 import com.zetalabs.indumelec.repository.QuoteRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Service
 public class QuoteService {
@@ -31,7 +36,7 @@ public class QuoteService {
     }
 
     public List<Quote> getQuoteListByStatus(Status status){
-        return quoteRepository.getQuotesByStatusEquals(status);
+        return quoteRepository.getQuotesByStatusEqualsOrderByDeliveryDate(status);
     }
 
     @Transactional
@@ -52,6 +57,7 @@ public class QuoteService {
         quote.setQuoteHistories(getInitialQuoteHistory(user));
         quote.setAmount(getQuoteAmount(quote.getQuoteDetailsList()));
         quote.setQuoteDetails(getQuoteDetails(quote.getQuoteDetailsList()));
+        quote.setQuoteCode(getQuoteCode(quote));
 
         quoteRepository.save(quote);
     }
@@ -68,8 +74,8 @@ public class QuoteService {
         return quoteAmount;
     }
 
-    private Set<QuoteDetail> getQuoteDetails(List<QuoteDetail> quoteDetailList){
-        Set<QuoteDetail> quoteDetails = new HashSet<>();
+    private SortedSet<QuoteDetail> getQuoteDetails(List<QuoteDetail> quoteDetailList){
+        SortedSet<QuoteDetail> quoteDetails = new TreeSet<>();
         int count = 1;
 
         for (QuoteDetail quoteDetail : quoteDetailList){
@@ -80,8 +86,8 @@ public class QuoteService {
         return quoteDetails;
     }
 
-    private Set<QuoteHistory> getInitialQuoteHistory(User loggedUser){
-        Set<QuoteHistory> quoteHistories = new HashSet<>();
+    private SortedSet<QuoteHistory> getInitialQuoteHistory(User loggedUser){
+        SortedSet<QuoteHistory> quoteHistories = new TreeSet<>();
 
         quoteHistories.add(getQuoteHistory(loggedUser, Status.NEW, "Cotizacion Ingresada"));
 
@@ -91,26 +97,36 @@ public class QuoteService {
     }
 
     private QuoteHistory getQuoteHistory(User loggedUser, Status status, String description){
-        return getQuoteHistory(loggedUser, status, description, 0);
+        return getQuoteHistory(loggedUser, status, description, null, 0);
     }
 
     private QuoteHistory getQuoteHistory(User loggedUser, Status status, String description, long seconds){
+        return getQuoteHistory(loggedUser, status, description, 0);
+    }
+
+    private QuoteHistory getQuoteHistory(User loggedUser, Status status, String description, String comments){
+        return getQuoteHistory(loggedUser, status, description, comments, 0);
+    }
+
+    private QuoteHistory getQuoteHistory(User loggedUser, Status status, String description, String comments, long seconds){
         QuoteHistory quoteHistory = new QuoteHistory();
         quoteHistory.setDescription(description);
         quoteHistory.setEntryDate(LocalDateTime.now().plusSeconds(seconds));
         quoteHistory.setStatus(status);
+        quoteHistory.setComments(comments);
         quoteHistory.setUser(loggedUser);
 
         return quoteHistory;
     }
 
-    public void approveQuote(User loggedUser, Long quoteId){
+    public void approveQuote(User loggedUser, String workOrder, Long quoteId){
         Quote quote = quoteRepository.getOne(quoteId);
 
-        quote.setStatus(Status.CUT);
+        quote.setStatus(Status.PROJECT);
+        quote.setWorkOrder(workOrder);
         quote.setLastUpdate(LocalDateTime.now());
         quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.APPROVED, "Cotizacion Aprobada por Cliente"));
-        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.CUT, "Cotizacion Enviada a Corte", 5));
+        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.PROJECT, "Cotizacion Enviada a Proyecto", 5));
 
         quoteRepository.save(quote);
     }
@@ -123,5 +139,31 @@ public class QuoteService {
         quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.REJECTED, "Cotizacion Rechazada por Cliente"));
 
         quoteRepository.save(quote);
+    }
+
+    public void moveQuote(User loggedUser, Long quoteId, String comments, String from, String to){
+        Quote quote = quoteRepository.getOne(quoteId);
+        Status statusFrom = Status.valueOf(from);
+        Status statusTo = Status.valueOf(to);
+
+        quote.setStatus(statusTo);
+        quote.setLastUpdate(LocalDateTime.now());
+        String description = "Orden de trabajo movida desde " + statusFrom.getDescription() + " a " + statusTo.getDescription();
+        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.valueOf(to), description, comments));
+
+        quoteRepository.save(quote);
+    }
+
+    private String getQuoteCode(Quote quote){
+        String result="JAR-";
+        LocalDate currentDate = LocalDate.now();
+
+        if (InvoiceType.INDUMELEC.equals(quote.getInvoice())){
+            result = "IND-";
+        }
+
+        result += currentDate.getYear() + "-" + StringUtils.leftPad(quote.getQuoteId().toString(),4, '0');
+
+        return result;
     }
 }

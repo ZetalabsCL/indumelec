@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum DeliveryType {
+    DEFAULT("Seleccione Entrega"),
     CUSTOMER("En oficinas del cliente"),
     DELIVERY("Despacho"),
     PICKUP("Retiro por parte del cliente"),

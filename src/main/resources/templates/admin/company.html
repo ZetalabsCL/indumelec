@@ -108,7 +108,7 @@
                             <div class="col-12">
                                 <h4 class="header-title"></h4>
                                 <div class="table-responsive">
-                                    <table id="empresas-table" class="table mt-4">
+                                    <table id="company-table" class="table mt-4">
                                         <thead>
                                         <tr>
                                             <th>#</th>
@@ -147,7 +147,7 @@
 <th:block layout:fragment="script">
     <script>
         $(document).ready(function() {
-            $('#empresas-table').DataTable( {
+            $('#company-table').DataTable( {
                 responsive: true,
                 ajax: '/api/company/list',
                 columns: [
@@ -156,7 +156,7 @@
                     {'data': 'taxId'},
                     {'data': 'contact'},
                     {
-                        'data': 'companyId',
+                        'data': null,
                         'searchable': false,
                         'sortable': false,
                         'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {
