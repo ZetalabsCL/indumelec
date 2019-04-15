@@ -9,27 +9,32 @@ import com.zetalabs.indumelec.model.types.InvoiceType;
 import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.repository.CompanyRepository;
 import com.zetalabs.indumelec.repository.QuoteRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-@Service
+@Slf4j
+@Component
 public class QuoteService {
     @Autowired
     private QuoteRepository quoteRepository;
 
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private PdfGenerator pdfGenerator;
 
     public List<Quote> getQuoteList(){
         return quoteRepository.getInProgressQuotes();
@@ -165,5 +170,21 @@ public class QuoteService {
         result += currentDate.getYear() + "-" + StringUtils.leftPad(quote.getQuoteId().toString(),4, '0');
 
         return result;
+    }
+
+    public Quote getQuoteById(Long quoteId){
+        return quoteRepository.getOne(quoteId);
+    }
+
+    public byte[] getQuotePdf(Quote quote){
+        byte[] pdf = null;
+
+        try {
+            pdf = pdfGenerator.getQuotePdf(quote);
+        } catch (IOException ex ) {
+            log.error("Error generating pdf", ex);
+        }
+
+        return pdf;
     }
 }

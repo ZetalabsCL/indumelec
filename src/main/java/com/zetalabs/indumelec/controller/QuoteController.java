@@ -5,15 +5,22 @@ import com.zetalabs.indumelec.model.Quote;
 import com.zetalabs.indumelec.model.QuoteDetail;
 import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.model.types.AppRole;
+import com.zetalabs.indumelec.service.PdfGenerator;
 import com.zetalabs.indumelec.service.QuoteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -84,5 +91,17 @@ public class QuoteController {
         }
 
         return destination;
+    }
+
+    @RequestMapping(value={"/shared/quote/downloadQuotePdf"}, method = RequestMethod.GET)
+    public ResponseEntity<ByteArrayResource> getQuotePdf(Long quoteId){
+        Quote quote = quoteService.getQuoteById(quoteId);
+        byte[] data = quoteService.getQuotePdf(quote);
+        ByteArrayResource resource = new ByteArrayResource(data);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename=Quote.pdf" )
+                .contentType(MediaType.APPLICATION_PDF).contentLength(data.length)
+                .body(resource);
     }
 }

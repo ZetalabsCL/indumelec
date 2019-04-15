@@ -6,6 +6,7 @@ import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.service.QuoteService;
 import com.zetalabs.indumelec.service.UserService;
+import com.zetalabs.indumelec.utils.IndumelecFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +29,6 @@ public class ApiQuoteController {
 
     @Autowired
     private UserService userService;
-
-    private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private DecimalFormat numberFormat = new DecimalFormat("#,###.00");
 
     @RequestMapping("/api/quote/reviewList")
     public Map<String, Object> quoteReviewList() {
@@ -86,10 +82,10 @@ public class ApiQuoteController {
         quoteWrapper.setWorkOrder(t.getWorkOrder());
         quoteWrapper.setStatus(t.getStatus().getDescription());
         quoteWrapper.setCompany(t.getCompany().getName());
-        quoteWrapper.setEntryDate(t.getEntryDate().format(dateFormat));
-        quoteWrapper.setDeliveryDate(t.getDeliveryDate().format(dateFormat));
+        quoteWrapper.setEntryDate(t.getEntryDate().format(IndumelecFormatter.dateFormat));
+        quoteWrapper.setDeliveryDate(t.getDeliveryDate().format(IndumelecFormatter.dateFormat));
         quoteWrapper.setReference(t.getReference());
-        quoteWrapper.setAmount(numberFormat.format(t.getAmount()));
+        quoteWrapper.setAmount(IndumelecFormatter.numberFormat.format(t.getAmount()));
         Period daysLeft = Period.between(LocalDate.now(), t.getDeliveryDate());
         quoteWrapper.setDaysLeft(daysLeft.getDays());
 
