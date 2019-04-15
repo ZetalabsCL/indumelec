@@ -53,6 +53,7 @@ public class PdfGenerator {
         doc.add(new Paragraph());
         doc.add(getDetailsTbl(quote));
         doc.add(new Paragraph());
+        doc.add(new Paragraph());
         doc.add(getParagraphBold("Condiciones Comerciales"));
         doc.add(new Paragraph());
         doc.add(getParagraph("1.- Valores Neto NO incluyen I.V.A y Costo de envio"));
@@ -68,20 +69,20 @@ public class PdfGenerator {
     private Table getTitleTbl(Quote quote) throws IOException{
         Table titleTbl = new Table(new float[] { 100, 400 });
 
-        Cell cellTxt = new Cell(1, 1).add(new Paragraph(getBoldText("Señor", StandardFonts.TIMES_ROMAN, 12,false)));
+        Cell cellTxt = new Cell(1, 1).add(new Paragraph(getBoldText("Señores")));
         cellTxt.setBorder(Border.NO_BORDER);
         titleTbl.addCell(cellTxt);
 
-        cellTxt = new Cell(1, 1).add(new Paragraph(getBoldText("Presupuesto " + quote.getQuoteCode(), StandardFonts.TIMES_ROMAN, 12, false)));
+        cellTxt = new Cell(1, 1).add(new Paragraph(getBoldText("Cotizacion " + quote.getQuoteCode())));
         cellTxt.setBorder(Border.NO_BORDER);
         cellTxt.setTextAlignment(TextAlignment.CENTER);
         titleTbl.addCell(cellTxt);
 
-        cellTxt = new Cell(1, 2).add(new Paragraph(getBoldText(quote.getCompany().getContact(), StandardFonts.TIMES_ROMAN, 12, false)));
+        cellTxt = new Cell(1, 2).add(new Paragraph(getBoldText(quote.getCompany().getName())));
         cellTxt.setBorder(Border.NO_BORDER);
         titleTbl.addCell(cellTxt);
 
-        cellTxt = new Cell(1, 2).add(new Paragraph(getBoldText(quote.getCompany().getName(), StandardFonts.TIMES_ROMAN, 12, false)));
+        cellTxt = new Cell(1, 2).add(new Paragraph(getBoldText(quote.getCompany().getContact())));
         cellTxt.setBorder(Border.NO_BORDER);
         titleTbl.addCell(cellTxt);
 
@@ -96,7 +97,7 @@ public class PdfGenerator {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM 'de' yyyy");
         String currentDate = "Santiago, " + LocalDate.now().format(dateTimeFormatter);
 
-        Paragraph paragraph = new Paragraph(getNormalText(currentDate, StandardFonts.TIMES_ROMAN, 12, false));
+        Paragraph paragraph = getParagraph(currentDate);
         paragraph.setTextAlignment(TextAlignment.RIGHT);
 
         return paragraph;
