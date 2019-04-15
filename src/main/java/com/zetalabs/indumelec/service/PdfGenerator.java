@@ -60,7 +60,7 @@ public class PdfGenerator {
         doc.add(new Paragraph());
         doc.add(getParagraph("2.- Plazo entrega en Santiago: " + IndumelecFormatter.dateFormat.format(quote.getDeliveryDate())));
         doc.add(new Paragraph());
-        doc.add(getParagraph("3.- Forma de pago:" + quote.getPaymentType().getDescription()));
+        doc.add(getParagraph("3.- Forma de pago: " + quote.getPaymentType().getDescription()));
         doc.close();
 
         return out.toByteArray();
