@@ -4,8 +4,6 @@ import com.zetalabs.indumelec.model.Company;
 import com.zetalabs.indumelec.model.Quote;
 import com.zetalabs.indumelec.model.QuoteDetail;
 import com.zetalabs.indumelec.model.User;
-import com.zetalabs.indumelec.model.types.AppRole;
-import com.zetalabs.indumelec.service.PdfGenerator;
 import com.zetalabs.indumelec.service.QuoteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -78,19 +74,12 @@ public class QuoteController {
     @RequestMapping(params = "save", value={"/quote/save"}, method = RequestMethod.POST)
     public String save(HttpSession session, Model model, Quote quote){
         User loggedUser = (User) session.getAttribute("user");
-        Object role = session.getAttribute("role");
-        String destination="redirect:/user/dashboard";
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        quote.setDeliveryDate(LocalDate.parse(quote.getDeliveryDateStr(), formatter));
 
+        quote.setDeliveryDate(LocalDate.parse(quote.getDeliveryDateStr(), formatter));
         quoteService.saveQuote(loggedUser, quote);
 
-        if (AppRole.ADMIN.equals(role)){
-            destination = "redirect:/admin/dashboard";
-        }
-
-        return destination;
+        return "redirect:/dashboard";
     }
 
     @RequestMapping(value={"/quote/downloadQuotePdf"}, method = RequestMethod.GET)
