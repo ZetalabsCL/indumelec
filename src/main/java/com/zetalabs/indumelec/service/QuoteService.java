@@ -62,8 +62,10 @@ public class QuoteService {
         quote.setQuoteHistories(getInitialQuoteHistory(user));
         quote.setAmount(getQuoteAmount(quote.getQuoteDetailsList()));
         quote.setQuoteDetails(getQuoteDetails(quote.getQuoteDetailsList()));
-        quote.setQuoteCode(getQuoteCode(quote));
 
+        quoteRepository.save(quote);
+
+        quote.setQuoteCode(getQuoteCode(quote));
         quoteRepository.save(quote);
     }
 
