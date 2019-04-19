@@ -106,7 +106,7 @@ public class QuoteService {
     }
 
     private QuoteHistory getQuoteHistory(User loggedUser, Status status, String description, long seconds){
-        return getQuoteHistory(loggedUser, status, description, 0);
+        return getQuoteHistory(loggedUser, status, description, null, seconds);
     }
 
     private QuoteHistory getQuoteHistory(User loggedUser, Status status, String description, String comments){

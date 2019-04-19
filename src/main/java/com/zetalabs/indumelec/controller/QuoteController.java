@@ -31,18 +31,18 @@ public class QuoteController {
     @Autowired
     private QuoteService quoteService;
 
-    @RequestMapping(value={"/shared/quote/list"}, method = RequestMethod.GET)
+    @RequestMapping(value={"/quote/list"}, method = RequestMethod.GET)
     public ModelAndView dashboard(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shared/list");
+        modelAndView.setViewName("quote/list");
 
         return modelAndView;
     }
 
-    @RequestMapping(value={"/shared/quote/new"}, method = RequestMethod.GET)
+    @RequestMapping(value={"/quote/new"}, method = RequestMethod.GET)
     public ModelAndView newquote(Model model){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shared/new");
+        modelAndView.setViewName("quote/new");
 
         Quote quote = new Quote();
         quote.setQuoteDetailsList(new LinkedList<>());
@@ -55,10 +55,10 @@ public class QuoteController {
         return modelAndView;
     }
 
-    @RequestMapping(params = "add", value={"/shared/quote/save"}, method = RequestMethod.POST)
+    @RequestMapping(params = "add", value={"/quote/save"}, method = RequestMethod.POST)
     public ModelAndView add(Quote quote){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shared/new");
+        modelAndView.setViewName("quote/new");
 
         if (quote.getQuoteDetailsList() == null){
             quote.setQuoteDetailsList(new LinkedList<>());
@@ -75,13 +75,13 @@ public class QuoteController {
         return modelAndView;
     }
 
-    @RequestMapping(params = "save", value={"/shared/quote/save"}, method = RequestMethod.POST)
+    @RequestMapping(params = "save", value={"/quote/save"}, method = RequestMethod.POST)
     public String save(HttpSession session, Model model, Quote quote){
         User loggedUser = (User) session.getAttribute("user");
         Object role = session.getAttribute("role");
         String destination="redirect:/user/dashboard";
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         quote.setDeliveryDate(LocalDate.parse(quote.getDeliveryDateStr(), formatter));
 
         quoteService.saveQuote(loggedUser, quote);
@@ -93,14 +93,14 @@ public class QuoteController {
         return destination;
     }
 
-    @RequestMapping(value={"/shared/quote/downloadQuotePdf"}, method = RequestMethod.GET)
+    @RequestMapping(value={"/quote/downloadQuotePdf"}, method = RequestMethod.GET)
     public ResponseEntity<ByteArrayResource> getQuotePdf(Long quoteId){
         Quote quote = quoteService.getQuoteById(quoteId);
         byte[] data = quoteService.getQuotePdf(quote);
         ByteArrayResource resource = new ByteArrayResource(data);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename=Quote.pdf" )
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename=\""+quote.getQuoteCode()+".pdf\"" )
                 .contentType(MediaType.APPLICATION_PDF).contentLength(data.length)
                 .body(resource);
     }

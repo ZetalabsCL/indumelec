@@ -25,7 +25,7 @@
 </th:block>
 
 <th:block layout:fragment="content">
-    <form th:action="@{/shared/quote/save}" method="post" th:object="${quote}">
+    <form th:action="@{/quote/save}" method="post" th:object="${quote}">
         <input th:type="hidden" name="id" th:field="${quote.quoteId}" />
         <div class="row">
             <div class="col-12">
@@ -305,6 +305,40 @@
 
             $("#deliveryType").change(function() {
                 initDeliveryType();
+            });
+
+            $('#deliveryDate').daterangepicker({
+                singleDatePicker: true,
+                opens: 'center',
+                startDate: moment().startOf('day').format('dd/MM/yyyy'),
+                endDate: moment().endOf('day').format('dd/MM/yyyy'),
+                locale: {
+                    format: 'DD/MM/YYYY',
+                    firstDay: 1,
+                    daysOfWeek: [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    monthNames: [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ]
+                }
             });
 
             $('#cotizaciones-table').DataTable( {

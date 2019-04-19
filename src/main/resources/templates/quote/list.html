@@ -43,7 +43,7 @@
                         'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {
                             $(nTd).addClass('text-left');
                             $(nTd).html(
-                                '<a id="downloadPdf_' + oData.quoteCode + '" href="/shared/quote/downloadQuotePdf?quoteId='+oData.quoteId+'">'+oData.quoteCode+'</a>');
+                                '<a id="downloadPdf_' + oData.quoteCode + '" href="/quote/downloadQuotePdf?quoteId='+oData.quoteId+'">'+oData.quoteCode+'</a>');
                         }
                     },
                     {'data': 'workOrder'},
