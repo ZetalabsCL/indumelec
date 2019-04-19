@@ -125,7 +125,16 @@
                 responsive: true,
                 ajax: '/api/quote/reviewList',
                 columns: [
-                    {'data': 'quoteCode'},
+                    {
+                        'data': 'quoteCode',
+                        'searchable': false,
+                        'sortable': false,
+                        'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {
+                            $(nTd).addClass('text-left');
+                            $(nTd).html(
+                                '<a id="downloadPdf_' + oData.quoteCode + '" href="/quote/downloadQuotePdf?quoteId='+oData.quoteId+'">'+oData.quoteCode+'</a>');
+                        }
+                    },
                     {'data': 'company'},
                     {'data': 'entryDate', 'className': 'text-center'},
                     {'data': 'deliveryDate', 'className': 'text-center'},
