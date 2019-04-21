@@ -75,7 +75,7 @@ public class QuoteService {
 
         if (quoteDetailList!=null) {
             for (QuoteDetail detail : quoteDetailList) {
-                quoteAmount = quoteAmount.add(detail.getPrice());
+                quoteAmount = quoteAmount.add(detail.getPrice().multiply(detail.getQuantity()));
             }
         }
 
