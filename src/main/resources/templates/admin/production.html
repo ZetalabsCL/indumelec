@@ -34,9 +34,9 @@
                     </p>
 
                     <div class="row">
-                        <div class="col-md-1">&nbsp;</div>
-                        <div class="col-md-2">
-                            <div class="bg-light p-2 p-lg-4">
+
+                        <div class="col-sm-2">
+                            <div class="bg-light p-2">
                                 <h5 class="mt-0">PROYECTO</h5>
                                 <div id="proyecto" class="py-2" title="Proyecto" data-code="PROJECT">
                                     <div class="card mb-0 mt-2" th:each="quote : ${projectQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
@@ -56,8 +56,8 @@
                             </div>
                         </div>
 
-                        <div class="col-md-2">
-                            <div class="bg-light p-2 p-lg-4">
+                        <div class="col-sm-2">
+                            <div class="bg-light p-2">
                                 <h5 class="mt-0">CORTE - PLEGADO</h5>
                                 <div id="corte-plegado" class="py-2" title="Corte/Plegado" data-code="CUT">
                                     <div class="card mb-0 mt-2" th:each="quote : ${cutQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
@@ -77,8 +77,8 @@
                             </div>
                         </div>
 
-                        <div class="col-md-2">
-                            <div class="bg-light p-2 p-lg-4">
+                        <div class="col-sm-2">
+                            <div class="bg-light p-2">
                                 <h5 class="mt-0">PRODUCCION</h5>
                                 <div id="produccion" class="py-2" title="Producci&oacute;n" data-code="PRODUCTION">
                                     <div class="card mb-0 mt-2" th:each="quote : ${productionQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
@@ -98,8 +98,8 @@
                             </div>
                         </div>
 
-                        <div class="col-md-2">
-                            <div class="bg-light p-2 p-lg-4">
+                        <div class="col-sm-2">
+                            <div class="bg-light p-2">
                                 <h5 class="mt-0">ARMADO</h5>
                                 <div id="armado" class="py-2" title="Armado" data-code="BUILD">
                                     <div class="card mb-0 mt-2" th:each="quote : ${buildQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
@@ -119,8 +119,8 @@
                             </div>
                         </div>
 
-                        <div class="col-md-2">
-                            <div class="bg-light p-2 p-lg-4">
+                        <div class="col-sm-2">
+                            <div class="bg-light p-2">
                                 <h5 class="mt-0">DESPACHO</h5>
                                 <div id="despacho" class="py-2" title="Despacho" data-code="DELIVERY">
                                     <div class="card mb-0 mt-2" th:each="quote : ${deliveryQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
