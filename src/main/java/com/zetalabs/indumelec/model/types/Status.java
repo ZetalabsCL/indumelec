@@ -13,7 +13,8 @@ public enum Status {
     PRODUCTION("Producci&oacute;n"),
     BUILD("Armado"),
     DELIVERY("Despacho"),
-    COMPLETED("Completada");
+    COMPLETED("Completada"),
+    RETURNED("Regresada");
 
     private String description;
 

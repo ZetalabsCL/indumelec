@@ -51,10 +51,36 @@ public class ApiQuoteController {
         return getResult(resultList);
     }
 
+    @RequestMapping("/api/quote/deliveryList")
+    public Map<String, Object> quoteDeliveryList() {
+        List<Quote> quoteList = quoteService.getQuoteListByStatus(Status.DELIVERY);
+
+        List<QuoteWrapper> resultList  = quoteList.stream().map(getQuotes).collect(Collectors.toList());
+
+        return getResult(resultList);
+    }
+
     @RequestMapping("/api/quote/approve")
     public ResponseEntity approveQuote(@RequestParam("quoteId") Long quoteId, @RequestParam("workOrder") String workOrder, @RequestParam("userId") String userId) {
         User user = userService.getUserByMail(userId);
         quoteService.approveQuote(user, workOrder, quoteId);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @RequestMapping("/api/quote/delivery")
+    public ResponseEntity deliveryQuote(@RequestParam("quoteId") Long quoteId, @RequestParam("userId") String userId, @RequestParam("comments") String comments) {
+        User user = userService.getUserByMail(userId);
+
+        quoteService.deliveryQuote(user, quoteId, comments);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @RequestMapping("/api/quote/return")
+    public ResponseEntity returnQuote(@RequestParam("quoteId") Long quoteId, @RequestParam("userId") String userId, @RequestParam("comments") String comments) {
+        User user = userService.getUserByMail(userId);
+        quoteService.returnQuote(user, quoteId, comments);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }

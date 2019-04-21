@@ -149,6 +149,26 @@ public class QuoteService {
         quoteRepository.save(quote);
     }
 
+    public void deliveryQuote(User loggedUser, Long quoteId, String comments){
+        Quote quote = quoteRepository.getOne(quoteId);
+
+        quote.setStatus(Status.COMPLETED);
+        quote.setLastUpdate(LocalDateTime.now());
+        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.COMPLETED, "OT Entregada al cliente", comments));
+
+        quoteRepository.save(quote);
+    }
+
+    public void returnQuote(User loggedUser, Long quoteId, String comments){
+        Quote quote = quoteRepository.getOne(quoteId);
+
+        quote.setStatus(Status.RETURNED);
+        quote.setLastUpdate(LocalDateTime.now());
+        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.RETURNED, "OT devuelta por cliente", comments));
+
+        quoteRepository.save(quote);
+    }
+
     public void moveQuote(User loggedUser, Long quoteId, String comments, String from, String to){
         Quote quote = quoteRepository.getOne(quoteId);
         Status statusFrom = Status.valueOf(from);

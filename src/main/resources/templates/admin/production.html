@@ -210,6 +210,7 @@
 
                     $('#commentWorkOrder').text('Orden: ' + $('#'+el.id).data('work'));
                     $('#commentTitle').text('Movimiento: ' + source.title + ' a ' + target.title);
+                    $("#comments").val('');
                     $('#commentDialog').modal('show');
                 })
 
@@ -230,6 +231,7 @@
                         },
                         dataType: "json",
                         success: function (data) {
+                            $("#comments").val('');
                             $('#commentDialog').modal('hide');
                         },
                         error: function () {

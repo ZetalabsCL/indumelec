@@ -4,14 +4,15 @@
       layout:decorate="~{fragments/layout}">
 
 <th:block layout:fragment="content">
+    <input type="hidden" id="quoteId" name="quoteId" value="" />
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
                     <h4 class="header-title mt-2">Cotizaciones en Evaluaci&oacute;n</h4>
                     <div class="table-responsive">
-                        <input type="hidden" id="quoteId" name="quoteId" value="" />
-                        <table class="table table-centered table-hover mb-0" id="quote-table">
+
+                        <table class="table table-centered table-hover mb-0" id="quote-review-table">
                             <thead>
                                 <tr>
                                     <th># Cotizaci&oacute;n</th>
@@ -22,6 +23,31 @@
                                     <th>Monto</th>
                                     <th class="text-right">Aprobar / Rechazar</th>
                                 </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mt-2">Cotizaciones en Despacho</h4>
+                    <div class="table-responsive">
+                        <table class="table table-centered table-hover mb-0" id="quote-delivery-table">
+                            <thead>
+                            <tr>
+                                <th># Cotizaci&oacute;n</th>
+                                <th>Empresa</th>
+                                <th>Fecha Ingreso</th>
+                                <th>Fecha de Entrega</th>
+                                <th>Referencia</th>
+                                <th>Monto</th>
+                                <th class="text-right">Aprobar / Rechazar</th>
+                            </tr>
                             </thead>
                         </table>
                     </div>
@@ -85,6 +111,48 @@
             </div>
         </div>
     </div>
+
+    <div id="deliveryQuoteDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Confirmar Despacho Cotizaci&oacute;n</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="commentsDelivery">Comentarios:</label>
+                        <textarea class="form-control" id="commentsDelivery" name="commentsDelivery" placeholder="Comentarios" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"  id="deliveryQuote">Confirmar Despacho</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Volver</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="returnQuoteDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Confirmar Devoluci&oacute;n Cotizaci&oacute;n</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="commentsReturn">Comentarios:</label>
+                        <textarea class="form-control" id="commentsReturn" name="commentsReturn" placeholder="Comentarios" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"  id="returnQuote">Confirmar Devoluci&oacute;n</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Volver</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </th:block>
 
 <th:block layout:fragment="script">
@@ -98,7 +166,7 @@
                         data: {quoteId: $("#quoteId").val(), workOrder: $("#workOrder").val(), userId: /*[[${session.username}]]*/ 'default' },
                         dataType: "json",
                         success: function (data) {
-                            $('#quote-table').DataTable().ajax.reload();
+                            $('#quote-review-table').DataTable().ajax.reload();
                         },
                         error: function () {
                             console.log('error');
@@ -114,14 +182,14 @@
                     data: { quoteId: $("#quoteId").val(), userId: /*[[${session.username}]]*/ 'default' },
                     dataType: "json",
                     success: function (data) {
-                        $('#quote-table').DataTable().ajax.reload();
+                        $('#quote-review-table').DataTable().ajax.reload();
                     },
                     error: function () {
                     }
                 });
             });
 
-            $('#quote-table').DataTable( {
+            $('#quote-review-table').DataTable( {
                 responsive: true,
                 ajax: '/api/quote/reviewList',
                 columns: [
@@ -189,10 +257,112 @@
                 }
             });
 
-            $("#quote-table tbody").on('click', 'a', function(){
+            $("#quote-review-table tbody").on('click', 'a', function(){
                 var quoteId = $(this).attr('id');
                 var id = quoteId.split("_");
                 $("#quoteId").val(id[1]);
+            });
+
+            $('#quote-delivery-table').DataTable( {
+                responsive: true,
+                ajax: '/api/quote/deliveryList',
+                columns: [
+                    {
+                        'data': 'quoteCode',
+                        'searchable': false,
+                        'sortable': false,
+                        'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {
+                            $(nTd).addClass('text-left');
+                            $(nTd).html(
+                                '<a id="downloadPdf_' + oData.quoteCode + '" href="/quote/downloadQuotePdf?quoteId='+oData.quoteId+'">'+oData.quoteCode+'</a>');
+                        }
+                    },
+                    {'data': 'company'},
+                    {'data': 'entryDate', 'className': 'text-center'},
+                    {'data': 'deliveryDate', 'className': 'text-center'},
+                    {'data': 'reference'},
+                    {'data': 'amount', 'className': 'text-right'},
+                    {
+                        'data': null,
+                        'searchable': false,
+                        'sortable': false,
+                        'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {
+                            $(nTd).addClass('text-right');
+                            $(nTd).html(
+                                '<a id="delivered_' + oData.quoteId + '" href="#" class="btn btn-info deliveryReturnQuote" data-toggle="modal" data-target="#deliveryQuoteDialog"><i class="mdi mdi-comment-check-outline"></i> Entregada</a>&nbsp;' +
+                                '<a id="returned_' + oData.quoteId +'" href="#" class="btn btn-danger deliveryReturnQuote" data-toggle="modal" data-target="#returnQuoteDialog"><i class="mdi mdi-comment-remove-outline"></i> Devuelta</a>');
+                        }
+                    }
+                ],
+                dom: "<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-7'i><'col-sm-5'p>>",
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text: 'Excel',
+                        className: 'btn btn-default',
+                        title: 'Cotizaciones',
+                        exportOptions: {
+                            columns: ':visible:not(:last-child)'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: 'Pdf',
+                        className: 'btn btn-default',
+                        title: 'Cotizaciones',
+                        exportOptions: {
+                            columns: ':visible:not(:last-child)'
+                        }
+                    }
+                ],
+                language: {
+                    lengthMenu: "Mostrando _MENU_ registros por p&aacute;gina",
+                    zeroRecords: "Sin resultados - lo siento!",
+                    info: "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay registros disponibles",
+                    search: "Buscar",
+                    infoFiltered: "(filtrados de _MAX_ registros totales)",
+                    paginate: {
+                        previous: "Anterior",
+                        next: "Siguiente"
+                    }
+                }
+            });
+
+            $("#quote-delivery-table tbody").on('click', 'a', function(){
+                var quoteId = $(this).attr('id');
+                var id = quoteId.split("_");
+                $("#quoteId").val(id[1]);
+            });
+
+            $("#deliveryQuote").on('click', function(){
+                $.ajax({
+                    url: '/api/quote/delivery',
+                    type: "post",
+                    data: { quoteId: $("#quoteId").val(), userId: /*[[${session.username}]]*/ 'default', comments: $("#commentsDelivery").val() },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#quote-delivery-table').DataTable().ajax.reload();
+                    },
+                    error: function () {
+                    }
+                });
+            });
+
+            $("#returnQuote").on('click', function(){
+                $.ajax({
+                    url: '/api/quote/return',
+                    type: "post",
+                    data: { quoteId: $("#quoteId").val(), userId: /*[[${session.username}]]*/ 'default', comments: $("#commentsReturn").val() },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#quote-delivery-table').DataTable().ajax.reload();
+                    },
+                    error: function () {
+                    }
+                });
             });
         } );
     </script>
