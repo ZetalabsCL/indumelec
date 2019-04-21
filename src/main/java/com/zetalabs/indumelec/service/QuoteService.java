@@ -8,6 +8,7 @@ import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.model.types.InvoiceType;
 import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.repository.CompanyRepository;
+import com.zetalabs.indumelec.repository.QuoteDetailRepository;
 import com.zetalabs.indumelec.repository.QuoteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

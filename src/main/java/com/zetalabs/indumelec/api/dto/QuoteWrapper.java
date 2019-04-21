@@ -3,7 +3,7 @@ package com.zetalabs.indumelec.api.dto;
 import lombok.Data;
 
 @Data
-public class QuoteWrapper {
+public class QuoteWrapper extends AbstractWrapper {
     private Long quoteId;
     private String quoteCode;
     private String workOrder;

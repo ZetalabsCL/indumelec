@@ -39,11 +39,13 @@
                             <div class="bg-light p-2 p-lg-4">
                                 <h5 class="mt-0">PROYECTO</h5>
                                 <div id="proyecto" class="py-2" title="Proyecto" data-code="PROJECT">
-                                    <div class="card mb-0 mt-2" th:each="quote : ${projectQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.quoteCode}">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${projectQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -58,11 +60,13 @@
                             <div class="bg-light p-2 p-lg-4">
                                 <h5 class="mt-0">CORTE - PLEGADO</h5>
                                 <div id="corte-plegado" class="py-2" title="Corte/Plegado" data-code="CUT">
-                                    <div class="card mb-0 mt-2" th:each="quote : ${cutQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.quoteCode}">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${cutQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -77,11 +81,13 @@
                             <div class="bg-light p-2 p-lg-4">
                                 <h5 class="mt-0">PRODUCCION</h5>
                                 <div id="produccion" class="py-2" title="Producci&oacute;n" data-code="PRODUCTION">
-                                    <div class="card mb-0 mt-2" th:each="quote : ${productionQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.quoteCode}">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${productionQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -96,11 +102,13 @@
                             <div class="bg-light p-2 p-lg-4">
                                 <h5 class="mt-0">ARMADO</h5>
                                 <div id="armado" class="py-2" title="Armado" data-code="BUILD">
-                                    <div class="card mb-0 mt-2" th:each="quote : ${buildQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.quoteCode}">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${buildQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -115,11 +123,13 @@
                             <div class="bg-light p-2 p-lg-4">
                                 <h5 class="mt-0">DESPACHO</h5>
                                 <div id="despacho" class="py-2" title="Despacho" data-code="DELIVERY">
-                                    <div class="card mb-0 mt-2" th:each="quote : ${deliveryQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.quoteCode}">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${deliveryQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -154,6 +164,33 @@
                 </div>
                 <div class="modal-footer">
                     <a id="aceptar" href="#" class="btn btn-primary">Aceptar</a>&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="quoteDetails" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel">Informacion OT</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">Detalles</h5>
+
+                    <table class="table table-centered table-hover mb-0" id="quote-details">
+                        <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Descripci&oacute;n</th>
+                            <th>Medidas</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -199,9 +236,60 @@
                             console.log('error');
                         }
                     });
-                } else {
-
                 }
+            });
+
+            $('.otDetail').on('click', function(){
+                $('#quote-details').DataTable( {
+                    responsive: true,
+                    destroy: true,
+                    ajax: {
+                        url: '/api/quote/details',
+                        data: { quoteId: $('#'+this.id).data('quoteid') }
+                    },
+                    columns: [
+                        {'data': 'quantity'},
+                        {'data': 'description'},
+                        {'data': 'measure', 'className': 'text-center'}
+                    ],
+                    dom: "<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-7'i><'col-sm-5'p>>",
+                    buttons: [
+                        {
+                            extend: 'excel',
+                            text: 'Excel',
+                            className: 'btn btn-default',
+                            title: 'Detalle',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            className: 'btn btn-default',
+                            title: 'Detalle',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        }
+                    ],
+                    language: {
+                        lengthMenu: "Mostrando _MENU_ registros por p&aacute;gina",
+                        zeroRecords: "Sin resultados - lo siento!",
+                        info: "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
+                        infoEmpty: "No hay registros disponibles",
+                        search: "Buscar",
+                        infoFiltered: "(filtrados de _MAX_ registros totales)",
+                        paginate: {
+                            previous: "Anterior",
+                            next: "Siguiente"
+                        }
+                    }
+                });
+
+                $('#quoteDetails').modal('show');
             });
         });
     </script>

@@ -1,7 +1,10 @@
 package com.zetalabs.indumelec.api.controller;
 
+import com.zetalabs.indumelec.api.dto.AbstractWrapper;
+import com.zetalabs.indumelec.api.dto.QuoteDetailWrapper;
 import com.zetalabs.indumelec.api.dto.QuoteWrapper;
 import com.zetalabs.indumelec.model.Quote;
+import com.zetalabs.indumelec.model.QuoteDetail;
 import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.service.QuoteService;
@@ -75,6 +78,15 @@ public class ApiQuoteController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @RequestMapping("/api/quote/details")
+    public Map<String, Object> detailsQuote(@RequestParam("quoteId") Long quoteId) {
+        Quote quote = quoteService.getQuoteById(quoteId);
+
+        List<QuoteDetailWrapper> resultList  = quote.getQuoteDetails().stream().map(getQuoteDetails).collect(Collectors.toList());
+
+        return getResult(resultList);
+    }
+
     private Function<Quote, QuoteWrapper> getQuotes = (t) -> {
         QuoteWrapper quoteWrapper = new QuoteWrapper();
         quoteWrapper.setQuoteId(t.getQuoteId());
@@ -92,7 +104,16 @@ public class ApiQuoteController {
         return quoteWrapper;
     };
 
-    private Map<String, Object> getResult(List<QuoteWrapper> resultList){
+    private Function<QuoteDetail, QuoteDetailWrapper> getQuoteDetails = (t) -> {
+        QuoteDetailWrapper quoteDetailWrapper = new QuoteDetailWrapper();
+        quoteDetailWrapper.setDescription(t.getDescription());
+        quoteDetailWrapper.setMeasure(t.getMeasure());
+        quoteDetailWrapper.setQuantity(t.getQuantity());
+
+        return quoteDetailWrapper;
+    };
+
+    private Map<String, Object> getResult(List<? extends AbstractWrapper> resultList){
         Map<String, Object> result = new HashMap<>();
 
         result.put("data", resultList);
