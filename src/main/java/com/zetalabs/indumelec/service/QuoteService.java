@@ -8,8 +8,8 @@ import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.model.types.InvoiceType;
 import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.repository.CompanyRepository;
-import com.zetalabs.indumelec.repository.QuoteDetailRepository;
 import com.zetalabs.indumelec.repository.QuoteRepository;
+import com.zetalabs.indumelec.utils.IndumelecFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -197,6 +196,16 @@ public class QuoteService {
 
     public Quote getQuoteById(Long quoteId){
         return quoteRepository.getOne(quoteId);
+    }
+
+    public void updateQuote(User loggedUser, Long quoteId, String deliveryDate, String comments){
+        Quote quote = quoteRepository.getOne(quoteId);
+
+        quote.setLastUpdate(LocalDateTime.now());
+        quote.setDeliveryDate(LocalDate.parse(deliveryDate, IndumelecFormatter.dateFormat));
+        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.UPDATE_DELIVERY, "Fecha de entrega actualizada", comments));
+
+        quoteRepository.save(quote);
     }
 
     public byte[] getQuotePdf(Quote quote){

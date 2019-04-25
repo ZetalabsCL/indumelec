@@ -43,8 +43,11 @@
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                    <a th:id="'detail_'+${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                 </div>
@@ -67,6 +70,9 @@
                                                     <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
                                                     </a>
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-file-find"></i> Historial
+                                                    </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -87,6 +93,9 @@
                                                 <div class="media-body">
                                                     <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                 </div>
@@ -109,6 +118,9 @@
                                                     <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
                                                     </a>
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-file-find"></i> Historial
+                                                    </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -129,6 +141,9 @@
                                                 <div class="media-body">
                                                     <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                 </div>
@@ -170,21 +185,49 @@
     </div>
 
     <div id="quoteDetails" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
-                    <h4 class="modal-title" id="primary-header-modalLabel">Informacion OT</h4>
+                    <h4 class="modal-title">Informacion OT</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
                     <h5 class="mt-0 text-dark">Detalles</h5>
 
-                    <table class="table table-centered table-hover mb-0" id="quote-details">
+                    <table class="table table-centered table-hover mb-0" id="quote-details" style="width:100%">
                         <thead>
                         <tr>
                             <th>Cantidad</th>
                             <th>Descripci&oacute;n</th>
                             <th>Medidas</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="quoteHistory" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Historial OT</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">Detalles</h5>
+
+                    <table class="table table-centered table-hover mb-0" id="quote-history" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Descripci&oacute;n</th>
+                            <th>Comentarios</th>
+                            <th>Usuario</th>
                         </tr>
                         </thead>
                     </table>
@@ -245,6 +288,7 @@
                 $('#quote-details').DataTable( {
                     responsive: true,
                     destroy: true,
+                    searching: false,
                     ajax: {
                         url: '/api/quote/details',
                         data: { quoteId: $('#'+this.id).data('quoteid') }
@@ -292,6 +336,61 @@
                 });
 
                 $('#quoteDetails').modal('show');
+            });
+
+            $('.otHistory').on('click', function(){
+                $('#quote-history').DataTable( {
+                    responsive: true,
+                    destroy: true,
+                    searching: false,
+                    ajax: {
+                        url: '/api/quote/history',
+                        data: { quoteId: $('#'+this.id).data('quoteid') }
+                    },
+                    columns: [
+                        {'data': 'entryDate'},
+                        {'data': 'description'},
+                        {'data': 'comments'},
+                        {'data': 'user'}
+                    ],
+                    dom: "<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-7'i><'col-sm-5'p>>",
+                    buttons: [
+                        {
+                            extend: 'excel',
+                            text: 'Excel',
+                            className: 'btn btn-default',
+                            title: 'Detalle',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            className: 'btn btn-default',
+                            title: 'Detalle',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        }
+                    ],
+                    language: {
+                        lengthMenu: "Mostrando _MENU_ registros por p&aacute;gina",
+                        zeroRecords: "Sin resultados - lo siento!",
+                        info: "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
+                        infoEmpty: "No hay registros disponibles",
+                        search: "Buscar",
+                        infoFiltered: "(filtrados de _MAX_ registros totales)",
+                        paginate: {
+                            previous: "Anterior",
+                            next: "Siguiente"
+                        }
+                    }
+                });
+
+                $('#quoteHistory').modal('show');
             });
         });
     </script>

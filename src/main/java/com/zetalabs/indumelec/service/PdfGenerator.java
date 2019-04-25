@@ -32,8 +32,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-
 @Component
 public class PdfGenerator {
     private String defaultFont = StandardFonts.TIMES_ROMAN;

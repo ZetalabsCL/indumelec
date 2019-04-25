@@ -2,11 +2,14 @@ package com.zetalabs.indumelec.api.controller;
 
 import com.zetalabs.indumelec.api.dto.AbstractWrapper;
 import com.zetalabs.indumelec.api.dto.QuoteDetailWrapper;
+import com.zetalabs.indumelec.api.dto.QuoteHistoryWrapper;
 import com.zetalabs.indumelec.api.dto.QuoteWrapper;
 import com.zetalabs.indumelec.model.Quote;
 import com.zetalabs.indumelec.model.QuoteDetail;
+import com.zetalabs.indumelec.model.QuoteHistory;
 import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.model.types.Status;
+import com.zetalabs.indumelec.service.QuoteHistoryService;
 import com.zetalabs.indumelec.service.QuoteService;
 import com.zetalabs.indumelec.service.UserService;
 import com.zetalabs.indumelec.utils.IndumelecFormatter;
@@ -32,6 +35,9 @@ public class ApiQuoteController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private QuoteHistoryService quoteHistoryService;
 
     @RequestMapping("/api/quote/reviewList")
     public Map<String, Object> quoteReviewList() {
@@ -113,6 +119,33 @@ public class ApiQuoteController {
         return getResult(resultList);
     }
 
+    @RequestMapping("/api/quote/history")
+    public Map<String, Object> historyQuote(@RequestParam("quoteId") Long quoteId) {
+        List<QuoteHistory> quoteHistoryList = quoteHistoryService.getAllByQuoteId(quoteId);
+
+        List<QuoteHistoryWrapper> resultList  = quoteHistoryList.stream().map(getQuoteHistory).collect(Collectors.toList());
+
+        return getResult(resultList);
+    }
+
+    @RequestMapping("/api/quote/info")
+    public QuoteWrapper infoQuote(@RequestParam("quoteId") Long quoteId) {
+        Quote quote = quoteService.getQuoteById(quoteId);
+        QuoteWrapper quoteWrapper = getQuotes.apply(quote);
+
+        return quoteWrapper;
+    }
+
+    @RequestMapping("/api/quote/update")
+    public ResponseEntity updateQuote(@RequestParam("quoteId") Long quoteId, @RequestParam("userId") String userId,
+                                    @RequestParam("deliveryDate") String deliveryDate, @RequestParam("comments") String comments) {
+        User user = userService.getUserByMail(userId);
+
+        quoteService.updateQuote(user, quoteId, deliveryDate, comments);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     private Function<Quote, QuoteWrapper> getQuotes = (t) -> {
         QuoteWrapper quoteWrapper = new QuoteWrapper();
         quoteWrapper.setQuoteId(t.getQuoteId());
@@ -137,6 +170,16 @@ public class ApiQuoteController {
         quoteDetailWrapper.setQuantity(t.getQuantity());
 
         return quoteDetailWrapper;
+    };
+
+    private Function<QuoteHistory, QuoteHistoryWrapper> getQuoteHistory = (t) -> {
+        QuoteHistoryWrapper quoteHistoryWrapper = new QuoteHistoryWrapper();
+        quoteHistoryWrapper.setEntryDate(t.getEntryDate().format(IndumelecFormatter.dateFormat));
+        quoteHistoryWrapper.setComments(t.getComments());
+        quoteHistoryWrapper.setDescription(t.getDescription());
+        quoteHistoryWrapper.setUser(t.getUser().getName());
+
+        return quoteHistoryWrapper;
     };
 
     private Map<String, Object> getResult(List<? extends AbstractWrapper> resultList){

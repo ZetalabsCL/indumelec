@@ -5,6 +5,7 @@ import com.zetalabs.indumelec.model.Quote;
 import com.zetalabs.indumelec.model.QuoteDetail;
 import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.service.QuoteService;
+import com.zetalabs.indumelec.utils.IndumelecFormatter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -19,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 @Controller
@@ -74,9 +74,8 @@ public class QuoteController {
     @RequestMapping(params = "save", value={"/quote/save"}, method = RequestMethod.POST)
     public String save(HttpSession session, Model model, Quote quote){
         User loggedUser = (User) session.getAttribute("user");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        quote.setDeliveryDate(LocalDate.parse(quote.getDeliveryDateStr(), formatter));
+        quote.setDeliveryDate(LocalDate.parse(quote.getDeliveryDateStr(), IndumelecFormatter.dateFormat));
         quoteService.saveQuote(loggedUser, quote);
 
         return "redirect:/dashboard";

@@ -211,7 +211,7 @@
                             <div class="col-2">
                                 <div class="form-group">
                                     <label for="deliveryDate">Fecha Entrega:</label>
-                                    <input type="text" class="form-control date" id="deliveryDate" name="deliveryDate" data-toggle="date-picker" data-single-date-picker="true" th:field="${quote.deliveryDateStr}" />
+                                    <input type="text" class="form-control date" id="deliveryDate" name="deliveryDate" data-toggle="date-picker" data-single-date-picker="true" th:field="${quote.deliveryDateStr}" readonly="readonly" />
                                 </div>
                             </div>
                         </div>
@@ -310,8 +310,8 @@
             $('#deliveryDate').daterangepicker({
                 singleDatePicker: true,
                 opens: 'center',
-                startDate: moment().startOf('day').format('dd/MM/yyyy'),
-                endDate: moment().endOf('day').format('dd/MM/yyyy'),
+                startDate: moment().startOf('day').format('DD/MM/YYYY'),
+                endDate: moment().endOf('day').format('DD/MM/YYYY'),
                 locale: {
                     format: 'DD/MM/YYYY',
                     firstDay: 1,

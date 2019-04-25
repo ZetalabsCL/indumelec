@@ -1,7 +1,8 @@
 package com.zetalabs.indumelec.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +17,8 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "quote_document")
 public class QuoteDocument implements Serializable, Comparable<QuoteDocument> {
@@ -40,7 +42,7 @@ public class QuoteDocument implements Serializable, Comparable<QuoteDocument> {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnore
+    @JsonManagedReference
     private User user;
 
     @Override
