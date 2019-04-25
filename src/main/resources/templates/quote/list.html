@@ -125,6 +125,7 @@
                         'data': null,
                         'searchable': false,
                         'sortable': false,
+                        'visible': /*[[${T(com.zetalabs.indumelec.model.types.AppRole).ADMIN.equals(session.role)}]]*/ false,
                         'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {
                             $(nTd).addClass('text-right');
                             $(nTd).html(
