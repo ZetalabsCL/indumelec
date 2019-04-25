@@ -4,6 +4,7 @@ import com.itextpdf.kernel.events.Event;
 import com.itextpdf.kernel.events.IEventHandler;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Table;
 
@@ -18,8 +19,15 @@ public class TableHeaderEventHandler implements IEventHandler {
     public void handleEvent(Event event){
         PdfDocumentEvent documentEvent = (PdfDocumentEvent) event;
         PdfDocument pdfDocument = documentEvent.getDocument();
-
+        PdfPage page = documentEvent.getPage();
         Document document = new Document(pdfDocument);
-        document.add(this.table);
+
+        if (pdfDocument.getPageNumber(page) == 1)
+        {
+            document.setTopMargin(10);
+            document.add(this.table);
+        } else {
+            document.setTopMargin(60);
+        }
     }
 }

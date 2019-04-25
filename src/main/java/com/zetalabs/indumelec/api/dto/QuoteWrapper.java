@@ -1,8 +1,10 @@
 package com.zetalabs.indumelec.api.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class QuoteWrapper extends AbstractWrapper {
     private Long quoteId;
     private String quoteCode;

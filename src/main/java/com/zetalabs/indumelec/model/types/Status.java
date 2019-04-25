@@ -10,11 +10,12 @@ public enum Status {
     REJECTED("Rechazada"),
     PROJECT("Proyecto"),
     CUT("Corte - Plegado"),
-    PRODUCTION("Producci&oacute;n"),
+    PRODUCTION("Produccion"),
     BUILD("Armado"),
     DELIVERY("Despacho"),
     COMPLETED("Completada"),
-    RETURNED("Regresada");
+    RETURNED("Regresada"),
+    UPDATE_DELIVERY("Fecha Entrega Actualizada");
 
     private String description;
 
