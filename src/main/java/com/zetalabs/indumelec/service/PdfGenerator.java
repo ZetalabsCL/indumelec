@@ -31,6 +31,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 
 @Component
 public class PdfGenerator {
@@ -120,7 +121,7 @@ public class PdfGenerator {
     }
 
     private Paragraph getCurrentDatePg() throws IOException{
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM 'de' yyyy");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("EEEE dd 'de' MMMM 'de' yyyy", Locale.forLanguageTag("es-CL"));
         String currentDate = "Santiago, " + LocalDate.now().format(dateTimeFormatter);
 
         Paragraph paragraph = getParagraph(currentDate);
