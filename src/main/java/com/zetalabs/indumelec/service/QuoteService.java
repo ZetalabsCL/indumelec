@@ -2,7 +2,6 @@ package com.zetalabs.indumelec.service;
 
 import com.zetalabs.indumelec.model.Company;
 import com.zetalabs.indumelec.model.Quote;
-import com.zetalabs.indumelec.model.QuoteDetail;
 import com.zetalabs.indumelec.model.QuoteHistory;
 import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.model.types.InvoiceType;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -60,37 +58,11 @@ public class QuoteService {
 
         quote.setLastUpdate(LocalDateTime.now());
         quote.setQuoteHistories(getInitialQuoteHistory(user));
-        quote.setAmount(getQuoteAmount(quote.getQuoteDetailsList()));
-        quote.setQuoteDetails(getQuoteDetails(quote.getQuoteDetailsList()));
 
         quoteRepository.save(quote);
 
         quote.setQuoteCode(getQuoteCode(quote));
         quoteRepository.save(quote);
-    }
-
-    private BigDecimal getQuoteAmount(List<QuoteDetail> quoteDetailList){
-        BigDecimal quoteAmount = BigDecimal.ZERO;
-
-        if (quoteDetailList!=null) {
-            for (QuoteDetail detail : quoteDetailList) {
-                quoteAmount = quoteAmount.add(detail.getPrice().multiply(detail.getQuantity()));
-            }
-        }
-
-        return quoteAmount;
-    }
-
-    private SortedSet<QuoteDetail> getQuoteDetails(List<QuoteDetail> quoteDetailList){
-        SortedSet<QuoteDetail> quoteDetails = new TreeSet<>();
-        int count = 1;
-
-        for (QuoteDetail quoteDetail : quoteDetailList){
-            quoteDetail.setOrderId(count++);
-            quoteDetails.add(quoteDetail);
-        }
-
-        return quoteDetails;
     }
 
     private SortedSet<QuoteHistory> getInitialQuoteHistory(User loggedUser){

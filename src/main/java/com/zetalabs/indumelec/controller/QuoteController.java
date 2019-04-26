@@ -1,26 +1,16 @@
 package com.zetalabs.indumelec.controller;
 
-import com.zetalabs.indumelec.model.Company;
 import com.zetalabs.indumelec.model.Quote;
-import com.zetalabs.indumelec.model.QuoteDetail;
-import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.service.QuoteService;
-import com.zetalabs.indumelec.utils.IndumelecFormatter;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
-import java.util.LinkedList;
 
 @Controller
 public class QuoteController {
@@ -36,49 +26,11 @@ public class QuoteController {
     }
 
     @RequestMapping(value={"/quote/new"}, method = RequestMethod.GET)
-    public ModelAndView newquote(Model model){
+    public ModelAndView newquote(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("quote/new");
 
-        Quote quote = new Quote();
-        quote.setQuoteDetailsList(new LinkedList<>());
-        quote.setCompany(new Company());
-        quote.setQuoteDetail(new QuoteDetail());
-        quote.setDeliveryDate(LocalDate.now());
-
-        model.addAttribute("quote", quote);
-
         return modelAndView;
-    }
-
-    @RequestMapping(params = "add", value={"/quote/save"}, method = RequestMethod.POST)
-    public ModelAndView add(Quote quote){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("quote/new");
-
-        if (quote.getQuoteDetailsList() == null){
-            quote.setQuoteDetailsList(new LinkedList<>());
-        }
-
-        QuoteDetail newQuoteDetail = new QuoteDetail();
-        BeanUtils.copyProperties(quote.getQuoteDetail(), newQuoteDetail);
-
-        newQuoteDetail.setOrderId(quote.getQuoteDetailsList().size() + 1);
-        quote.getQuoteDetailsList().add(newQuoteDetail);
-
-        quote.setQuoteDetail(new QuoteDetail());
-
-        return modelAndView;
-    }
-
-    @RequestMapping(params = "save", value={"/quote/save"}, method = RequestMethod.POST)
-    public String save(HttpSession session, Model model, Quote quote){
-        User loggedUser = (User) session.getAttribute("user");
-
-        quote.setDeliveryDate(LocalDate.parse(quote.getDeliveryDateStr(), IndumelecFormatter.dateFormat));
-        quoteService.saveQuote(loggedUser, quote);
-
-        return "redirect:/dashboard";
     }
 
     @RequestMapping(value={"/quote/downloadQuotePdf"}, method = RequestMethod.GET)

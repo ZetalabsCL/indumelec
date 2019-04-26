@@ -160,11 +160,11 @@ public class PdfGenerator {
             detailsTbl.addCell(getRowCell(detail.getDescription()));
             detailsTbl.addCell(getRowCell(detail.getMeasure()));
 
-            Cell cell = getRowCell(IndumelecFormatter.numberFormatNoDecimalsForMoney.format(detail.getPrice()));
+            Cell cell = getRowCell(IndumelecFormatter.numberFormatNoDecimalsForCurrency.format(detail.getPrice()));
             cell.setTextAlignment(TextAlignment.RIGHT);
             detailsTbl.addCell(cell);
 
-            cell = getRowCell(IndumelecFormatter.numberFormatNoDecimalsForMoney.format(total));
+            cell = getRowCell(IndumelecFormatter.numberFormatNoDecimalsForCurrency.format(total));
             cell.setTextAlignment(TextAlignment.RIGHT);
             detailsTbl.addCell(cell);
         }
@@ -174,7 +174,7 @@ public class PdfGenerator {
         cellTxt.setBorder(Border.NO_BORDER);
         detailsTbl.addCell(cellTxt);
 
-        cellTxt = getRowCell(IndumelecFormatter.numberFormatNoDecimalsForMoney.format(quote.getAmount()),1,2);
+        cellTxt = getRowCell(IndumelecFormatter.numberFormatNoDecimalsForCurrency.format(quote.getAmount()),1,2);
         cellTxt.setTextAlignment(TextAlignment.RIGHT);
         detailsTbl.addCell(cellTxt);
 

@@ -21,11 +21,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.SortedSet;
 
 @Getter
@@ -115,13 +113,4 @@ public class Quote {
     @OrderBy("entry_date ASC")
     @JsonBackReference
     private SortedSet<QuoteDocument> quoteDocuments;
-
-    @Transient
-    private List<QuoteDetail> quoteDetailsList;
-
-    @Transient
-    private QuoteDetail quoteDetail;
-
-    @Transient
-    private String deliveryDateStr;
 }

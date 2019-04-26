@@ -4,15 +4,23 @@ import com.zetalabs.indumelec.api.dto.AbstractWrapper;
 import com.zetalabs.indumelec.api.dto.QuoteDetailWrapper;
 import com.zetalabs.indumelec.api.dto.QuoteHistoryWrapper;
 import com.zetalabs.indumelec.api.dto.QuoteWrapper;
+import com.zetalabs.indumelec.model.Company;
 import com.zetalabs.indumelec.model.Quote;
 import com.zetalabs.indumelec.model.QuoteDetail;
 import com.zetalabs.indumelec.model.QuoteHistory;
 import com.zetalabs.indumelec.model.User;
+import com.zetalabs.indumelec.model.types.DeliveryType;
+import com.zetalabs.indumelec.model.types.InvoiceType;
+import com.zetalabs.indumelec.model.types.PaymentType;
+import com.zetalabs.indumelec.model.types.SignatureType;
 import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.service.QuoteHistoryService;
 import com.zetalabs.indumelec.service.QuoteService;
 import com.zetalabs.indumelec.service.UserService;
 import com.zetalabs.indumelec.utils.IndumelecFormatter;
+import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +28,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
+@Slf4j
 public class ApiQuoteController {
     @Autowired
     private QuoteService quoteService;
@@ -146,6 +161,19 @@ public class ApiQuoteController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/api/quote/save")
+    public ResponseEntity saveUser(@RequestParam("frmInfo") String frmInfo, @RequestParam("userId") String userId, @RequestParam("details") String details) throws ParseException {
+        if (frmInfo!=null){
+            User user = userService.getUserByMail(userId);
+            Quote quote = getQuote(frmInfo, details);
+            quoteService.saveQuote(user, quote);
+
+            log.info("Test");
+        }
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     private Function<Quote, QuoteWrapper> getQuotes = (t) -> {
         QuoteWrapper quoteWrapper = new QuoteWrapper();
         quoteWrapper.setQuoteId(t.getQuoteId());
@@ -191,5 +219,72 @@ public class ApiQuoteController {
         result.put("recordsFiltered", resultList.size());
 
         return result;
+    }
+
+    private Quote getQuote(String frmInfo, String details) throws ParseException{
+        Quote quote = new Quote();
+        Company company = new Company();
+
+        Map<String, String> map = getMap(new JSONArray(frmInfo));
+
+        company.setTaxId(map.get("taxid"));
+
+        quote.setReference(map.get("reference"));
+        quote.setManufacture(map.get("manufacture"));
+        quote.setPaymentType(PaymentType.valueOf(map.get("paymentType")));
+        quote.setOtherPayment(map.get("otherPayment"));
+        quote.setDeliveryType(DeliveryType.valueOf(map.get("deliveryType")));
+        quote.setComments(map.get("comments"));
+        quote.setDeliveryDate(LocalDate.parse(map.get("deliveryDate"), IndumelecFormatter.dateFormat));
+        quote.setPartialDelivery(map.get("partialDelivery"));
+        quote.setDeliveryLocation(map.get("deliveryLocation"));
+        quote.setInvoice(InvoiceType.valueOf(map.get("invoice")));
+        quote.setSignature(SignatureType.valueOf(map.get("signature")));
+
+        quote.setCompany(company);
+        quote.setQuoteDetails(getDetails(new JSONArray(details)));
+
+        BigDecimal total = quote.getQuoteDetails()
+                .stream()
+                .map(a -> a.getQuantity().multiply(a.getPrice()))
+                .reduce(BigDecimal::add)
+                .get();
+
+        quote.setAmount(total);
+
+        return quote;
+    }
+
+    private Map<String, String> getMap(JSONArray array){
+        Map<String, String> map = new HashMap<>();
+
+        for (Object obj: array){
+            JSONObject jsonObject = (JSONObject) obj;
+            map.put(jsonObject.get("name").toString(), jsonObject.get("value").toString());
+        }
+
+        return map;
+    }
+
+    private SortedSet<QuoteDetail> getDetails(JSONArray array) throws ParseException {
+        SortedSet<QuoteDetail> details = new TreeSet<>();
+        int count=1;
+
+        for (Object obj : array){
+            JSONArray jsonObject = (JSONArray) obj;
+            QuoteDetail detail = new QuoteDetail();
+            detail.setQuantity(jsonObject.getBigDecimal(0));
+            detail.setDescription(jsonObject.getString(1));
+            detail.setMeasure(jsonObject.getString(2));
+
+            String priceStr = jsonObject.getString(3);
+            BigDecimal price = BigDecimal.valueOf(IndumelecFormatter.numberFormatForCurrency.parse(priceStr).longValue());
+            detail.setPrice(price);
+            detail.setOrderId(count++);
+
+            details.add(detail);
+        }
+
+        return details;
     }
 }
