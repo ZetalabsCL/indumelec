@@ -386,7 +386,7 @@
                         $("#measure").val(),
                         '$ ' + price.toLocaleString('es-CL'),
                         '$ ' + total.toLocaleString('es-CL'),
-                        '<button id="removeRow" name="removeRow" class="btn btn-danger" type="button">Eliminar</button>'
+                        '<button id="removeRow" name="removeRow" class="btn btn-danger removeRow" type="button">Eliminar</button>'
                     ]).draw();
 
                     $("#quantity").val('');
@@ -397,6 +397,7 @@
             });
 
             $("#cotizaciones-table tbody").on('click', '.removeRow', function(){
+                console.log('click');
                 $(this).parent().parent().remove();
             });
 

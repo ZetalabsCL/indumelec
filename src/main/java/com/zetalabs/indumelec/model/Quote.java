@@ -45,28 +45,28 @@ public class Quote {
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
 
-    @Column(name = "reference", length = 100)
+    @Column(name = "reference")
     private String reference;
 
-    @Column(name = "manufacture", length = 100)
+    @Column(name = "manufacture")
     private String manufacture;
 
     @Column(name = "payment_type")
     private PaymentType paymentType;
 
-    @Column(name = "other_payment", length = 100)
+    @Column(name = "other_payment")
     private String otherPayment;
 
     @Column(name = "delivery_type")
     private DeliveryType deliveryType;
 
-    @Column(name = "comments", length = 100)
+    @Column(name = "comments")
     private String comments;
 
-    @Column(name = "partial_delivery", length = 100)
+    @Column(name = "partial_delivery")
     private String partialDelivery;
 
-    @Column(name = "delivery_location", length = 100)
+    @Column(name = "delivery_location")
     private String deliveryLocation;
 
     @Column(name = "invoice")
@@ -81,10 +81,10 @@ public class Quote {
     @Column(name = "amount")
     private BigDecimal amount = BigDecimal.ZERO;
 
-    @Column(name = "work_order", length = 100)
+    @Column(name = "work_order")
     private String workOrder;
 
-    @Column(name = "quote_code", length = 100)
+    @Column(name = "quote_code")
     private String quoteCode;
 
     @OneToOne(fetch = FetchType.LAZY)

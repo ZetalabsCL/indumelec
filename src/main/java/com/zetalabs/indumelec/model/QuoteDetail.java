@@ -29,10 +29,10 @@ public class QuoteDetail implements Serializable, Comparable<QuoteDetail> {
     @Column(name = "order_id")
     private Integer orderId;
 
-    @Column(name = "description", length = 100)
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "measure", length = 30)
+    @Column(name = "measure")
     private String measure;
 
     @Column(name = "quantity")

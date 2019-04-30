@@ -23,10 +23,10 @@ public class Company {
     @Column(name = "tax_id", length = 15)
     private String taxId;
 
-    @Column(name = "name", length = 100)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "address", length = 100)
+    @Column(name = "address")
     private String address;
 
     @Column(name = "phone", length = 30)
