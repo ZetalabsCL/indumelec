@@ -20,6 +20,7 @@ import com.zetalabs.indumelec.model.Quote;
 import com.zetalabs.indumelec.model.QuoteDetail;
 import com.zetalabs.indumelec.model.types.DeliveryType;
 import com.zetalabs.indumelec.model.types.InvoiceType;
+import com.zetalabs.indumelec.model.types.PaymentType;
 import com.zetalabs.indumelec.utils.IndumelecFormatter;
 import com.zetalabs.indumelec.utils.TableHeaderEventHandler;
 import org.springframework.stereotype.Component;
@@ -188,7 +189,15 @@ public class PdfGenerator {
         document.add(new Paragraph());
         document.add(getParagraph("2.- Plazo entrega en Santiago: " + getBusinessDays(quote.getEntryDate().toLocalDate(), quote.getDeliveryDate())+ " dias habiles."));
         document.add(new Paragraph());
-        document.add(getParagraph("3.- Forma de pago: " + quote.getPaymentType().getDescription()+"."));
+        String paymentText = "3.- Forma de pago: ";
+        
+        if (PaymentType.DEFAULT.equals(quote.getPaymentType())) {
+            paymentText+=quote.getOtherPayment();
+        } else {
+            paymentText+=quote.getPaymentType().getDescription();
+        }
+
+        document.add(getParagraph(paymentText));
         document.add(new Paragraph());
         document.add(getParagraph("4.- Habrá que cotizar nuevamente por cualquier variación en la cantidad."));
         document.add(new Paragraph());
