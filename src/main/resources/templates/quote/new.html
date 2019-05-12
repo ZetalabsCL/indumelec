@@ -97,7 +97,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="description">Descripci&oacute;n:</label>
-                                    <input id="description" name="description" type="text" class="form-control" placeholder="Ingrese Descripci&oacute;n">
+                                    <textarea class="form-control" id="description" name="description" placeholder="Ingrese Descripci&oacute;n" rows="3"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -345,6 +345,8 @@
             var t = $('#cotizaciones-table').DataTable( {
                 responsive: true,
                 searching: false,
+                pageLength: 5,
+                lengthMenu: [ 1, 5, 10, "Todos" ],
                 createdRow: function ( row, data, index ) {
                     $('td', row).eq(2).addClass('text-center');
                     $('td', row).eq(3).addClass('text-right');
@@ -382,7 +384,7 @@
 
                     t.row.add([
                         quantity.toLocaleString('es-CL'),
-                        $("#description").val(),
+                        $("#description").val().replace(/(?:\r\n|\r|\n)/g, '<br>'),
                         $("#measure").val(),
                         '$ ' + price.toLocaleString('es-CL'),
                         '$ ' + total.toLocaleString('es-CL'),
@@ -397,8 +399,7 @@
             });
 
             $("#cotizaciones-table tbody").on('click', '.removeRow', function(){
-                console.log('click');
-                $(this).parent().parent().remove();
+                t.row($(this).parents('tr')).remove().draw();
             });
 
             $(".decimal-0-places").numeric({ decimal: ",", decimalPlaces: 0, negative: false });

@@ -193,7 +193,7 @@ public class ApiQuoteController {
 
     private Function<QuoteDetail, QuoteDetailWrapper> getQuoteDetails = (t) -> {
         QuoteDetailWrapper quoteDetailWrapper = new QuoteDetailWrapper();
-        quoteDetailWrapper.setDescription(t.getDescription());
+        quoteDetailWrapper.setDescription(t.getDescription().replaceAll("\r\n","<br/>"));
         quoteDetailWrapper.setMeasure(t.getMeasure());
         quoteDetailWrapper.setQuantity(t.getQuantity());
 
@@ -274,7 +274,9 @@ public class ApiQuoteController {
             JSONArray jsonObject = (JSONArray) obj;
             QuoteDetail detail = new QuoteDetail();
             detail.setQuantity(jsonObject.getBigDecimal(0));
-            detail.setDescription(jsonObject.getString(1));
+            String description=jsonObject.getString(1);
+            description=description.replaceAll("(?i)<br */?>","\r\n");
+            detail.setDescription(description);
             detail.setMeasure(jsonObject.getString(2));
 
             String priceStr = jsonObject.getString(3);

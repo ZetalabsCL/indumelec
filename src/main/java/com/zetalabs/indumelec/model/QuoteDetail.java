@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -30,6 +31,7 @@ public class QuoteDetail implements Serializable, Comparable<QuoteDetail> {
     private Integer orderId;
 
     @Column(name = "description")
+    @Lob
     private String description;
 
     @Column(name = "measure")
