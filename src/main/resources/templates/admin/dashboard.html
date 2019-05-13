@@ -166,6 +166,7 @@
                         data: {quoteId: $("#quoteId").val(), workOrder: $("#workOrder").val(), userId: /*[[${session.username}]]*/ 'default' },
                         dataType: "json",
                         success: function (data) {
+                            $("#workOrder").val('');
                             $('#quote-review-table').DataTable().ajax.reload();
                         },
                         error: function () {
@@ -344,6 +345,7 @@
                     data: { quoteId: $("#quoteId").val(), userId: /*[[${session.username}]]*/ 'default', comments: $("#commentsDelivery").val() },
                     dataType: "json",
                     success: function (data) {
+                        $("#commentsDelivery").val('');
                         $('#quote-delivery-table').DataTable().ajax.reload();
                     },
                     error: function () {
@@ -358,6 +360,7 @@
                     data: { quoteId: $("#quoteId").val(), userId: /*[[${session.username}]]*/ 'default', comments: $("#commentsReturn").val() },
                     dataType: "json",
                     success: function (data) {
+                        $("#commentsReturn").val('');
                         $('#quote-delivery-table').DataTable().ajax.reload();
                     },
                     error: function () {
