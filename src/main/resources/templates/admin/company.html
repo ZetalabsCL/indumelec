@@ -21,8 +21,8 @@
 </th:block>
 
 <th:block layout:fragment="content">
-    <form th:action="@{/admin/company/save}" method="post">
-        <input th:type="hidden" name="id" th:field="${company.companyId}" />
+    <form method="post">
+        <input type="hidden" id="companyId" name="companyId" value="" />
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -33,25 +33,25 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="taxid">Rut Empresa:</label>
-                                    <input id="taxid" name="taxid" type="text" class="form-control" placeholder="Ingrese el Rut de la Empresa" th:field="${company.taxId}">
+                                    <input id="taxid" name="taxid" type="text" class="form-control" placeholder="Ingrese el Rut de la Empresa">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="name">Nombre de Fantas&iacute;a:</label>
-                                    <input id="name" name="name" type="text" class="form-control"  placeholder="Ingrese el Apelido del Usuario" th:field="${company.name}">
+                                    <input id="name" name="name" type="text" class="form-control"  placeholder="Ingrese el Apelido del Usuario">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="address">Direcci&oacute;n</label>
-                                    <input id="address" name="address" type="text" class="form-control" placeholder="Ingrese Direcci&oacute;n de la Empresa" th:field="${company.address}">
+                                    <input id="address" name="address" type="text" class="form-control" placeholder="Ingrese Direcci&oacute;n de la Empresa">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="phone">Tel&eacute;fono:</label>
-                                    <input id="phone" name="phone" type="text" class="form-control" placeholder="Ingrese Tel&eacute;fono" th:field="${company.phone}">
+                                    <input id="phone" name="phone" type="text" class="form-control" placeholder="Ingrese Tel&eacute;fono">
                                 </div>
                             </div>
                         </div>
@@ -60,25 +60,25 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="contact">Nombre Contacto:</label>
-                                    <input id="contact" name="contact" type="text" class="form-control" placeholder="Ingrese el Nombre del Contacto" th:field="${company.contact}">
+                                    <input id="contact" name="contact" type="text" class="form-control" placeholder="Ingrese el Nombre del Contacto">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="email">E-Mail de Contacto:</label>
-                                    <input id="email" name="email" type="text" class="form-control" placeholder="Ingrese el e-Mail del Contacto" th:field="${company.email}">
+                                    <input id="email" name="email" type="text" class="form-control" placeholder="Ingrese el e-Mail del Contacto">
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="cellphone">Celular:</label>
-                                    <input id="cellphone" name="cellphone" type="text" class="form-control" placeholder="Ingrese Celular" th:field="${company.cellphone}">
+                                    <input id="cellphone" name="cellphone" type="text" class="form-control" placeholder="Ingrese Celular">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="position">Cargo:</label>
-                                    <input id="position" name="position" type="text" class="form-control" placeholder="Ingrese el cargo del contacto" th:field="${company.position}">
+                                    <input id="position" name="position" type="text" class="form-control" placeholder="Ingrese el cargo del contacto">
                                 </div>
                             </div>
                         </div>
@@ -86,54 +86,7 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <button class="btn btn-success" name="Submit" type="Submit" th:text="'Agregar Nueva Empresa'"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title">Empresas Existentes</h4>
-                        <p class="text-muted font-14">
-                            Listado de Empresas existentes, habilitadas para usarlas en el sistema de cotizaci&oacute;n
-                        </p>
-
-                        <div class="row">
-                            <div class="col-12">
-                                <h4 class="header-title"></h4>
-                                <div class="table-responsive">
-                                    <table id="company-table" class="table mt-4">
-                                        <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Empresa</th>
-                                            <th>Rut</th>
-                                            <th>Contacto</th>
-                                            <th class="text-right">Editar / Eliminar</th>
-                                        </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content modal-filled bg-danger">
-                                    <div class="modal-body p-4">
-                                        <div class="text-center">
-                                            <i class="dripicons-wrong h1"></i>
-                                            <h4 class="mt-2">Empresa elimnada correctamente!</h4>
-                                            <p class="mt-3">La Empresa seleccionada, fue eliminada correctamente.</p>
-                                            <button type="button" class="btn btn-light my-2" data-dismiss="modal">Aceptar</button>
-                                        </div>
-                                    </div>
+                                    <a id="saveCompanyBtn" href="#" class="btn btn-success saveCompany" th:text="'Agregar Nueva Empresa'"/>
                                 </div>
                             </div>
                         </div>
@@ -142,12 +95,96 @@
             </div>
         </div>
     </form>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Empresas Existentes</h4>
+                    <p class="text-muted font-14">
+                        Listado de Empresas existentes, habilitadas para usarlas en el sistema de cotizaci&oacute;n
+                    </p>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="header-title"></h4>
+                            <div class="table-responsive">
+                                <table id="company-table" class="table mt-4">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Empresa</th>
+                                        <th>Rut</th>
+                                        <th>Contacto</th>
+                                        <th class="text-right">Editar / Eliminar</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="storedCompanyDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Empresa Almacenada</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">La empresa ha sido guardada correctamente</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="deletedCompanyDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Empresa Eliminada</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">La empresa ha sido eliminada correctamente</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteCompanyDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Eliminar Empresa</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">&iquest;Esta seguro que desea eliminar la empresa?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary confirmDeleteCompany" data-dismiss="modal">Eliminar Empresa</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Volver</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </th:block>
 
 <th:block layout:fragment="script">
     <script>
         $(document).ready(function() {
-            $('#company-table').DataTable( {
+            var tbl = $('#company-table').DataTable( {
                 responsive: true,
                 ajax: '/api/company/list',
                 columns: [
@@ -162,8 +199,8 @@
                         'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {
                             $(nTd).addClass('text-right');
                             $(nTd).html(
-                                '<a id="edit" href="/admin/company/edit/' + oData.companyId + '" class="btn btn-warning"><i class="mdi mdi-comment-processing-outline"></i> Editar</a> - ' +
-                                '<a id="delete" href="/admin/company/delete/' + oData.companyId + '" class="btn btn-danger"><i class="mdi mdi-comment-remove-outline"></i> Eliminar</a>');
+                                '<a id="edit_' + oData.companyId + '" href="#" class="btn btn-info editCompany"><i class="mdi mdi-comment-check-outline"></i> Editar</a>&nbsp;' +
+                                '<a id="delete_' + oData.companyId +'" href="#" class="btn btn-danger deleteCompany" data-toggle="modal" data-target="#deleteCompanyDialog"><i class="mdi mdi-comment-remove-outline"></i> Eliminar</a>');
                         }
                     }
                 ],
@@ -203,7 +240,85 @@
                     }
                 }
             });
+
+            $("#company-table tbody").on('click', '.editCompany', function(){
+                var companyId = $(this).attr('id');
+                var id = companyId.split("_");
+                $("#companyId").val(id[1]);
+
+                $.ajax({
+                    url: '/api/company/edit',
+                    type: "post",
+                    data: { companyId: $("#companyId").val() },
+                    dataType: "json",
+                    success: function (data) {
+                        $("#saveCompanyBtn").text("Actualizar Empresa");
+                        $("#taxid").val(data.taxId);
+                        $("#name").val(data.name);
+                        $("#address").val(data.address);
+                        $("#phone").val(data.phone);
+                        $("#contact").val(data.contact);
+                        $("#email").val(data.email);
+                        $("#cellphone").val(data.cellphone);
+                        $("#position").val(data.position);
+                    },
+                    error: function () {
+                    }
+                });
+            });
+
+            $("#company-table tbody").on('click', '.deleteCompany', function(){
+                var companyId = $(this).attr('id');
+                var id = companyId.split("_");
+                $("#companyId").val(id[1]);
+            });
+
+            $(".saveCompany").on('click', function(){
+                $.ajax({
+                    url: '/api/company/save',
+                    type: "post",
+                    data: { frmInfo: JSON.stringify($('form').serializeArray()) },
+                    dataType: "json",
+                    success: function () {
+                        cleanUpForm();
+                        tbl.ajax.reload();
+                        $('#storedCompanyDialog').modal('show');
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            });
+
+            $(".confirmDeleteCompany").on('click', function(){
+                $.ajax({
+                    url: '/api/company/delete',
+                    type: "post",
+                    data: { companyId: $("#companyId").val() },
+                    dataType: "json",
+                    success: function () {
+                        $('#deletedCompanyDialog').modal('show');
+                        tbl.ajax.reload();
+                    },
+                    error: function (data) {
+                        alert(data.responseText);
+                    }
+                });
+            });
         });
+
+        function cleanUpForm(){
+            $("#saveCompanyBtn").text("Agregar Nueva Empresa");
+            $("#companyId").val('');
+            $("#taxid").val('');
+            $("#name").val('');
+            $("#address").val('');
+            $("#phone").val('');
+            $("#contact").val('');
+            $("#email").val('');
+            $("#cellphone").val('');
+            $("#position").val('');
+        }
     </script>
 </th:block>
 </html>

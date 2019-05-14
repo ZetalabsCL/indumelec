@@ -17,6 +17,7 @@ import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.service.QuoteHistoryService;
 import com.zetalabs.indumelec.service.QuoteService;
 import com.zetalabs.indumelec.service.UserService;
+import com.zetalabs.indumelec.utils.FormUtils;
 import com.zetalabs.indumelec.utils.IndumelecFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
@@ -225,7 +226,7 @@ public class ApiQuoteController {
         Quote quote = new Quote();
         Company company = new Company();
 
-        Map<String, String> map = getMap(new JSONArray(frmInfo));
+        Map<String, String> map = FormUtils.getMap(new JSONArray(frmInfo));
 
         company.setTaxId(map.get("taxid"));
 
@@ -253,17 +254,6 @@ public class ApiQuoteController {
         quote.setAmount(total);
 
         return quote;
-    }
-
-    private Map<String, String> getMap(JSONArray array){
-        Map<String, String> map = new HashMap<>();
-
-        for (Object obj: array){
-            JSONObject jsonObject = (JSONObject) obj;
-            map.put(jsonObject.get("name").toString(), jsonObject.get("value").toString());
-        }
-
-        return map;
     }
 
     private SortedSet<QuoteDetail> getDetails(JSONArray array) throws ParseException {
