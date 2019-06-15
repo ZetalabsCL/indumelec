@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -51,4 +52,9 @@ public class User {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonBackReference
     private Set<Role> roles;
+
+    @PreRemove
+    private void removeGroupsFromUsers() {
+        this.getRoles().clear();
+    }
 }

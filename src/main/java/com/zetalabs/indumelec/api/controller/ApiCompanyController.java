@@ -3,7 +3,6 @@ package com.zetalabs.indumelec.api.controller;
 import com.zetalabs.indumelec.model.Company;
 import com.zetalabs.indumelec.service.CompanyService;
 import com.zetalabs.indumelec.utils.FormUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,10 +87,6 @@ public class ApiCompanyController {
         company.setName(map.get("name"));
         company.setAddress(map.get("address"));
         company.setPhone(map.get("phone"));
-        company.setContact(map.get("contact"));
-        company.setEmail(map.get("email"));
-        company.setCellphone(map.get("cellphone"));
-        company.setPosition(map.get("position"));
 
         return company;
     }

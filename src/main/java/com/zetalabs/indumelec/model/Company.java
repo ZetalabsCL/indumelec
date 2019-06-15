@@ -32,15 +32,6 @@ public class Company {
     @Column(name = "phone", length = 30)
     private String phone;
 
-    @Column(name = "contact", length = 100)
-    private String contact;
-
-    @Column(name = "cellphone", length = 30)
-    private String cellphone;
-
-    @Column(name = "email", length = 50)
-    private String email;
-
-    @Column(name = "position", length = 100)
-    private String position;
+    @Column(name = "active", length = 2)
+    private String active;
 }

@@ -57,33 +57,6 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="contact">Nombre Contacto:</label>
-                                    <input id="contact" name="contact" type="text" class="form-control" placeholder="Ingrese el Nombre del Contacto">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="email">E-Mail de Contacto:</label>
-                                    <input id="email" name="email" type="text" class="form-control" placeholder="Ingrese el e-Mail del Contacto">
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="cellphone">Celular:</label>
-                                    <input id="cellphone" name="cellphone" type="text" class="form-control" placeholder="Ingrese Celular">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="position">Cargo:</label>
-                                    <input id="position" name="position" type="text" class="form-control" placeholder="Ingrese el cargo del contacto">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <a id="saveCompanyBtn" href="#" class="btn btn-success saveCompany" th:text="'Agregar Nueva Empresa'"/>
@@ -115,7 +88,8 @@
                                         <th>#</th>
                                         <th>Empresa</th>
                                         <th>Rut</th>
-                                        <th>Contacto</th>
+                                        <th>Direcci&oacute;n</th>
+                                        <th>Tel&eacute;fono</th>
                                         <th class="text-right">Editar / Eliminar</th>
                                     </tr>
                                     </thead>
@@ -157,7 +131,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-dismiss="modal">Aceptar</button>
-                </div>
+                </div>   
             </div>
         </div>
     </div>
@@ -191,7 +165,8 @@
                     {'data': 'companyId'},
                     {'data': 'name'},
                     {'data': 'taxId'},
-                    {'data': 'contact'},
+                    {'data': 'address'},
+                    {'data': 'phone'},
                     {
                         'data': null,
                         'searchable': false,
@@ -257,10 +232,6 @@
                         $("#name").val(data.name);
                         $("#address").val(data.address);
                         $("#phone").val(data.phone);
-                        $("#contact").val(data.contact);
-                        $("#email").val(data.email);
-                        $("#cellphone").val(data.cellphone);
-                        $("#position").val(data.position);
                     },
                     error: function () {
                     }
@@ -314,10 +285,6 @@
             $("#name").val('');
             $("#address").val('');
             $("#phone").val('');
-            $("#contact").val('');
-            $("#email").val('');
-            $("#cellphone").val('');
-            $("#position").val('');
         }
     </script>
 </th:block>

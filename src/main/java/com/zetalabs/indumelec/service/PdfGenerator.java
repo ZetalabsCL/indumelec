@@ -110,7 +110,7 @@ public class PdfGenerator {
         cellTxt.setBorder(Border.NO_BORDER);
         titleTbl.addCell(cellTxt);
 
-        cellTxt = new Cell(1, 2).add(new Paragraph(getBoldText(quote.getCompany().getContact())));
+        cellTxt = new Cell(1, 2).add(new Paragraph(getBoldText(quote.getContact())));
         cellTxt.setBorder(Border.NO_BORDER);
         titleTbl.addCell(cellTxt);
 

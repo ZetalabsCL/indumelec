@@ -91,6 +91,18 @@ public class Quote {
     @JoinColumn(name = "company_id")
     private Company company;
 
+    @Column(name = "contact", length = 100)
+    private String contact;
+
+    @Column(name = "phone", length = 30)
+    private String phone;
+
+    @Column(name = "cellphone", length = 30)
+    private String cellphone;
+
+    @Column(name = "email", length = 50)
+    private String email;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonBackReference

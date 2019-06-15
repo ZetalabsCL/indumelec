@@ -243,6 +243,10 @@ public class ApiQuoteController {
         quote.setSignature(SignatureType.valueOf(map.get("signature")));
 
         quote.setCompany(company);
+        quote.setContact(map.get("contact"));
+        quote.setPhone(map.get("phone"));
+        quote.setCellphone(map.get("cellphone"));
+        quote.setEmail(map.get("email"));
         quote.setQuoteDetails(getDetails(new JSONArray(details)));
 
         BigDecimal total = quote.getQuoteDetails()
