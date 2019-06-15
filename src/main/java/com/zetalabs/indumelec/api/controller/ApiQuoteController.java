@@ -172,6 +172,15 @@ public class ApiQuoteController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @RequestMapping("/api/quote/comment")
+    public ResponseEntity comment(@RequestParam("userId") String userId, @RequestParam("quoteId") Long quoteId, @RequestParam("comments") String comments) {
+        User user = userService.getUserByMail(userId);
+
+        quoteService.addCommentQuote(user, quoteId, comments);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     private Function<Quote, QuoteWrapper> getQuotes = (t) -> {
         QuoteWrapper quoteWrapper = new QuoteWrapper();
         quoteWrapper.setQuoteId(t.getQuoteId());

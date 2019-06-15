@@ -15,7 +15,8 @@ public enum Status {
     DELIVERY("Despacho"),
     COMPLETED("Completada"),
     RETURNED("Regresada"),
-    UPDATE_DELIVERY("Fecha Entrega Actualizada");
+    UPDATE_DELIVERY("Fecha Entrega Actualizada"),
+    COMMENTED("Comentario Agregado");
 
     private String description;
 

@@ -153,6 +153,15 @@ public class QuoteService {
         quoteRepository.save(quote);
     }
 
+    public void addCommentQuote(User loggedUser, Long quoteId, String comments){
+        Quote quote = quoteRepository.getOne(quoteId);
+
+        quote.setLastUpdate(LocalDateTime.now());
+        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.COMMENTED, "Nuevo Comentario", comments));
+
+        quoteRepository.save(quote);
+    }
+
     private String getQuoteCode(Quote quote){
         String result="JAR-";
         LocalDate currentDate = LocalDate.now();

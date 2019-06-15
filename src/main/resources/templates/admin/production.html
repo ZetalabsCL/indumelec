@@ -46,10 +46,15 @@
                                                     <a th:id="'detail_'+${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
                                                     </a>
+                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
                                                     <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
-                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
                                                 </div>
                                                 <span class="dragula-handle"></span>
                                             </div>
@@ -70,10 +75,15 @@
                                                     <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
                                                     </a>
+                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
                                                     <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
-                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
                                                 </div>
                                                 <span class="dragula-handle"></span>
                                             </div>
@@ -94,10 +104,15 @@
                                                     <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
                                                     </a>
+                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
                                                     <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
-                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
                                                 </div>
                                                 <span class="dragula-handle"></span>
                                             </div>
@@ -118,10 +133,15 @@
                                                     <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
                                                     </a>
+                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
                                                     <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
-                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
                                                 </div>
                                                 <span class="dragula-handle"></span>
                                             </div>
@@ -142,10 +162,15 @@
                                                     <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
                                                     </a>
+                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
                                                     <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
-                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
                                                 </div>
                                                 <span class="dragula-handle"></span>
                                             </div>
@@ -235,6 +260,45 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="otCommentDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Agregar Comentario</h4>
+                    <input type="hidden" id="commentQuoteId"/>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark" id="otCommentWorkOrder">&nbsp;</h5>
+                    <div class="form-group">
+                        <label for="otComments">Comentarios:</label>
+                        <textarea class="form-control" id="otComments" name="otComments" placeholder="Comentarios" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="otCommentAcceptBtn" href="#" class="btn btn-primary addOtComment">Aceptar</a>&nbsp;
+                    <a id="otCommentCancelBtn" href="#" class="btn btn-light" data-dismiss="modal">Cancelar</a>&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="storedOtCommentDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel">Nota Almacenada</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">Su comentario ha sido guardado correctamente</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -393,6 +457,33 @@
                 });
 
                 $('#quoteHistory').modal('show');
+            });
+
+            $('.otComment').on('click', function(){
+                $('#commentQuoteId').val($('#'+this.id).data('quoteid'));
+                $('#otCommentWorkOrder').text('Orden: ' + $('#'+this.id).data('work'));
+                $('#otCommentDialog').modal('show');
+            });
+
+            $('.addOtComment').on('click', function(){
+                $.ajax({
+                    url: '/api/quote/comment',
+                    type: "post",
+                    data: {
+                        userId: /*[[${session.username}]]*/ 'default',
+                        quoteId: $("#commentQuoteId").val(),
+                        comments: $("#otComments").val()
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        $("#otComments").val('');
+                        $('#otCommentDialog').modal('hide');
+                        $('#storedOtCommentDialog').modal('show');
+                    },
+                    error: function () {
+                        console.log('error');
+                    }
+                });
             });
         });
     </script>
