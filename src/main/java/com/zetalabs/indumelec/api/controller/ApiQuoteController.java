@@ -218,8 +218,15 @@ public class ApiQuoteController {
     private Function<QuoteHistory, QuoteHistoryWrapper> getQuoteHistory = (t) -> {
         QuoteHistoryWrapper quoteHistoryWrapper = new QuoteHistoryWrapper();
         quoteHistoryWrapper.setEntryDate(t.getEntryDate().format(IndumelecFormatter.dateFormat));
-        quoteHistoryWrapper.setComments(t.getComments());
-        quoteHistoryWrapper.setDescription(t.getDescription());
+
+        if (t.getDescription()!=null) {
+            quoteHistoryWrapper.setDescription(t.getDescription().replaceAll("\r\n", "<br/>"));
+        }
+
+        if (t.getComments()!=null) {
+            quoteHistoryWrapper.setComments(t.getComments().replaceAll("\r\n", "<br/>"));
+        }
+
         quoteHistoryWrapper.setUser(t.getUser().getName());
 
         return quoteHistoryWrapper;

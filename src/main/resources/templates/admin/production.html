@@ -354,6 +354,8 @@
                     responsive: true,
                     destroy: true,
                     searching: false,
+                    pageLength: 5,
+                    lengthMenu: [ 1, 5, 10, "Todos" ],
                     ajax: {
                         url: '/api/quote/details',
                         data: { quoteId: $('#'+this.id).data('quoteid') }
@@ -409,6 +411,8 @@
                     responsive: true,
                     destroy: true,
                     searching: false,
+                    pageLength: 5,
+                    lengthMenu: [ 1, 5, 10, "Todos" ],
                     ajax: {
                         url: '/api/quote/history',
                         data: { quoteId: $('#'+this.id).data('quoteid') }
