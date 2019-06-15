@@ -21,7 +21,6 @@ import com.zetalabs.indumelec.utils.FormUtils;
 import com.zetalabs.indumelec.utils.IndumelecFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +35,10 @@ import java.time.Period;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @Slf4j
@@ -194,9 +191,17 @@ public class ApiQuoteController {
 
     private Function<QuoteDetail, QuoteDetailWrapper> getQuoteDetails = (t) -> {
         QuoteDetailWrapper quoteDetailWrapper = new QuoteDetailWrapper();
-        quoteDetailWrapper.setDescription(t.getDescription().replaceAll("\r\n","<br/>"));
+
+        if (t.getDescription()!=null) {
+            quoteDetailWrapper.setDescription(t.getDescription().replaceAll("\r\n", "<br/>"));
+        }
+
         quoteDetailWrapper.setMeasure(t.getMeasure());
         quoteDetailWrapper.setQuantity(t.getQuantity());
+
+        if (t.getNotes()!=null) {
+            quoteDetailWrapper.setNotes(t.getNotes().replaceAll("\r\n", "<br/>"));
+        }
 
         return quoteDetailWrapper;
     };
@@ -268,14 +273,23 @@ public class ApiQuoteController {
             JSONArray jsonObject = (JSONArray) obj;
             QuoteDetail detail = new QuoteDetail();
             detail.setQuantity(jsonObject.getBigDecimal(0));
+
             String description=jsonObject.getString(1);
             description=description.replaceAll("(?i)<br */?>","\r\n");
             detail.setDescription(description);
-            detail.setMeasure(jsonObject.getString(2));
+
+            String measure=jsonObject.getString(2);
+            measure=measure.replaceAll("(?i)<br */?>","\r\n");
+            detail.setMeasure(measure);
 
             String priceStr = jsonObject.getString(3);
             BigDecimal price = BigDecimal.valueOf(IndumelecFormatter.numberFormatForCurrency.parse(priceStr).longValue());
             detail.setPrice(price);
+
+            String notes=jsonObject.getString(5);
+            notes=notes.replaceAll("(?i)<br */?>","\r\n");
+            detail.setNotes(notes);
+
             detail.setOrderId(count++);
 
             details.add(detail);

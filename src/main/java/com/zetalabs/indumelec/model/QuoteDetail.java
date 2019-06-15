@@ -35,7 +35,12 @@ public class QuoteDetail implements Serializable, Comparable<QuoteDetail> {
     private String description;
 
     @Column(name = "measure")
+    @Lob
     private String measure;
+
+    @Column(name = "notes")
+    @Lob
+    private String notes;
 
     @Column(name = "quantity")
     private BigDecimal quantity;

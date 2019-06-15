@@ -100,7 +100,7 @@
                                     <textarea class="form-control" id="description" name="description" placeholder="Ingrese Descripci&oacute;n" rows="3"></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="measure">Medidas:</label>
                                     <input id="measure" name="measure" type="text" class="form-control" placeholder="Ingrese Medidas">
@@ -112,7 +112,15 @@
                                     <input id="price" name="price" type="text" class="form-control decimal-0-places text-right" placeholder="Ingrese Precio">
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="notes">Notas:</label>
+                                    <textarea class="form-control" id="notes" name="notes" placeholder="Ingrese Notas" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>&nbsp;</label>
                                     <h4><button id="addRow" name="addRow" class="btn btn-success" style="position: relative;top:-9px;" type="button">Agregar nueva linea</button></h4>
@@ -126,11 +134,12 @@
                                     <table id="cotizaciones-table" class="table mt-4" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th width="10%">Cantidad</th>
-                                                <th width="45%">Descripci&oacute;n</th>
+                                                <th width="5%">Cantidad</th>
+                                                <th width="30%">Descripci&oacute;n</th>
                                                 <th width="15%">Medidas</th>
                                                 <th width="15%">Precio Unitario</th>
                                                 <th width="15%">Precio Total</th>
+                                                <th width="20%">Notas</th>
                                                 <th>&nbsp;</th>
                                             </tr>
                                         </thead>
@@ -385,6 +394,7 @@
                         $("#measure").val(),
                         '$ ' + price.toLocaleString('es-CL'),
                         '$ ' + total.toLocaleString('es-CL'),
+                        $("#notes").val(),
                         '<button id="removeRow" name="removeRow" class="btn btn-danger removeRow" type="button">Eliminar</button>'
                     ]).draw();
 
@@ -392,6 +402,7 @@
                     $("#description").val('');
                     $("#measure").val('');
                     $("#price").val('');
+                    $("#notes").val('');
                 }
             });
 
@@ -497,6 +508,7 @@
             $("#description").val('');
             $("#measure").val('');
             $("#price").val('');
+            $("#notes").val('');
 
             $("#reference").val('');
             $("#manufacture").val('');
