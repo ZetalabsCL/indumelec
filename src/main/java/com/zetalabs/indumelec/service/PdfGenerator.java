@@ -187,7 +187,7 @@ public class PdfGenerator {
         document.add (new Paragraph());
         document.add(getParagraph("1.- Valores Neto NO incluyen I.V.A y Costo de envio."));
         document.add(new Paragraph());
-        document.add(getParagraph("2.- Plazo entrega en Santiago: " + getBusinessDays(quote.getEntryDate().toLocalDate(), quote.getDeliveryDate())+ " dias habiles."));
+        document.add(getParagraph("2.- Plazo entrega en Santiago: " + quote.getBusinessDays() + " dias habiles."));
         document.add(new Paragraph());
         String paymentText = "3.- Forma de pago: ";
         
@@ -391,16 +391,5 @@ public class PdfGenerator {
         }
 
         return txt;
-    }
-
-    private long getBusinessDays(final LocalDate start, final LocalDate end) {
-        final DayOfWeek startW = start.getDayOfWeek();
-        final DayOfWeek endW = end.getDayOfWeek();
-
-        final long days = ChronoUnit.DAYS.between(start, end);
-        final long daysWithoutWeekends = days - 2 * ((days + startW.getValue())/7);
-
-        //adjust for starting and ending on a Sunday:
-        return daysWithoutWeekends + (startW == DayOfWeek.SUNDAY ? 1 : 0) + (endW == DayOfWeek.SUNDAY ? 1 : 0);
     }
 }

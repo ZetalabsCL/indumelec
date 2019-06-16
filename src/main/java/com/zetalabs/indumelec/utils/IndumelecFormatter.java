@@ -8,6 +8,7 @@ import java.util.Locale;
 public class IndumelecFormatter {
     public static DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.forLanguageTag("es-CL"));
     public static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static DateTimeFormatter strDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     public static DecimalFormat numberFormat = new DecimalFormat("#,###", symbols);
     public static DecimalFormat numberFormatForCurrency = new DecimalFormat("$ #,###", symbols);
     public static DecimalFormat numberFormatNoDecimalsForCurrency = new DecimalFormat("$ #,###", symbols);

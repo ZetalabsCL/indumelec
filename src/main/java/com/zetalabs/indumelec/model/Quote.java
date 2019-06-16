@@ -103,6 +103,9 @@ public class Quote {
     @Column(name = "email", length = 50)
     private String email;
 
+    @Column(name = "business_days", length = 50)
+    private Integer businessDays;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonBackReference

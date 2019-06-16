@@ -5,6 +5,7 @@ import com.zetalabs.indumelec.api.dto.QuoteDetailWrapper;
 import com.zetalabs.indumelec.api.dto.QuoteHistoryWrapper;
 import com.zetalabs.indumelec.api.dto.QuoteWrapper;
 import com.zetalabs.indumelec.model.Company;
+import com.zetalabs.indumelec.model.Holiday;
 import com.zetalabs.indumelec.model.Quote;
 import com.zetalabs.indumelec.model.QuoteDetail;
 import com.zetalabs.indumelec.model.QuoteHistory;
@@ -14,6 +15,7 @@ import com.zetalabs.indumelec.model.types.InvoiceType;
 import com.zetalabs.indumelec.model.types.PaymentType;
 import com.zetalabs.indumelec.model.types.SignatureType;
 import com.zetalabs.indumelec.model.types.Status;
+import com.zetalabs.indumelec.service.HolidayService;
 import com.zetalabs.indumelec.service.QuoteHistoryService;
 import com.zetalabs.indumelec.service.QuoteService;
 import com.zetalabs.indumelec.service.UserService;
@@ -30,8 +32,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +56,9 @@ public class ApiQuoteController {
 
     @Autowired
     private QuoteHistoryService quoteHistoryService;
+
+    @Autowired
+    private HolidayService holidayService;
 
     @RequestMapping("/api/quote/reviewList")
     public Map<String, Object> quoteReviewList() {
@@ -192,8 +200,9 @@ public class ApiQuoteController {
         quoteWrapper.setDeliveryDate(t.getDeliveryDate().format(IndumelecFormatter.dateFormat));
         quoteWrapper.setReference(t.getReference());
         quoteWrapper.setAmount(IndumelecFormatter.numberFormat.format(t.getAmount()));
-        Period daysLeft = Period.between(LocalDate.now(), t.getDeliveryDate());
-        quoteWrapper.setDaysLeft(daysLeft.getDays());
+
+        Long businessDays = getBusinessDays(LocalDate.now(), t.getDeliveryDate());
+        quoteWrapper.setDaysLeft(businessDays.intValue());
 
         return quoteWrapper;
     };
@@ -269,6 +278,10 @@ public class ApiQuoteController {
         quote.setCellphone(map.get("cellphone"));
         quote.setEmail(map.get("email"));
         quote.setQuoteDetails(getDetails(new JSONArray(details)));
+        quote.setEntryDate(LocalDateTime.now());
+
+        Long businessDays = getBusinessDays(quote.getEntryDate().toLocalDate(), quote.getDeliveryDate());
+        quote.setBusinessDays(businessDays.intValue());
 
         BigDecimal total = quote.getQuoteDetails()
                 .stream()
@@ -312,5 +325,34 @@ public class ApiQuoteController {
         }
 
         return details;
+    }
+
+    private Long getBusinessDays(final LocalDate startDate, final LocalDate endDate) {
+        final DayOfWeek startW = startDate.getDayOfWeek();
+        final DayOfWeek endW = endDate.getDayOfWeek();
+
+        final long days = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        final long daysWithoutWeekends = days - 2 * ((days + startW.getValue())/7);
+
+        long result = daysWithoutWeekends + (startW == DayOfWeek.SUNDAY ? 1 : 0) + (endW == DayOfWeek.SUNDAY ? 1 : 0);
+        long holidays = getHolidaysCount(startDate, endDate);
+
+        return result - holidays;
+    }
+
+    private Integer getHolidaysCount(LocalDate startDate, LocalDate endDate){
+        List<Holiday> holidayList = holidayService.getHolidayList(startDate, endDate);
+
+        Integer holidayCount=0;
+
+        for (Holiday holiday: holidayList){
+            DayOfWeek dayOfWeek = holiday.getEntryDate().getDayOfWeek();
+
+            if (!DayOfWeek.SATURDAY.equals(dayOfWeek) && (!DayOfWeek.SUNDAY.equals(dayOfWeek))) {
+                holidayCount++;
+            }
+        }
+
+        return holidayCount;
     }
 }

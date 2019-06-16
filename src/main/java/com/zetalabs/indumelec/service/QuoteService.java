@@ -45,7 +45,6 @@ public class QuoteService {
     @Transactional
     public void saveQuote(User user, Quote quote){
         quote.setUser(user);
-        quote.setEntryDate(LocalDateTime.now());
         quote.setStatus(Status.REVIEW);
 
         Company company = companyRepository.findByTaxId(quote.getCompany().getTaxId());
