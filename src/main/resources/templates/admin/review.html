@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+
+<th:block layout:fragment="welcome">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Cotizaci&oacute;n</a></li>
+                        <li class="breadcrumb-item active">Revisi&oacute;n Cotizaci&oacute;n</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Formulario de Revisi&oacute;n Cotizaci&oacute;n</h4>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="content">
+    <form method="post">
+        <input id="quoteId" name="quoteId" type="hidden" th:value="${quoteId}"/>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Datos del Cliente </h4>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="taxid">Rut Cliente:</label>
+                                    <input id="taxid" name="taxid" type="text" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Nombre Cliente:</label>
+                                    <input id="name" name="name" type="text" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="contact">Contacto:</label>
+                                    <input id="contact" name="contact" type="text" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="phone">Tel&eacute;fono:</label>
+                                    <input id="phone" name="phone" type="text" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="cellphone">Celular:</label>
+                                    <input id="cellphone" name="cellphone" type="text" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email">E-Mail:</label>
+                                    <input id="email" name="email" type="text" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Productos y Servicios</h4>
+                        <p class="text-muted font-14">
+                            Listado de productos o servicios solicitados por el cliente
+                        </p>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="quantity">Cantidad:</label>
+                                    <input id="quantity" name="quantity" type="text" class="form-control decimal-0-places" placeholder="Ingrese Cantidad">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="description">Descripci&oacute;n:</label>
+                                    <textarea class="form-control" id="description" name="description" placeholder="Ingrese Descripci&oacute;n" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="measure">Medidas:</label>
+                                    <input id="measure" name="measure" type="text" class="form-control" placeholder="Ingrese Medidas">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="price">Precio:</label>
+                                    <input id="price" name="price" type="text" class="form-control decimal-0-places text-right" placeholder="Ingrese Precio">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="notes">Notas:</label>
+                                    <textarea class="form-control" id="notes" name="notes" placeholder="Ingrese Notas" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <h4><button id="addRow" name="addRow" class="btn btn-success" style="position: relative;top:-9px;" type="button">Agregar nueva linea</button></h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table id="cotizaciones-table" class="table mt-4" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%">Cantidad</th>
+                                                <th width="30%">Descripci&oacute;n</th>
+                                                <th width="20%">Medidas</th>
+                                                <th width="30%">Notas</th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <a href="#" id="approve" name="approve" class="btn btn-success" data-toggle="modal" data-target="#approveQuoteDialog">Aprobar Cotizaci&oacute;n</a>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <a href="#" id="save" name="save" class="btn btn-info" data-toggle="modal" data-target="#storedQuoteDialog">Guardar Cotizaci&oacute;n</a>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <a href="#" id="reject" name="reject" class="btn btn-danger" data-toggle="modal" data-target="#rejectQuoteDialog">Rechazar Cotizaci&oacute;n</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="storedQuoteDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel">Cotizaci&oacute;n Almacenada</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">Su Cotizaci&oacute;n ha sido guardada correctamente</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="approveQuoteDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel2">Confirmar Cotizaci&oacute;n</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">&iquest;Esta seguro que desea aceptar la cotizacion?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar Cotizaci&oacute;n</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Volver</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rejectQuoteDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Rechazar Cotizaci&oacute;n</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">&iquest;Esta seguro que desea rechazar la cotizacion?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"  id="rejectQuote">Rechazar Cotizaci&oacute;n</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Volver</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            var searchParams = new URLSearchParams(window.location.search);
+
+            $.ajax({
+                url: '/api/quote/info',
+                type: "post",
+                data: { quoteId: /*[[${quoteId}]]*/ 'default' },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function () {
+
+                }
+            });
+
+            var t = $('#cotizaciones-table').DataTable( {
+                responsive: true,
+                searching: false,
+                pageLength: 5,
+                lengthMenu: [ 1, 5, 10, "Todos" ],
+                createdRow: function ( row, data, index ) {
+                    $('td', row).eq(2).addClass('text-center');
+                    $('td', row).eq(3).addClass('text-right');
+                    $('td', row).eq(4).addClass('text-right');
+                    $('td', row).eq(5).addClass('text-center');
+
+                    $('td', row).eq(0).addClass('align-middle');
+                    $('td', row).eq(1).addClass('align-middle');
+                    $('td', row).eq(2).addClass('align-middle');
+                    $('td', row).eq(3).addClass('align-middle');
+                    $('td', row).eq(4).addClass('align-middle');
+                    $('td', row).eq(5).addClass('align-middle');
+                }, "language": {
+                    "lengthMenu": "Mostrando _MENU_ registros por p&aacute;gina",
+                    buttons: {
+                        copy: 'Copiar'
+                    },
+                    "zeroRecords": "Sin resultados - lo siento!",
+                    "info": "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay registros disponibles",
+                    "search": "Buscar",
+                    "infoFiltered": "(filtrados de _MAX_ registros totales)",
+                    "paginate": {
+                        "previous": "Anterior",
+                        "next": "Siguiente"
+                    }
+                }
+            });
+
+            $("#addRow").on("click", function() {
+                if (validDetail()) {
+                    var quantity = parseFloat($("#quantity").val());
+                    var price = parseFloat($("#price").val());
+                    var total = isNaN(quantity * price) ? 0 : (quantity * price);
+
+                    t.row.add([
+                        quantity.toLocaleString('es-CL'),
+                        $("#description").val().replace(/(?:\r\n|\r|\n)/g, '<br>'),
+                        $("#measure").val(),
+                        '$ ' + price.toLocaleString('es-CL'),
+                        '$ ' + total.toLocaleString('es-CL'),
+                        $("#notes").val(),
+                        '<button id="removeRow" name="removeRow" class="btn btn-danger removeRow" type="button">Eliminar</button>'
+                    ]).draw();
+
+                    $("#quantity").val('');
+                    $("#description").val('');
+                    $("#measure").val('');
+                    $("#price").val('');
+                    $("#notes").val('');
+                }
+            });
+
+            $("#cotizaciones-table tbody").on('click', '.removeRow', function(){
+                t.row($(this).parents('tr')).remove().draw();
+            });
+
+            $("#approve").on("click", function() {
+                if (validForm(t)) {
+                    var dataArray = [];
+
+                    t.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                        dataArray.push(this.data());
+                    });
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/api/quote/approve',
+                        data: {
+                            frmInfo: JSON.stringify($('form').serializeArray()),
+                            userId: /*[[${session.username}]]*/ 'default',
+                            details: JSON.stringify(dataArray)
+                        },
+                        dataType: 'json',
+                        success: function () {
+                            cleanUpForm(t);
+                            $('#storedQuoteDialog').modal('show');
+                        }
+                    });
+                }
+            });
+
+            $("#save").on("click", function() {
+                if (validForm(t)) {
+                    var dataArray = [];
+
+                    t.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                        dataArray.push(this.data());
+                    });
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/api/quote/approve',
+                        data: {
+                            frmInfo: JSON.stringify($('form').serializeArray()),
+                            userId: /*[[${session.username}]]*/ 'default',
+                            details: JSON.stringify(dataArray)
+                        },
+                        dataType: 'json',
+                        success: function () {
+                            cleanUpForm(t);
+                            $('#storedQuoteDialog').modal('show');
+                        }
+                    });
+                }
+            });
+
+            $("#rejectQuote").on('click', function(){
+                $.ajax({
+                    url: '/api/quote/reject',
+                    type: "post",
+                    data: { quoteId: $("#quoteId").val(), userId: /*[[${session.username}]]*/ 'default' },
+                    dataType: "json",
+                    success: function (data) {
+                        $('#quote-review-table').DataTable().ajax.reload();
+                    },
+                    error: function () {
+                    }
+                });
+            });
+        } );
+    </script>
+</th:block>
+</html>

@@ -161,6 +161,8 @@ public class ApiQuoteController {
     public QuoteWrapper infoQuote(@RequestParam("quoteId") Long quoteId) {
         Quote quote = quoteService.getQuoteById(quoteId);
         QuoteWrapper quoteWrapper = getQuotes.apply(quote);
+        List<QuoteDetailWrapper> details =  quote.getQuoteDetails().stream().map(getQuoteDetails).collect(Collectors.toList());
+        quoteWrapper.setDetails(details);
 
         return quoteWrapper;
     }

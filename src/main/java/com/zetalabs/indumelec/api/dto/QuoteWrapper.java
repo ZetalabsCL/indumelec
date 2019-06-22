@@ -3,6 +3,8 @@ package com.zetalabs.indumelec.api.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class QuoteWrapper extends AbstractWrapper {
@@ -16,4 +18,6 @@ public class QuoteWrapper extends AbstractWrapper {
     private String reference;
     private String amount;
     private Integer daysLeft;
+
+    private List<QuoteDetailWrapper> details;
 }

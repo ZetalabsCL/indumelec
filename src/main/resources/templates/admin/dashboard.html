@@ -21,7 +21,7 @@
                                     <th>Fecha de Entrega</th>
                                     <th>Referencia</th>
                                     <th>Monto</th>
-                                    <th class="text-right">Aprobar / Rechazar</th>
+                                    <th class="text-right">&nbsp;</th>
                                 </tr>
                             </thead>
                         </table>
@@ -46,67 +46,11 @@
                                 <th>Fecha de Entrega</th>
                                 <th>Referencia</th>
                                 <th>Monto</th>
-                                <th class="text-right">Aprobar / Rechazar</th>
+                                <th class="text-right">&nbsp;</th>
                             </tr>
                             </thead>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="approveQuoteDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header modal-colored-header bg-primary">
-                    <h4 class="modal-title" id="primary-header-modalLabel">Confirmar Cotizaci&oacute;n</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    <h5 class="mt-0 text-dark">&iquest;Esta seguro que desea aceptar la cotizacion?</h5>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-target="#workOrderNumberDialog" data-toggle="modal" data-dismiss="modal">Aceptar Cotizaci&oacute;n</button>
-                    <button type="button" class="btn btn-light" data-dismiss="modal">Volver</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="workOrderNumberDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="multiple-twoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title text-dark" id="multiple-twoModalLabel">Ingrese N&uacute;mero OT</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="workOrder">N&uacute;mero OT:</label>
-                        <input type="text" class="form-control" id="workOrder" name="workOrder" placeholder="Ingrese el # de OT">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="generateWorkOrder">Genera OT</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="rejectQuoteDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header modal-colored-header bg-primary">
-                    <h4 class="modal-title">Rechazar Cotizaci&oacute;n</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    <h5 class="mt-0 text-dark">&iquest;Esta seguro que desea rechazar la cotizacion?</h5>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal"  id="rejectQuote">Rechazar Cotizaci&oacute;n</button>
-                    <button type="button" class="btn btn-light" data-dismiss="modal">Volver</button>
                 </div>
             </div>
         </div>
@@ -154,43 +98,14 @@
             </div>
         </div>
     </div>
+    <form id="frmReview" method="post" th:action="@{/admin/review}">
+        <input id="quoteReviewId" name="quoteReviewId" type="hidden"/>
+    </form>
 </th:block>
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $(document).ready(function() {
-            $("#generateWorkOrder").on('click', function(){
-                if ($("#workOrder").val() != '') {
-                    $.ajax({
-                        url: '/api/quote/approve',
-                        type: "post",
-                        data: {quoteId: $("#quoteId").val(), workOrder: $("#workOrder").val(), userId: /*[[${session.username}]]*/ 'default' },
-                        dataType: "json",
-                        success: function (data) {
-                            $("#workOrder").val('');
-                            $('#quote-review-table').DataTable().ajax.reload();
-                        },
-                        error: function () {
-                            console.log('error');
-                        }
-                    });
-                }
-            });
-
-            $("#rejectQuote").on('click', function(){
-                $.ajax({
-                    url: '/api/quote/reject',
-                    type: "post",
-                    data: { quoteId: $("#quoteId").val(), userId: /*[[${session.username}]]*/ 'default' },
-                    dataType: "json",
-                    success: function (data) {
-                        $('#quote-review-table').DataTable().ajax.reload();
-                    },
-                    error: function () {
-                    }
-                });
-            });
-
             $('#quote-review-table').DataTable( {
                 responsive: true,
                 ajax: '/api/quote/reviewList',
@@ -216,9 +131,7 @@
                         'sortable': false,
                         'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {
                             $(nTd).addClass('text-right');
-                            $(nTd).html(
-                                '<a id="approve_' + oData.quoteId + '" href="#" class="btn btn-info approveRejectQuote" data-toggle="modal" data-target="#approveQuoteDialog"><i class="mdi mdi-comment-check-outline"></i> Aprobar</a>&nbsp;' +
-                                '<a id="reject_' + oData.quoteId +'" href="#" class="btn btn-danger approveRejectQuote" data-toggle="modal" data-target="#rejectQuoteDialog"><i class="mdi mdi-comment-remove-outline"></i> Rechazar</a>');
+                            $(nTd).html('<a id="review_' + oData.quoteId + '" href="#" onclick="reviewQuote(' + oData.quoteId + ')" class="btn btn-info quoteReview"><i class="mdi mdi-comment-check-outline"></i> Revisar</a>')
                         }
                     }
                 ],
@@ -385,6 +298,11 @@
                 });
             });
         } );
+
+        function reviewQuote(quoteId){
+            $("#quoteReviewId").val(quoteId);
+            $('form#frmReview').submit();
+        }
     </script>
 </th:block>
 </html>
