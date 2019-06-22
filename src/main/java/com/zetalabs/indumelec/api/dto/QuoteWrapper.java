@@ -13,6 +13,8 @@ public class QuoteWrapper extends AbstractWrapper {
     private String workOrder;
     private String status;
     private String company;
+    private String contact;
+    private String phone;
     private String entryDate;
     private String deliveryDate;
     private String reference;

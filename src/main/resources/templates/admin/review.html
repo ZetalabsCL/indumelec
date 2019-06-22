@@ -28,24 +28,35 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="header-title">Datos del Cliente </h4>
+                        <h4 class="header-title">Informacion General </h4>
                         <br>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="taxid">Rut Cliente:</label>
-                                    <input id="taxid" name="taxid" type="text" class="form-control" readonly="readonly">
+                                    <label for="quoteCode">Codigo Cotizacion:</label>
+                                    <input id="quoteCode" name="quoteCode" type="text" class="form-control" readonly="readonly">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="name">Nombre Cliente:</label>
-                                    <input id="name" name="name" type="text" class="form-control" readonly="readonly">
+                                    <label for="workOrder">Codigo OT:</label>
+                                    <input id="workOrder" name="workOrder" type="text" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="deliveryDate">Fecha de Entrega:</label>
+                                    <input id="deliveryDate" name="deliveryDate" type="text" class="form-control" readonly="readonly">
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Cliente:</label>
+                                    <input id="name" name="name" type="text" class="form-control" readonly="readonly">
+                                </div>
+                            </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="contact">Contacto:</label>
@@ -58,24 +69,11 @@
                                     <input id="phone" name="phone" type="text" class="form-control" readonly="readonly">
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="cellphone">Celular:</label>
-                                    <input id="cellphone" name="cellphone" type="text" class="form-control" readonly="readonly">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="email">E-Mail:</label>
-                                    <input id="email" name="email" type="text" class="form-control" readonly="readonly">
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -160,7 +158,7 @@
                             </div>
                             <div class="col-2">
                                 <div class="form-group">
-                                    <a href="#" id="save" name="save" class="btn btn-info" data-toggle="modal" data-target="#storedQuoteDialog">Guardar Cotizaci&oacute;n</a>
+                                    <a href="#" id="save" name="save" class="btn btn-info" data-toggle="modal" data-target="#storedQuoteDialog">Actualizar Cotizaci&oacute;n</a>
                                 </div>
                             </div>
                             <div class="col-3">
@@ -179,11 +177,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-primary">
-                    <h4 class="modal-title" id="primary-header-modalLabel">Cotizaci&oacute;n Almacenada</h4>
+                    <h4 class="modal-title" id="primary-header-modalLabel">Cotizaci&oacute;n Actualizada</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
-                    <h5 class="mt-0 text-dark">Su Cotizaci&oacute;n ha sido guardada correctamente</h5>
+                    <h5 class="mt-0 text-dark">Su Cotizaci&oacute;n ha sido actualizada correctamente</h5>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-dismiss="modal">Aceptar</button>
@@ -241,6 +239,12 @@
                 dataType: "json",
                 success: function (data) {
                     console.log(data);
+                    $("#quoteCode").val(data.quoteCode);
+                    $("#workOrder").val(data.workOrder);
+                    $("#deliveryDate").val(data.deliveryDate);
+                    $("#name").val(data.company);
+                    $("#contact").val(data.contact);
+                    $("#phone").val(data.phone);
                 },
                 error: function () {
 
@@ -344,7 +348,7 @@
 
                     $.ajax({
                         type: 'post',
-                        url: '/api/quote/approve',
+                        url: '/api/quote/update',
                         data: {
                             frmInfo: JSON.stringify($('form').serializeArray()),
                             userId: /*[[${session.username}]]*/ 'default',
@@ -366,7 +370,7 @@
                     data: { quoteId: $("#quoteId").val(), userId: /*[[${session.username}]]*/ 'default' },
                     dataType: "json",
                     success: function (data) {
-                        $('#quote-review-table').DataTable().ajax.reload();
+                        location.href = /*[[@{/admin/dashboard}]]*/ 'default';
                     },
                     error: function () {
                     }

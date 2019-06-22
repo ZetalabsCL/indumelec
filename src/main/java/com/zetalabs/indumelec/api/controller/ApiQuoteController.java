@@ -208,6 +208,8 @@ public class ApiQuoteController {
         quoteWrapper.setDeliveryDate(t.getDeliveryDate().format(IndumelecFormatter.dateFormat));
         quoteWrapper.setReference(t.getReference());
         quoteWrapper.setAmount(IndumelecFormatter.numberFormat.format(t.getAmount()));
+        quoteWrapper.setContact(t.getContact());
+        quoteWrapper.setPhone(t.getPhone());
 
         Long businessDays = getBusinessDays(LocalDate.now(), t.getDeliveryDate());
         quoteWrapper.setDaysLeft(businessDays.intValue());
