@@ -112,6 +112,14 @@ public class ApiQuoteController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @RequestMapping("/api/quote/reprocess")
+    public ResponseEntity reprocessQuote(@RequestParam("quoteId") Long quoteId, @RequestParam("userId") String userId, @RequestParam("comments") String comments) {
+        User user = userService.getUserByMail(userId);
+        quoteService.reprocessQuote(user, quoteId, comments);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @RequestMapping("/api/quote/reject")
     public ResponseEntity rejectQuote(@RequestParam("quoteId") Long quoteId, @RequestParam("userId") String userId) {
         User user = userService.getUserByMail(userId);
@@ -173,8 +181,6 @@ public class ApiQuoteController {
             User user = userService.getUserByMail(userId);
             Quote quote = getQuote(frmInfo, details);
             quoteService.saveQuote(user, quote);
-
-            log.info("Test");
         }
 
         return ResponseEntity.ok(HttpStatus.OK);

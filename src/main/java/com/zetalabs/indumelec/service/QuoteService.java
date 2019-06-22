@@ -139,6 +139,17 @@ public class QuoteService {
         quoteRepository.save(quote);
     }
 
+    public void reprocessQuote(User loggedUser, Long quoteId, String comments){
+        Quote quote = quoteRepository.getOne(quoteId);
+
+        quote.setStatus(Status.REVIEW);
+        quote.setLastUpdate(LocalDateTime.now());
+        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.RETURNED, "OT devuelta por cliente", comments));
+        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.REVIEW , "OT enviada nuevamente a revision"));
+
+        quoteRepository.save(quote);
+    }
+
     public void moveQuote(User loggedUser, Long quoteId, String comments, String from, String to){
         Quote quote = quoteRepository.getOne(quoteId);
         Status statusFrom = Status.valueOf(from);

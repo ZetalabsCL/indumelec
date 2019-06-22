@@ -147,7 +147,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal"  id="returnQuote">Confirmar Devoluci&oacute;n</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="returnQuote">Confirmar Devoluci&oacute;n</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="reprocessQuote">Confirmar Reingreso</button>
                     <button type="button" class="btn btn-light" data-dismiss="modal">Volver</button>
                 </div>
             </div>
@@ -362,6 +363,22 @@
                     success: function (data) {
                         $("#commentsReturn").val('');
                         $('#quote-delivery-table').DataTable().ajax.reload();
+                    },
+                    error: function () {
+                    }
+                });
+            });
+
+            $("#reprocessQuote").on('click', function(){
+                $.ajax({
+                    url: '/api/quote/reprocess',
+                    type: "post",
+                    data: { quoteId: $("#quoteId").val(), userId: /*[[${session.username}]]*/ 'default', comments: $("#commentsReturn").val() },
+                    dataType: "json",
+                    success: function (data) {
+                        $("#commentsReturn").val('');
+                        $('#quote-delivery-table').DataTable().ajax.reload();
+                        $('#quote-review-table').DataTable().ajax.reload();
                     },
                     error: function () {
                     }
