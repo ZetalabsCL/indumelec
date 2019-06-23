@@ -11,5 +11,6 @@ public class QuoteDetailWrapper extends AbstractWrapper{
     private String description;
     private String measure;
     private BigDecimal quantity;
+    private BigDecimal price;
     private String notes;
 }

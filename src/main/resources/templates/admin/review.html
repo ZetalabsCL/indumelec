@@ -119,7 +119,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>&nbsp;</label>
-                                    <h4><button id="addRow" name="addRow" class="btn btn-success" style="position: relative;top:-9px;" type="button">Agregar nueva linea</button></h4>
+                                    <h4><button id="updateRow" name="updateRow" class="btn btn-success" style="position: relative;top:-9px;" type="button">Actualizar Detalle</button></h4>
                                 </div>
                             </div>
                         </div>
@@ -131,10 +131,12 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%">Cantidad</th>
-                                                <th width="30%">Descripci&oacute;n</th>
-                                                <th width="20%">Medidas</th>
-                                                <th width="30%">Notas</th>
-                                                <th>&nbsp;</th>
+                                                <th width="23%">Descripci&oacute;n</th>
+                                                <th width="11%">Medidas</th>
+                                                <th width="12%">Precio Unitario</th>
+                                                <th width="12%">Precio Total</th>
+                                                <th width="22%">Notas</th>
+                                                <th width="15%">&nbsp;</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -151,19 +153,24 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-2">
+                            <div class="col-1">
                                 <div class="form-group">
-                                    <a href="#" id="approve" name="approve" class="btn btn-success" data-toggle="modal" data-target="#approveQuoteDialog">Aprobar Cotizaci&oacute;n</a>
+                                    <a href="#" id="approve" name="approve" class="btn btn-success" data-toggle="modal" data-target="#approveQuoteDialog">Aprobar</a>
                                 </div>
                             </div>
-                            <div class="col-2">
+                            <div class="col-1">
                                 <div class="form-group">
-                                    <a href="#" id="save" name="save" class="btn btn-info" data-toggle="modal" data-target="#storedQuoteDialog">Actualizar Cotizaci&oacute;n</a>
+                                    <a href="#" id="reject" name="reject" class="btn btn-danger" data-toggle="modal" data-target="#rejectQuoteDialog">Rechazar</a>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            <div class="col-1">
                                 <div class="form-group">
-                                    <a href="#" id="reject" name="reject" class="btn btn-danger" data-toggle="modal" data-target="#rejectQuoteDialog">Rechazar Cotizaci&oacute;n</a>
+                                    <a href="#" id="update" name="update" class="btn btn-info" data-toggle="modal" data-target="#storedQuoteDialog">Actualizar</a>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <div class="form-group">
+                                    <a th:href="@{/admin/dashboard}" id="back" name="back" class="btn btn-info">Volver</a>
                                 </div>
                             </div>
                         </div>
@@ -198,10 +205,10 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
-                    <h5 class="mt-0 text-dark">&iquest;Esta seguro que desea aceptar la cotizacion?</h5>
+                    <h5 class="mt-0 text-dark">&iquest;Esta seguro que desea aprobar la cotizacion?</h5>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar Cotizaci&oacute;n</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="approveQuote">Aprobar Cotizaci&oacute;n</button>
                     <button type="button" class="btn btn-light" data-dismiss="modal">Volver</button>
                 </div>
             </div>
@@ -225,32 +232,32 @@
             </div>
         </div>
     </div>
+
+    <div id="workOrderNumberDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="multiple-twoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-dark" id="multiple-twoModalLabel">Ingrese N&uacute;mero OT</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="workOrder">N&uacute;mero OT:</label>
+                        <input type="text" class="form-control" id="workOrderCode" name="workOrderCode" placeholder="Ingrese el # de OT">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="generateWorkOrder">Genera OT</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </th:block>
 
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $(document).ready(function() {
-            var searchParams = new URLSearchParams(window.location.search);
-
-            $.ajax({
-                url: '/api/quote/info',
-                type: "post",
-                data: { quoteId: /*[[${quoteId}]]*/ 'default' },
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    $("#quoteCode").val(data.quoteCode);
-                    $("#workOrder").val(data.workOrder);
-                    $("#deliveryDate").val(data.deliveryDate);
-                    $("#name").val(data.company);
-                    $("#contact").val(data.contact);
-                    $("#phone").val(data.phone);
-                },
-                error: function () {
-
-                }
-            });
-
+            var selectedRow;
             var t = $('#cotizaciones-table').DataTable( {
                 responsive: true,
                 searching: false,
@@ -260,7 +267,6 @@
                     $('td', row).eq(2).addClass('text-center');
                     $('td', row).eq(3).addClass('text-right');
                     $('td', row).eq(4).addClass('text-right');
-                    $('td', row).eq(5).addClass('text-center');
 
                     $('td', row).eq(0).addClass('align-middle');
                     $('td', row).eq(1).addClass('align-middle');
@@ -285,20 +291,59 @@
                 }
             });
 
-            $("#addRow").on("click", function() {
+            $.ajax({
+                url: '/api/quote/info',
+                type: "post",
+                data: { quoteId: /*[[${quoteId}]]*/ 'default' },
+                dataType: "json",
+                success: function (data) {
+                    $("#quoteCode").val(data.quoteCode);
+                    $("#workOrder").val(data.workOrder);
+                    $("#deliveryDate").val(data.deliveryDate);
+                    $("#name").val(data.company);
+                    $("#contact").val(data.contact);
+                    $("#phone").val(data.phone);
+
+                    var count=0;
+                    data.details.forEach(function(detail){
+                        var quantity = parseFloat(detail.quantity);
+                        var price = parseFloat(detail.price);
+                        var total = isNaN(quantity * price) ? 0 : (quantity * price);
+
+                        t.row.add([
+                            quantity.toLocaleString('es-CL'),
+                            detail.description,
+                            detail.measure,
+                            '$ ' + price.toLocaleString('es-CL'),
+                            '$ ' + total.toLocaleString('es-CL'),
+                            detail.notes,
+                            '<button id="editRow" name="editRow" class="btn btn-info editRow" type="button"><i class="mdi mdi-tooltip-edit"></i> Editar</button>&nbsp;' +
+                            '<button id="removeRow" name="removeRow" class="btn btn-danger removeRow" type="button"><i class="mdi mdi-delete"></i> Eliminar</button>'
+                        ]).node().id = 'row-'+count;
+                        count++;
+                        t.draw(false);
+                    });
+                },
+                error: function () {
+
+                }
+            });
+
+            $("#updateRow").on("click", function() {
                 if (validDetail()) {
                     var quantity = parseFloat($("#quantity").val());
                     var price = parseFloat($("#price").val());
                     var total = isNaN(quantity * price) ? 0 : (quantity * price);
 
-                    t.row.add([
+                    t.row(selectedRow).data([
                         quantity.toLocaleString('es-CL'),
                         $("#description").val().replace(/(?:\r\n|\r|\n)/g, '<br>'),
                         $("#measure").val(),
                         '$ ' + price.toLocaleString('es-CL'),
                         '$ ' + total.toLocaleString('es-CL'),
                         $("#notes").val(),
-                        '<button id="removeRow" name="removeRow" class="btn btn-danger removeRow" type="button">Eliminar</button>'
+                        '<button id="editRow" name="editRow" class="btn btn-info editRow" type="button"><i class="mdi mdi-tooltip-edit"></i> Editar</button>&nbsp;' +
+                        '<button id="removeRow" name="removeRow" class="btn btn-danger removeRow" type="button"><i class="mdi mdi-delete"></i> Eliminar</button>'
                     ]).draw();
 
                     $("#quantity").val('');
@@ -313,8 +358,46 @@
                 t.row($(this).parents('tr')).remove().draw();
             });
 
-            $("#approve").on("click", function() {
+            $('#cotizaciones-table tbody').on( 'click', '.editRow', function () {
+                selectedRow = $(this).parents('tr');
+                var detail = t.row($(this).parents('tr')).data();
+                var strNumber = detail[3].replace('$','').replace(/\./g, '');
+
+                $("#quantity").val(detail[0]);
+                $("#description").val(detail[1]);
+                $("#measure").val(detail[2]);
+                $("#price").val(parseFloat(strNumber));
+                $("#notes").val(detail[5]);
+            });
+
+            $("#update").on("click", function() {
                 if (validForm(t)) {
+                    var dataArray = [];
+
+                    t.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                        dataArray.push(this.data());
+                    });
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/api/quote/save',
+                        data: {
+                            frmInfo: JSON.stringify($('form').serializeArray()),
+                            userId: /*[[${session.username}]]*/ 'default',
+                            details: JSON.stringify(dataArray)
+                        },
+                        dataType: 'json',
+                        success: function () {
+                            $('#storedQuoteDialog').modal('show');
+                        }
+                    });
+                }
+            });
+
+            $("#approveQuote").on("click", function() {
+                var workOrderId = $("#workOrder").val();
+
+                if (validForm(t) && !isEmpty(workOrderId)) {
                     var dataArray = [];
 
                     t.rows().every(function (rowIdx, tableLoop, rowLoop) {
@@ -331,14 +414,15 @@
                         },
                         dataType: 'json',
                         success: function () {
-                            cleanUpForm(t);
-                            $('#storedQuoteDialog').modal('show');
+                            location.href = /*[[@{/admin/dashboard}]]*/ 'default';
                         }
                     });
+                } else if (isEmpty(workOrderId)){
+                    $('#workOrderNumberDialog').modal('show');
                 }
             });
 
-            $("#save").on("click", function() {
+            $("#rejectQuote").on('click', function(){
                 if (validForm(t)) {
                     var dataArray = [];
 
@@ -348,7 +432,7 @@
 
                     $.ajax({
                         type: 'post',
-                        url: '/api/quote/update',
+                        url: '/api/quote/reject',
                         data: {
                             frmInfo: JSON.stringify($('form').serializeArray()),
                             userId: /*[[${session.username}]]*/ 'default',
@@ -356,27 +440,82 @@
                         },
                         dataType: 'json',
                         success: function () {
-                            cleanUpForm(t);
-                            $('#storedQuoteDialog').modal('show');
+                            location.href = /*[[@{/admin/dashboard}]]*/ 'default';
                         }
                     });
                 }
             });
 
-            $("#rejectQuote").on('click', function(){
-                $.ajax({
-                    url: '/api/quote/reject',
-                    type: "post",
-                    data: { quoteId: $("#quoteId").val(), userId: /*[[${session.username}]]*/ 'default' },
-                    dataType: "json",
-                    success: function (data) {
-                        location.href = /*[[@{/admin/dashboard}]]*/ 'default';
-                    },
-                    error: function () {
-                    }
-                });
+            $(".decimal-0-places").numeric({ decimal: ",", decimalPlaces: 0, negative: false });
+
+            $("#generateWorkOrder").on('click', function(){
+                if ($("#workOrderCode").val() != '') {
+                    $("#workOrder").val($("#workOrderCode").val());
+
+                    var dataArray = [];
+
+                    t.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                        dataArray.push(this.data());
+                    });
+
+                    $.ajax({
+                        url: '/api/quote/approve',
+                        type: "post",
+                        data: {
+                            frmInfo: JSON.stringify($('form').serializeArray()),
+                            userId: /*[[${session.username}]]*/ 'default',
+                            details: JSON.stringify(dataArray)
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            location.href = /*[[@{/admin/dashboard}]]*/ 'default';
+                        },
+                        error: function () {
+                            console.log('error');
+                        }
+                    });
+                } else {
+                    alert('Ingrese # OT');
+                }
             });
         } );
+
+        function validDetail(){
+            if ($("#quantity").val()==''){
+                alert('Ingrese Cantidad');
+                return false;
+            }
+
+            if ($("#description").val()==''){
+                alert('Ingrese Descripcion');
+                return false;
+            }
+
+            if ($("#measure").val()==''){
+                alert('Ingrese Medidas');
+                return false;
+            }
+
+            if ($("#price").val()==''){
+                alert('Ingrese Precio');
+                return false;
+            }
+
+            return true;
+        }
+
+        function validForm(tbl){
+            if (tbl.rows().data().count()==0){
+                alert('Cotizacion debe tener un producto al menos');
+                return false;
+            }
+
+            return true;
+        }
+
+        function isEmpty(str) {
+            return (!str || 0 === str.length);
+        }
     </script>
 </th:block>
 </html>

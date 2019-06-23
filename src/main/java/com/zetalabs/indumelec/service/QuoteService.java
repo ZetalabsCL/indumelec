@@ -64,6 +64,17 @@ public class QuoteService {
         quoteRepository.save(quote);
     }
 
+    @Transactional
+    public void updateQuote(User user, Quote quote){
+        Quote dbQuote = quoteRepository.getOne(quote.getQuoteId());
+        dbQuote.getQuoteDetails().clear();
+        dbQuote.setQuoteDetails(quote.getQuoteDetails());
+        dbQuote.setAmount(quote.getAmount());
+        dbQuote.getQuoteHistories().add(getQuoteHistory(user, dbQuote.getStatus(), "Cotizacion Actualizada"));
+
+        quoteRepository.save(dbQuote);
+    }
+
     private SortedSet<QuoteHistory> getInitialQuoteHistory(User loggedUser){
         SortedSet<QuoteHistory> quoteHistories = new TreeSet<>();
 

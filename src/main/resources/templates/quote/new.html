@@ -243,17 +243,17 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <a href="#" id="save" name="save" class="btn btn-success">Guardar Nueva Cotizaci&oacute;n</a>
                                 </div>
                             </div>
-                            <div class="col-3" sec:authorize="hasAuthority('Admin')">
+                            <div class="col-2" sec:authorize="hasAuthority('Admin')">
                                 <div class="form-group">
                                     <a th:href="@{/admin/dashboard}" class="btn btn-danger">Descartar Datos no guardados</a>
                                 </div>
                             </div>
-                            <div class="col-3" sec:authorize="hasAuthority('User')">
+                            <div class="col-2" sec:authorize="hasAuthority('User')">
                                 <div class="form-group">
                                     <a th:href="@{/user/dashboard}" class="btn btn-danger">Descartar Datos no guardados</a>
                                 </div>
@@ -395,7 +395,7 @@
                         '$ ' + price.toLocaleString('es-CL'),
                         '$ ' + total.toLocaleString('es-CL'),
                         $("#notes").val(),
-                        '<button id="removeRow" name="removeRow" class="btn btn-danger removeRow" type="button">Eliminar</button>'
+                        '<button id="removeRow" name="removeRow" class="btn btn-danger removeRow" type="button"><i class="mdi mdi-delete"></i> Eliminar</button>'
                     ]).draw();
 
                     $("#quantity").val('');

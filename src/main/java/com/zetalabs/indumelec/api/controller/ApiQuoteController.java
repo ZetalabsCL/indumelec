@@ -35,7 +35,6 @@ import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
@@ -87,14 +86,6 @@ public class ApiQuoteController {
         return getResult(resultList);
     }
 
-    @RequestMapping("/api/quote/approve")
-    public ResponseEntity approveQuote(@RequestParam("quoteId") Long quoteId, @RequestParam("workOrder") String workOrder, @RequestParam("userId") String userId) {
-        User user = userService.getUserByMail(userId);
-        quoteService.approveQuote(user, workOrder, quoteId);
-
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
     @RequestMapping("/api/quote/delivery")
     public ResponseEntity deliveryQuote(@RequestParam("quoteId") Long quoteId, @RequestParam("userId") String userId, @RequestParam("comments") String comments) {
         User user = userService.getUserByMail(userId);
@@ -120,11 +111,26 @@ public class ApiQuoteController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @RequestMapping("/api/quote/reject")
-    public ResponseEntity rejectQuote(@RequestParam("quoteId") Long quoteId, @RequestParam("userId") String userId) {
+    @RequestMapping("/api/quote/approve")
+    public ResponseEntity approveQuote(@RequestParam("frmInfo") String frmInfo, @RequestParam("userId") String userId, @RequestParam("details") String details) throws ParseException {
         User user = userService.getUserByMail(userId);
+        Quote quote = getQuote(frmInfo, details);
 
-        quoteService.rejectQuote(user, quoteId);
+        quoteService.updateQuote(user, quote);
+
+        quoteService.approveQuote(user, quote.getWorkOrder(), quote.getQuoteId());
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @RequestMapping("/api/quote/reject")
+    public ResponseEntity rejectQuote(@RequestParam("frmInfo") String frmInfo, @RequestParam("userId") String userId, @RequestParam("details") String details) throws ParseException {
+        User user = userService.getUserByMail(userId);
+        Quote quote = getQuote(frmInfo, details);
+
+        quoteService.updateQuote(user, quote);
+
+        quoteService.rejectQuote(user, quote.getQuoteId());
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -182,7 +188,12 @@ public class ApiQuoteController {
         if (frmInfo!=null){
             User user = userService.getUserByMail(userId);
             Quote quote = getQuote(frmInfo, details);
-            quoteService.saveQuote(user, quote);
+
+            if (quote.getQuoteId()==null) {
+                quoteService.saveQuote(user, quote);
+            } else {
+                quoteService.updateQuote(user, quote);
+            }
         }
 
         return ResponseEntity.ok(HttpStatus.OK);
@@ -226,6 +237,7 @@ public class ApiQuoteController {
 
         quoteDetailWrapper.setMeasure(t.getMeasure());
         quoteDetailWrapper.setQuantity(t.getQuantity());
+        quoteDetailWrapper.setPrice(t.getPrice());
 
         if (t.getNotes()!=null) {
             quoteDetailWrapper.setNotes(t.getNotes().replaceAll("\r\n", "<br/>"));
@@ -272,15 +284,29 @@ public class ApiQuoteController {
 
         quote.setReference(map.get("reference"));
         quote.setManufacture(map.get("manufacture"));
-        quote.setPaymentType(PaymentType.valueOf(map.get("paymentType")));
+
+        if (map.get("paymentType")!=null) {
+            quote.setPaymentType(PaymentType.valueOf(map.get("paymentType")));
+        }
+
         quote.setOtherPayment(map.get("otherPayment"));
-        quote.setDeliveryType(DeliveryType.valueOf(map.get("deliveryType")));
+
+        if (map.get("deliveryType")!=null) {
+            quote.setDeliveryType(DeliveryType.valueOf(map.get("deliveryType")));
+        }
+
         quote.setComments(map.get("comments"));
         quote.setDeliveryDate(LocalDate.parse(map.get("deliveryDate"), IndumelecFormatter.dateFormat));
         quote.setPartialDelivery(map.get("partialDelivery"));
         quote.setDeliveryLocation(map.get("deliveryLocation"));
-        quote.setInvoice(InvoiceType.valueOf(map.get("invoice")));
-        quote.setSignature(SignatureType.valueOf(map.get("signature")));
+
+        if (map.get("invoice")!=null) {
+            quote.setInvoice(InvoiceType.valueOf(map.get("invoice")));
+        }
+
+        if (map.get("signature")!=null) {
+            quote.setSignature(SignatureType.valueOf(map.get("signature")));
+        }
 
         quote.setCompany(company);
         quote.setContact(map.get("contact"));
@@ -300,6 +326,13 @@ public class ApiQuoteController {
                 .get();
 
         quote.setAmount(total);
+
+        if (map.get("quoteId")!=null){
+            quote.setQuoteId(Long.valueOf(map.get("quoteId")));
+        }
+
+        quote.setWorkOrder(map.get("workOrder"));
+        quote.setQuoteCode(map.get("quoteCode"));
 
         return quote;
     }

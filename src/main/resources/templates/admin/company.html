@@ -174,8 +174,8 @@
                         'fnCreatedCell': function (nTd, sData, oData, iRow, iCol) {
                             $(nTd).addClass('text-right');
                             $(nTd).html(
-                                '<a id="edit_' + oData.companyId + '" href="#" class="btn btn-info editCompany"><i class="mdi mdi-comment-check-outline"></i> Editar</a>&nbsp;' +
-                                '<a id="delete_' + oData.companyId +'" href="#" class="btn btn-danger deleteCompany" data-toggle="modal" data-target="#deleteCompanyDialog"><i class="mdi mdi-comment-remove-outline"></i> Eliminar</a>');
+                                '<a id="edit_' + oData.companyId + '" href="#" class="btn btn-info editCompany"><i class="mdi mdi-tooltip-edit"></i> Editar</a>&nbsp;' +
+                                '<a id="delete_' + oData.companyId +'" href="#" class="btn btn-danger deleteCompany" data-toggle="modal" data-target="#deleteCompanyDialog"><i class="mdi mdi-delete"></i> Eliminar</a>');
                         }
                     }
                 ],
