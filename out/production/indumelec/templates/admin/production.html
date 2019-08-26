@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+
+<th:block layout:fragment="welcome">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Producci&oacute;n</a></li>
+                        <li class="breadcrumb-item active">Estado Ordenes de Producción</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Estado Ordenes de Producci&oacute;n</h4>
+            </div>
+        </div>
+        <div class="col-12">
+
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Mueva las ordenes de Producci&oacute;n en caso de que necesite avanzar o retroceder de proceso.</h4>
+                    <p class="text-muted font-14 mb-3">
+                        Tome las ordenes individualmente desde la zona puntuada para desplazarlas.
+                    </p>
+
+                    <div class="row">
+
+                        <div class="col-sm-2">
+                            <div class="bg-light p-2">
+                                <h5 class="mt-0">PROYECTO</h5>
+                                <div id="proyecto" class="py-2" title="Proyecto" data-code="PROJECT">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${projectQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <a th:id="'detail_'+${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
+                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-file-find"></i> Historial
+                                                    </a>
+                                                    <br/>
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
+                                                </div>
+                                                <span class="dragula-handle"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="bg-light p-2">
+                                <h5 class="mt-0">CORTE - PLEGADO</h5>
+                                <div id="corte-plegado" class="py-2" title="Corte/Plegado" data-code="CUT">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${cutQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
+                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-file-find"></i> Historial
+                                                    </a>
+                                                    <br/>
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
+                                                </div>
+                                                <span class="dragula-handle"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="bg-light p-2">
+                                <h5 class="mt-0">PRODUCCION</h5>
+                                <div id="produccion" class="py-2" title="Producci&oacute;n" data-code="PRODUCTION">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${productionQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
+                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-file-find"></i> Historial
+                                                    </a>
+                                                    <br/>
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
+                                                </div>
+                                                <span class="dragula-handle"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="bg-light p-2">
+                                <h5 class="mt-0">ARMADO</h5>
+                                <div id="armado" class="py-2" title="Armado" data-code="BUILD">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${buildQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
+                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-file-find"></i> Historial
+                                                    </a>
+                                                    <br/>
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
+                                                </div>
+                                                <span class="dragula-handle"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="bg-light p-2">
+                                <h5 class="mt-0">DESPACHO</h5>
+                                <div id="despacho" class="py-2" title="Despacho" data-code="DELIVERY">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${deliveryQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    </a>
+                                                    <p class="mb-0" th:text="${quote.company.name}"/>
+                                                    <br/>
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-file-find"></i> Historial
+                                                    </a>
+                                                    <br/>
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
+                                                </div>
+                                                <span class="dragula-handle"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="commentDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Orden de Producci&oacute;n</h4>
+                    <input type="hidden" id="quoteId"/>
+                    <input type="hidden" id="from"/>
+                    <input type="hidden" id="to"/>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark" id="commentWorkOrder">&nbsp;</h5>
+                    <h5 class="mt-0 text-dark" id="commentTitle">&nbsp;</h5>
+                    <div class="form-group">
+                        <label for="comments">Comentarios:</label>
+                        <textarea class="form-control" id="comments" name="comments" placeholder="Comentarios" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="aceptar" href="#" class="btn btn-primary">Aceptar</a>&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="quoteDetails" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Informacion OT</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">Detalles</h5>
+
+                    <table class="table table-centered table-hover mb-0" id="quote-details" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Descripci&oacute;n</th>
+                            <th>Medidas</th>
+                            <th>Notas</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="quoteHistory" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Historial OT</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">Detalles</h5>
+
+                    <table class="table table-centered table-hover mb-0" id="quote-history" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Descripci&oacute;n</th>
+                            <th>Comentarios</th>
+                            <th>Usuario</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="otCommentDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Agregar Comentario</h4>
+                    <input type="hidden" id="commentQuoteId"/>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark" id="otCommentWorkOrder">&nbsp;</h5>
+                    <div class="form-group">
+                        <label for="otComments">Comentarios:</label>
+                        <textarea class="form-control" id="otComments" name="otComments" placeholder="Comentarios" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="otCommentAcceptBtn" href="#" class="btn btn-primary addOtComment">Aceptar</a>&nbsp;
+                    <a id="otCommentCancelBtn" href="#" class="btn btn-light" data-dismiss="modal">Cancelar</a>&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="storedOtCommentDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel">Nota Almacenada</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">Su comentario ha sido guardado correctamente</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            dragula([ document.getElementById('proyecto'),  document.getElementById('corte-plegado'),  document.getElementById('produccion'),
+                    document.getElementById('armado'),  document.getElementById('despacho')],
+                { revertOnSpill: true })
+                .on('drop', function(el, target, source, sibling){
+                    $('#quoteId').val(el.id);
+                    $('#from').val($('#'+source.id).data('code'));
+                    $('#to').val($('#'+target.id).data('code'));
+
+                    $('#commentWorkOrder').text('Orden: ' + $('#'+el.id).data('work'));
+                    $('#commentTitle').text('Movimiento: ' + source.title + ' a ' + target.title);
+                    $("#comments").val('');
+                    $('#commentDialog').modal('show');
+                })
+
+            $('#aceptar').on('click', function(){
+                if ($("#comments").val()!='') {
+                    $('#commentWorkOrder').text('');
+                    $('#commentTitle').text('');
+
+                    $.ajax({
+                        url: '/api/quote/production',
+                        type: "post",
+                        data: {
+                            quoteId: $("#quoteId").val(),
+                            comments: $("#comments").val(),
+                            from: $("#from").val(),
+                            to: $("#to").val(),
+                            userId: /*[[${session.username}]]*/ 'default'
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            $("#comments").val('');
+                            $('#commentDialog').modal('hide');
+                        },
+                        error: function () {
+                            console.log('error');
+                        }
+                    });
+                }
+            });
+
+            $('.otDetail').on('click', function(){
+                $('#quote-details').DataTable( {
+                    responsive: true,
+                    destroy: true,
+                    searching: false,
+                    pageLength: 5,
+                    lengthMenu: [ 1, 5, 10, "Todos" ],
+                    ajax: {
+                        url: '/api/quote/details',
+                        data: { quoteId: $('#'+this.id).data('quoteid') }
+                    },
+                    columns: [
+                        {'data': 'quantity'},
+                        {'data': 'description'},
+                        {'data': 'measure', 'className': 'text-center'},
+                        {'data': 'notes'}
+                    ],
+                    dom: "<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-7'i><'col-sm-5'p>>",
+                    buttons: [
+                        {
+                            extend: 'excel',
+                            text: 'Excel',
+                            className: 'btn btn-default',
+                            title: 'Detalle',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            className: 'btn btn-default',
+                            title: 'Detalle',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        }
+                    ],
+                    language: {
+                        lengthMenu: "Mostrando _MENU_ registros por p&aacute;gina",
+                        zeroRecords: "Sin resultados - lo siento!",
+                        info: "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
+                        infoEmpty: "No hay registros disponibles",
+                        search: "Buscar",
+                        infoFiltered: "(filtrados de _MAX_ registros totales)",
+                        paginate: {
+                            previous: "Anterior",
+                            next: "Siguiente"
+                        }
+                    }
+                });
+
+                $('#quoteDetails').modal('show');
+            });
+
+            $('.otHistory').on('click', function(){
+                $('#quote-history').DataTable( {
+                    responsive: true,
+                    destroy: true,
+                    searching: false,
+                    pageLength: 5,
+                    lengthMenu: [ 1, 5, 10, "Todos" ],
+                    ajax: {
+                        url: '/api/quote/history',
+                        data: { quoteId: $('#'+this.id).data('quoteid') }
+                    },
+                    columns: [
+                        {'data': 'entryDate'},
+                        {'data': 'description'},
+                        {'data': 'comments'},
+                        {'data': 'user'}
+                    ],
+                    dom: "<'row'<'col-sm-3'l><'col-sm-6 botones text-center'B><'col-sm-3'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-7'i><'col-sm-5'p>>",
+                    buttons: [
+                        {
+                            extend: 'excel',
+                            text: 'Excel',
+                            className: 'btn btn-default',
+                            title: 'Detalle',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            text: 'Pdf',
+                            className: 'btn btn-default',
+                            title: 'Detalle',
+                            exportOptions: {
+                                columns: ':visible:not(:last-child)'
+                            }
+                        }
+                    ],
+                    language: {
+                        lengthMenu: "Mostrando _MENU_ registros por p&aacute;gina",
+                        zeroRecords: "Sin resultados - lo siento!",
+                        info: "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
+                        infoEmpty: "No hay registros disponibles",
+                        search: "Buscar",
+                        infoFiltered: "(filtrados de _MAX_ registros totales)",
+                        paginate: {
+                            previous: "Anterior",
+                            next: "Siguiente"
+                        }
+                    }
+                });
+
+                $('#quoteHistory').modal('show');
+            });
+
+            $('.otComment').on('click', function(){
+                $('#commentQuoteId').val($('#'+this.id).data('quoteid'));
+                $('#otCommentWorkOrder').text('Orden: ' + $('#'+this.id).data('work'));
+                $('#otCommentDialog').modal('show');
+            });
+
+            $('.addOtComment').on('click', function(){
+                $.ajax({
+                    url: '/api/quote/comment',
+                    type: "post",
+                    data: {
+                        userId: /*[[${session.username}]]*/ 'default',
+                        quoteId: $("#commentQuoteId").val(),
+                        comments: $("#otComments").val()
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        $("#otComments").val('');
+                        $('#otCommentDialog').modal('hide');
+                        $('#storedOtCommentDialog').modal('show');
+                    },
+                    error: function () {
+                        console.log('error');
+                    }
+                });
+            });
+        });
+    </script>
+</th:block>
+</html>

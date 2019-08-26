@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="~{fragments/head}"/>
+
+<body data-layout="topnav">
+<div class="wrapper">
+    <div class="content-page">
+        <div class="content">
+            <th:block th:replace="~{fragments/topnav}"/>
+
+            <div class="container-fluid">
+                <th:block layout:fragment="welcome">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <h4 class="page-title" th:text="'Bienvenido, ' + ${session.user.name}"/>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+
+                <th:block layout:fragment="content"></th:block>
+            </div>
+        </div>
+
+        <th:block th:replace="~{fragments/footer}"/>
+    </div>
+</div>
+
+<th:block th:replace="~{fragments/scripts}"/>
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>

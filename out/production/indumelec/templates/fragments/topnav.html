@@ -1,0 +1,66 @@
+<th:block xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <div class="topnav">
+        <div class="container-fluid">
+            <nav class="navbar navbar-dark navbar-expand-lg topnav-menu">
+                <div class="collapse navbar-collapse" id="topnav-menu-content">
+                    <ul class="navbar-nav">
+                        <div sec:authorize="hasAuthority('Admin')">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/dashboard}" id="topnav-apps" role="button">
+                                    <i class="mdi mdi-home"> </i>Home <div class=""></div>
+                                </a>
+                            </li>
+                        </div>
+                        <div sec:authorize="hasAuthority('User')">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/user/dashboard}" id="topnav-apps" role="button">
+                                    <i class="mdi mdi-home"> </i>Home <div class=""></div>
+                                </a>
+                            </li>
+                        </div>
+                        <div sec:authorize="hasAuthority('Admin')">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="mdi mdi-access-point mr-1"></i>Mantenedores <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    <a th:href="@{/admin/company}" class="dropdown-item">Empresas</a>
+                                    <a th:href="@{/admin/user}" class="dropdown-item">Usuarios</a>
+                                </div>
+                            </li>
+                        </div>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="mdi mdi-access-point mr-1"></i>Cotizaciones <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                <a th:href="@{/quote/new}" class="dropdown-item">Nueva Cotizaci&oacute;n</a>
+                                <a th:href="@{/quote/list}" class="dropdown-item" sec:authorize="hasAuthority('Admin')">Ver OT en Desarrollo</a>
+                            </div>
+                        </li>
+                        <div sec:authorize="hasAuthority('Admin')">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="mdi mdi-access-point mr-1"></i>Producci&oacute;n <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    <a th:href="@{/admin/production}" class="dropdown-item">Estado ordenes de Producci&oacute;n</a>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown top-right">
+                            <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" id="topnav-apps" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="mdi mdi-account mr-1"></i><span class="account-user-name" th:text="${session.username}" th:unless="${session == null}" /> <div class="arrow-down"></div>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                <a th:href="@{/logout}" class="dropdown-item"><b>Cerrar Sesi&oacute;n</b></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</th:block>

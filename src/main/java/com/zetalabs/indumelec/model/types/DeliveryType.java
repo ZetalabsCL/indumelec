@@ -7,7 +7,7 @@ public enum DeliveryType {
     DEFAULT("Seleccione Entrega"),
     CUSTOMER("En oficinas del cliente"),
     DELIVERY("Despacho"),
-    PICKUP("Retiro por parte del cliente"),
+    PICKUP("Sobre el camión en nuestras bodegas de Av. Einstein #775, Recoleta"),
     DELIVERY_ONSITE("Despacho a terreno");
 
     String description;

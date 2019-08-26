@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+
+<th:block layout:fragment="welcome">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Cotizaci&oacute;n</a></li>
+                        <li class="breadcrumb-item active">Nueva Cotizaci&oacute;n</li>
+                    </ol>
+                </div>
+                <h4 class="page-title">Formulario de Nueva Cotizaci&oacute;n</h4>
+            </div>
+        </div>
+        <div class="col-12">
+
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="content">
+    <form method="post">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Datos del Cliente </h4>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="taxid">Rut Cliente:</label>
+                                    <input id="taxid" name="taxid" type="text" class="form-control" placeholder="Ingrese el Rut del Cliente (XX.XXX.XXX-X">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="name">Nombre Cliente:</label>
+                                    <input id="name" name="name" type="text" class="form-control" placeholder="Ingrese el Nombre del Cliente" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="contact">Contacto:</label>
+                                    <input id="contact" name="contact" type="text" class="form-control" placeholder="Ingrese el Contacto del Cliente">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="phone">Tel&eacute;fono:</label>
+                                    <input id="phone" name="phone" type="text" class="form-control" placeholder="T&eacute;lefono (562) XXXX XXXX">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="cellphone">Celular:</label>
+                                    <input id="cellphone" name="cellphone" type="text" class="form-control" placeholder="Celular (569) XXXX XXXX">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="email">E-Mail:</label>
+                                    <input id="email" name="email" type="text" class="form-control"placeholder="Ingrese el E-Mail del Cliente">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Productos y Servicios</h4>
+                        <p class="text-muted font-14">
+                            Ingrese el listado de productos o servicios solicitados por el cliente
+                        </p>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="quantity">Cantidad:</label>
+                                    <input id="quantity" name="quantity" type="text" class="form-control decimal-0-places" placeholder="Ingrese Cantidad">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="description">Descripci&oacute;n:</label>
+                                    <textarea class="form-control" id="description" name="description" placeholder="Ingrese Descripci&oacute;n" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="measure">Medidas:</label>
+                                    <input id="measure" name="measure" type="text" class="form-control" placeholder="Ingrese Medidas">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="price">Precio:</label>
+                                    <input id="price" name="price" type="text" class="form-control decimal-0-places text-right" placeholder="Ingrese Precio">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="notes">Notas:</label>
+                                    <textarea class="form-control" id="notes" name="notes" placeholder="Ingrese Notas" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+                                    <h4><button id="addRow" name="addRow" class="btn btn-success" style="position: relative;top:-9px;" type="button">Agregar nueva linea</button></h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table id="cotizaciones-table" class="table mt-4" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%">Cantidad</th>
+                                                <th width="30%">Descripci&oacute;n</th>
+                                                <th width="15%">Medidas</th>
+                                                <th width="15%">Precio Unitario</th>
+                                                <th width="15%">Precio Total</th>
+                                                <th width="20%">Notas</th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Textos Adicionales</h4>
+                        <p class="text-muted font-14 mb-3">
+                            Ingrese indicaciones o textos adicionales a fines a la cotizaci&oacute;n
+                        </p>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="reference">Referencia:</label>
+                                    <input id="reference" name="reference" type="text" class="form-control" placeholder="Ingrese las Referencias">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="manufacture">Por la fabricaci&oacute;n de:</label>
+                                    <input id="manufacture" name="manufacture" type="text" class="form-control" placeholder="Ingrese datos adicionales referentes a la fabricaci&oacute;n">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="paymentType">Forma de Pago:</label>
+                                    <select id="paymentType" name="paymentType" class="form-control">
+                                        <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.PaymentType).values() }" th:value="${item}" th:text="${item.description}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="otherPayment">Pago Especial:</label>
+                                    <input id="otherPayment" name="otherPayment" type="text" class="form-control" placeholder="Ingrese el detalle del pago especial">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="deliveryType">Entrega:</label>
+                                    <select id="deliveryType" name="deliveryType" class="form-control">
+                                        <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.DeliveryType).values() }" th:value="${item}" th:text="${item.description}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="comments">Comentarios:</label>
+                                    <input id="comments" name="comments" type="text" class="form-control" placeholder="Comentarios de la forma de Pago">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="deliveryDate">Fecha Entrega:</label>
+                                    <input type="text" class="form-control date" id="deliveryDate" name="deliveryDate" data-toggle="date-picker" data-single-date-picker="true" readonly="readonly" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="partialDelivery">Entregas Parciales:</label>
+                                    <input id="partialDelivery" name="partialDelivery" type="text" class="form-control" placeholder="Detalle de Entregas Parciales">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="deliveryLocation">Lugar entrega especial:</label>
+                                    <input id="deliveryLocation" name="deliveryLocation" type="text" class="form-control" placeholder="Ingrese el detalle del pago especial">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="invoice">Facturar por:</label>
+                                    <select id="invoice" name="invoice" class="form-control">
+                                        <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.InvoiceType).values() }" th:value="${item}" th:text="${item.description}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="signature">Firma:</label>
+                                    <select id="signature" name="signature" class="form-control">
+                                        <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.SignatureType).values() }" th:value="${item}" th:text="${item.description}"/>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <a href="#" id="save" name="save" class="btn btn-success">Guardar Nueva Cotizaci&oacute;n</a>
+                                </div>
+                            </div>
+                            <div class="col-2" sec:authorize="hasAuthority('Admin')">
+                                <div class="form-group">
+                                    <a th:href="@{/admin/dashboard}" class="btn btn-danger">Descartar Datos no guardados</a>
+                                </div>
+                            </div>
+                            <div class="col-2" sec:authorize="hasAuthority('User')">
+                                <div class="form-group">
+                                    <a th:href="@{/user/dashboard}" class="btn btn-danger">Descartar Datos no guardados</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="storedQuoteDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel">Cotizaci&oacute;n Almacenada</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">Su Cotizaci&oacute;n ha sido guardada correctamente</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            $("#taxid").change(function() {
+                $.ajax({
+                    url: '/api/company/search',
+                    type: "post",
+                    data: { taxId: $("#taxid").val() },
+                    dataType: "json",
+                    success: function (data) {
+                        $("#name").val(data.name);
+                        $("#contact").val(data.contact);
+                    },
+                    error: function () {
+                        $("#name").val('');
+                        $("#contact").val('');
+                        $("#phone").val('');
+                        $("#cellphone").val('');
+                        $("#email").val('');
+                    }
+                });
+            });
+
+            $("#paymentType").change(function() {
+                initPaymentType();
+            });
+
+            $("#deliveryType").change(function() {
+                initDeliveryType();
+            });
+
+            $('#deliveryDate').daterangepicker({
+                singleDatePicker: true,
+                opens: 'center',
+                startDate: moment().startOf('day').format('DD/MM/YYYY'),
+                endDate: moment().endOf('day').format('DD/MM/YYYY'),
+                locale: {
+                    format: 'DD/MM/YYYY',
+                    firstDay: 1,
+                    daysOfWeek: [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    monthNames: [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ]
+                }
+            });
+
+            var t = $('#cotizaciones-table').DataTable( {
+                responsive: true,
+                searching: false,
+                pageLength: 5,
+                lengthMenu: [ 1, 5, 10, "Todos" ],
+                createdRow: function ( row, data, index ) {
+                    $('td', row).eq(2).addClass('text-center');
+                    $('td', row).eq(3).addClass('text-right');
+                    $('td', row).eq(4).addClass('text-right');
+                    $('td', row).eq(5).addClass('text-center');
+
+                    $('td', row).eq(0).addClass('align-middle');
+                    $('td', row).eq(1).addClass('align-middle');
+                    $('td', row).eq(2).addClass('align-middle');
+                    $('td', row).eq(3).addClass('align-middle');
+                    $('td', row).eq(4).addClass('align-middle');
+                    $('td', row).eq(5).addClass('align-middle');
+                }, "language": {
+                    "lengthMenu": "Mostrando _MENU_ registros por p&aacute;gina",
+                    buttons: {
+                        copy: 'Copiar'
+                    },
+                    "zeroRecords": "Sin resultados - lo siento!",
+                    "info": "Mostrando p&aacute;gina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay registros disponibles",
+                    "search": "Buscar",
+                    "infoFiltered": "(filtrados de _MAX_ registros totales)",
+                    "paginate": {
+                        "previous": "Anterior",
+                        "next": "Siguiente"
+                    }
+                }
+            });
+
+            $("#addRow").on("click", function() {
+                if (validDetail()) {
+                    var quantity = parseFloat($("#quantity").val());
+                    var price = parseFloat($("#price").val());
+                    var total = isNaN(quantity * price) ? 0 : (quantity * price);
+
+                    t.row.add([
+                        quantity.toLocaleString('es-CL'),
+                        $("#description").val().replace(/(?:\r\n|\r|\n)/g, '<br>'),
+                        $("#measure").val(),
+                        '$ ' + price.toLocaleString('es-CL'),
+                        '$ ' + total.toLocaleString('es-CL'),
+                        $("#notes").val(),
+                        '<button id="removeRow" name="removeRow" class="btn btn-danger removeRow" type="button"><i class="mdi mdi-delete"></i> Eliminar</button>'
+                    ]).draw();
+
+                    $("#quantity").val('');
+                    $("#description").val('');
+                    $("#measure").val('');
+                    $("#price").val('');
+                    $("#notes").val('');
+                }
+            });
+
+            $("#cotizaciones-table tbody").on('click', '.removeRow', function(){
+                t.row($(this).parents('tr')).remove().draw();
+            });
+
+            $(".decimal-0-places").numeric({ decimal: ",", decimalPlaces: 0, negative: false });
+
+            $("#save").on("click", function() {
+                if (validForm(t)) {
+                    var dataArray = [];
+
+                    t.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                        dataArray.push(this.data());
+                    });
+
+                    $.ajax({
+                        type: 'post',
+                        url: '/api/quote/save',
+                        data: {
+                            frmInfo: JSON.stringify($('form').serializeArray()),
+                            userId: /*[[${session.username}]]*/ 'default',
+                            details: JSON.stringify(dataArray)
+                        },
+                        dataType: 'json',
+                        success: function () {
+                            cleanUpForm(t);
+                            $('#storedQuoteDialog').modal('show');
+                        }
+                    });
+                }
+            });
+        } );
+
+        function initPaymentType(){
+            var selectedPaymentType = $("#paymentType").val();
+
+            if (selectedPaymentType=='DEFAULT') {
+                $("#otherPayment").prop('disabled', false);
+            } else {
+                $("#otherPayment").prop('disabled', true);
+            }
+        }
+
+        function initDeliveryType(){
+            var selectedDeliveryType = $("#deliveryType").val();
+
+            if (selectedDeliveryType=='DEFAULT') {
+                $("#comments").prop('disabled', false);
+            } else {
+                $("#comments").prop('disabled', true);
+            }
+        }
+
+        function validDetail(){
+            if ($("#quantity").val()==''){
+                alert('Ingrese Cantidad');
+                return false;
+            }
+
+            if ($("#description").val()==''){
+                alert('Ingrese Descripcion');
+                return false;
+            }
+
+            if ($("#measure").val()==''){
+                alert('Ingrese Medidas');
+                return false;
+            }
+
+            if ($("#price").val()==''){
+                alert('Ingrese Precio');
+                return false;
+            }
+
+            return true;
+        }
+
+        function validForm(tbl){
+            if ($("#taxid").val()==''){
+                alert('Ingrese Rut');
+                return false;
+            }
+
+            if (tbl.rows().data().count()==0){
+                alert('Ingrese Detalle');
+                return false;
+            }
+
+            return true;
+        }
+
+        function cleanUpForm(tbl){
+            $('#taxid').val('');
+            $("#name").val('');
+            $("#contact").val('');
+            $("#phone").val('');
+            $("#cellphone").val('');
+            $("#email").val('');
+
+            $("#quantity").val('');
+            $("#description").val('');
+            $("#measure").val('');
+            $("#price").val('');
+            $("#notes").val('');
+
+            $("#reference").val('');
+            $("#manufacture").val('');
+            $("#otherPayment").val('');
+            $("#comments").val('');
+            $("#deliveryDate").val(moment().startOf('day').format('DD/MM/YYYY'));
+            $("#partialDelivery").val('');
+            $("#deliveryLocation").val('');
+            $('#paymentType :nth-child(1)').prop('selected', true);
+            $('#deliveryType :nth-child(1)').prop('selected', true);
+            $('#invoice :nth-child(1)').prop('selected', true);
+            $('#signature :nth-child(1)').prop('selected', true);
+
+            initDeliveryType();
+            initPaymentType();
+
+            tbl.clear().draw();
+        }
+    </script>
+</th:block>
+</html>
