@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>com.zetalabs.indumelec</groupId>
 	<artifactId>indumelec</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.3</version>
 	<name>indumelec</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Indumelec Web App Spring</description>
 
 	<properties>
 		<java.version>1.8</java.version>
