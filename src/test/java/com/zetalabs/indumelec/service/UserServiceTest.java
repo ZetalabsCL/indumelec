@@ -1,9 +1,10 @@
 package com.zetalabs.indumelec.service;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static junit.framework.TestCase.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 public class UserServiceTest {
     @Test

@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<User> getUserList(User loggedUser){
-        return  userRepository.findUsersByUserIdNotIn(loggedUser.getUserId());
+        return  userRepository.findUsersByUserIdNotIn(Collections.singletonList(loggedUser.getUserId()));
     }
 
     public User getUserById(Long userId){

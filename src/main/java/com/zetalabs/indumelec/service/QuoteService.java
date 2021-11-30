@@ -66,7 +66,7 @@ public class QuoteService {
 
     @Transactional
     public void updateQuote(User user, Quote quote){
-        Quote dbQuote = quoteRepository.getOne(quote.getQuoteId());
+        Quote dbQuote = quoteRepository.getById(quote.getQuoteId());
         dbQuote.getQuoteDetails().clear();
         dbQuote.setQuoteDetails(quote.getQuoteDetails());
         dbQuote.setAmount(quote.getAmount());
@@ -109,7 +109,7 @@ public class QuoteService {
     }
 
     public void approveQuote(User loggedUser, String workOrder, Long quoteId){
-        Quote quote = quoteRepository.getOne(quoteId);
+        Quote quote = quoteRepository.getById(quoteId);
 
         quote.setStatus(Status.PROJECT);
         quote.setWorkOrder(workOrder);
@@ -121,7 +121,7 @@ public class QuoteService {
     }
 
     public void rejectQuote(User loggedUser, Long quoteId){
-        Quote quote = quoteRepository.getOne(quoteId);
+        Quote quote = quoteRepository.getById(quoteId);
 
         quote.setStatus(Status.REJECTED);
         quote.setLastUpdate(LocalDateTime.now());
@@ -131,7 +131,7 @@ public class QuoteService {
     }
 
     public void deliveryQuote(User loggedUser, Long quoteId, String comments){
-        Quote quote = quoteRepository.getOne(quoteId);
+        Quote quote = quoteRepository.getById(quoteId);
 
         quote.setStatus(Status.COMPLETED);
         quote.setLastUpdate(LocalDateTime.now());
@@ -141,7 +141,7 @@ public class QuoteService {
     }
 
     public void returnQuote(User loggedUser, Long quoteId, String comments){
-        Quote quote = quoteRepository.getOne(quoteId);
+        Quote quote = quoteRepository.getById(quoteId);
 
         quote.setStatus(Status.RETURNED);
         quote.setLastUpdate(LocalDateTime.now());
@@ -151,7 +151,7 @@ public class QuoteService {
     }
 
     public void reprocessQuote(User loggedUser, Long quoteId, String comments){
-        Quote quote = quoteRepository.getOne(quoteId);
+        Quote quote = quoteRepository.getById(quoteId);
 
         quote.setStatus(Status.REVIEW);
         quote.setLastUpdate(LocalDateTime.now());
@@ -162,7 +162,7 @@ public class QuoteService {
     }
 
     public void moveQuote(User loggedUser, Long quoteId, String comments, String from, String to){
-        Quote quote = quoteRepository.getOne(quoteId);
+        Quote quote = quoteRepository.getById(quoteId);
         Status statusFrom = Status.valueOf(from);
         Status statusTo = Status.valueOf(to);
 
@@ -175,7 +175,7 @@ public class QuoteService {
     }
 
     public void addCommentQuote(User loggedUser, Long quoteId, String comments){
-        Quote quote = quoteRepository.getOne(quoteId);
+        Quote quote = quoteRepository.getById(quoteId);
 
         quote.setLastUpdate(LocalDateTime.now());
         quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.COMMENTED, "Nuevo Comentario", comments));
@@ -197,11 +197,11 @@ public class QuoteService {
     }
 
     public Quote getQuoteById(Long quoteId){
-        return quoteRepository.getOne(quoteId);
+        return quoteRepository.getById(quoteId);
     }
 
     public void updateQuote(User loggedUser, Long quoteId, String deliveryDate, String comments){
-        Quote quote = quoteRepository.getOne(quoteId);
+        Quote quote = quoteRepository.getById(quoteId);
 
         quote.setLastUpdate(LocalDateTime.now());
         quote.setDeliveryDate(LocalDate.parse(deliveryDate, IndumelecFormatter.dateFormat));
