@@ -255,7 +255,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="generateWorkOrder">Genera OT</button>
+                    <button type="button" class="btn btn-primary" id="generateWorkOrder">Genera OT</button>
                 </div>
             </div>
         </div>
@@ -459,8 +459,7 @@
 
             $("#generateWorkOrder").on('click', function(){
                 if ($("#workOrderCode").val() != '') {
-                    $("#workOrder").val($("#workOrderCode").val());
-
+                    var workOrder = $("#workOrderCode").val();
                     var dataArray = [];
 
                     t.rows().every(function (rowIdx, tableLoop, rowLoop) {
@@ -468,19 +467,40 @@
                     });
 
                     $.ajax({
-                        url: '/api/quote/approve',
+                        url: '/api/quote/verifyOt',
                         type: "post",
                         data: {
-                            frmInfo: JSON.stringify($('form').serializeArray()),
-                            userId: /*[[${session.username}]]*/ 'default',
-                            details: JSON.stringify(dataArray)
+                            workOrderId: workOrder
                         },
                         dataType: "json",
                         success: function (data) {
-                            location.href = /*[[@{/admin/dashboard}]]*/ 'default';
+                            if (data == '0') {
+                                $("#workOrder").val($("#workOrderCode").val());
+
+                                $.ajax({
+                                    url: '/api/quote/approve',
+                                    type: "post",
+                                    data: {
+                                        frmInfo: JSON.stringify($('form').serializeArray()),
+                                        userId: /*[[${session.username}]]*/ 'default',
+                                        details: JSON.stringify(dataArray)
+                                    },
+                                    dataType: "json",
+                                    success: function (data) {
+                                        location.href = /*[[@{/admin/dashboard}]]*/ 'default';
+                                    },
+                                    error: function () {
+                                        console.log('error on approve');
+                                    }
+                                });
+
+                                $('#workOrderNumberDialog').modal('hide');
+                            } else {
+                                alert('# OT ya existe');
+                            }
                         },
                         error: function () {
-                            console.log('error');
+                            console.log('error on verify');
                         }
                     });
                 } else {

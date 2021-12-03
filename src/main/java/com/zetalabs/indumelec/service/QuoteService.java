@@ -219,6 +219,11 @@ public class QuoteService {
         return quoteRepository.getById(quoteId);
     }
 
+
+    public List<Quote> getQuoteListByWorkOrder(String workOrder){
+        return quoteRepository.getQuotesByWorkOrder(StringUtils.trim(workOrder));
+    }
+
     public void updateQuote(User loggedUser, Long quoteId, String deliveryDate, String comments){
         Quote quote = quoteRepository.getById(quoteId);
 

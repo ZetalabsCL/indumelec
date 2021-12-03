@@ -13,6 +13,7 @@ import com.zetalabs.indumelec.service.UserService;
 import com.zetalabs.indumelec.utils.FormUtils;
 import com.zetalabs.indumelec.utils.IndumelecFormatter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -202,6 +203,19 @@ public class ApiQuoteController {
         quoteService.updatePriorityQuote(user, quoteId, priority);
 
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @RequestMapping("/api/quote/verifyOt")
+    public ResponseEntity verifyOt(@RequestParam("workOrderId") String workOrderId) {
+        List<Quote> quoteList = quoteService.getQuoteListByWorkOrder(workOrderId);
+
+        ResponseEntity response = new ResponseEntity<>("0", HttpStatus.OK);
+
+        if (CollectionUtils.isNotEmpty(quoteList)) {
+            response = new ResponseEntity<>("1", HttpStatus.OK);
+        }
+
+        return response;
     }
 
     private Function<Quote, QuoteWrapper> getQuotes = (t) -> {

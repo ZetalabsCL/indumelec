@@ -15,4 +15,6 @@ public interface QuoteRepository extends JpaRepository<Quote, Long> {
 
     @Query("SELECT q FROM Quote q WHERE q.status in (4,5,6,7) order by q.deliveryDate")
     List<Quote> getInProgressQuotes();
+
+    List<Quote> getQuotesByWorkOrder(String workOrder);
 }
