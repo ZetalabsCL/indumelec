@@ -43,6 +43,10 @@ public class QuoteService {
         return quoteRepository.getQuotesByStatusEqualsOrderByDeliveryDate(status);
     }
 
+    public List<Quote> getQuoteListByStatusAndPriorityType(Status status, PriorityType priorityType){
+        return quoteRepository.getQuotesByStatusEqualsAndPriorityTypeEqualsOrderByDeliveryDate(status, priorityType);
+    }
+
     @Transactional
     public void saveQuote(User user, Quote quote){
         quote.setUser(user);

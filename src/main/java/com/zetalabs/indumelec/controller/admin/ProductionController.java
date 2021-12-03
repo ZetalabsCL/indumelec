@@ -53,11 +53,16 @@ public class ProductionController {
     private List<ProductionWrapper> getQuoteDetailsByPriority(PriorityType priorityType){
         List<ProductionWrapper> resultList = new ArrayList<>();
 
-        resultList.add(new ProductionWrapper(Status.PROJECT, quoteService.getQuoteListByStatus(Status.PROJECT)));
-        resultList.add(new ProductionWrapper(Status.CUT, quoteService.getQuoteListByStatus(Status.CUT)));
-        resultList.add(new ProductionWrapper(Status.PRODUCTION, quoteService.getQuoteListByStatus(Status.PRODUCTION)));
-        resultList.add(new ProductionWrapper(Status.BUILD, quoteService.getQuoteListByStatus(Status.BUILD)));
-        resultList.add(new ProductionWrapper(Status.DELIVERY, quoteService.getQuoteListByStatus(Status.DELIVERY)));
+        resultList.add(new ProductionWrapper(Status.PROJECT,
+                quoteService.getQuoteListByStatusAndPriorityType(Status.PROJECT, priorityType)));
+        resultList.add(new ProductionWrapper(Status.CUT,
+                quoteService.getQuoteListByStatusAndPriorityType(Status.CUT, priorityType)));
+        resultList.add(new ProductionWrapper(Status.PRODUCTION,
+                quoteService.getQuoteListByStatusAndPriorityType(Status.PRODUCTION, priorityType)));
+        resultList.add(new ProductionWrapper(Status.BUILD,
+                quoteService.getQuoteListByStatusAndPriorityType(Status.BUILD, priorityType)));
+        resultList.add(new ProductionWrapper(Status.DELIVERY,
+                quoteService.getQuoteListByStatusAndPriorityType(Status.DELIVERY, priorityType)));
 
         return resultList;
     }
