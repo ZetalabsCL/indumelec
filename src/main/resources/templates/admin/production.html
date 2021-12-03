@@ -34,26 +34,47 @@
                     </p>
 
                     <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label for="priorityType" class="col-sm-2">Prioridad:</label>
+                                <select id="priorityType" name="priorityType" class="form-control col-sm-2 otReload">
+                                    <option value="ALL" th:selected="${priorityType==null}">Todas</option>
+                                    <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.PriorityType).values() }"
+                                            th:value="${item}" th:text="${item.description}" th:selected="${priorityType!=null && item.equals(priorityType)}"/>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-                        <div class="col-sm-2">
+                    <div class="row">
+
+                        <div class="col-sm-2" th:each="quotes : ${quotesList}">
                             <div class="bg-light p-2">
-                                <h5 class="mt-0">PROYECTO</h5>
-                                <div id="proyecto" class="py-2" title="Proyecto" data-code="PROJECT">
-                                    <div class="card mb-0 mt-2" th:each="quote : ${projectQuoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
+                                <h5 class="mt-0">${quotes.status.description}</h5>
+                                <div id="proyecto" class="py-2" title="${quotes.status.description}" data-code="${quotes.status.description}">
+                                    <div class="card mb-0 mt-2" th:each="quote : ${quotes}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <a th:id="'detail_'+${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
-                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    <a th:id="'detail_'+${quote.workOrder}" href="#" class="otDetail"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder} + ' - ' + ${quote.priorityType.description}"/>
                                                     </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                     <br/>
-                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
                                                     <br/>
-                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
+                                                    <br/>
+                                                    <a th:id="'priority_'+${quote.workOrder}" href="#" class="otPriority"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}, data-priority=${quote.priorityType}">
+                                                        <i class="mdi mdi-priority-high"></i> Prioridad
                                                     </a>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -72,17 +93,25 @@
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
-                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder} + ' - ' + ${quote.priorityType.description}"/>
                                                     </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                     <br/>
-                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
                                                     <br/>
-                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
+                                                    <br/>
+                                                    <a th:id="'priority_'+${quote.workOrder}" href="#" class="otPriority"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}, data-priority=${quote.priorityType}">
+                                                        <i class="mdi mdi-priority-high"></i> Prioridad
                                                     </a>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -101,17 +130,25 @@
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
-                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder} + ' - ' + ${quote.priorityType.description}"/>
                                                     </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                     <br/>
-                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
                                                     <br/>
-                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
+                                                    <br/>
+                                                    <a th:id="'priority_'+${quote.workOrder}" href="#" class="otPriority"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}, data-priority=${quote.priorityType}">
+                                                        <i class="mdi mdi-priority-high"></i> Prioridad
                                                     </a>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -130,17 +167,25 @@
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
-                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder} + ' - ' + ${quote.priorityType.description}"/>
                                                     </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                     <br/>
-                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
                                                     <br/>
-                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
+                                                    <br/>
+                                                    <a th:id="'priority_'+${quote.workOrder}" href="#" class="otPriority"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}, data-priority=${quote.priorityType}">
+                                                        <i class="mdi mdi-priority-high"></i> Prioridad
                                                     </a>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -159,17 +204,25 @@
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
-                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
-                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder}"/>
+                                                    <a th:id="${quote.workOrder}" href="#" class="otDetail"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                        <h5 class="mb-1 mt-1" th:text="${quote.workOrder} + ' - ' + ${quote.priorityType.description}"/>
                                                     </a>
                                                     <p class="mb-0" th:text="${quote.company.name}"/>
                                                     <br/>
-                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                    <a th:id="'history_'+${quote.workOrder}" href="#" class="otHistory"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-file-find"></i> Historial
                                                     </a>
                                                     <br/>
-                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment" th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
+                                                    <a th:id="'comment_'+${quote.workOrder}" href="#" class="otComment"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}">
                                                         <i class="mdi mdi-comment-plus-outline"></i> Nota
+                                                    </a>
+                                                    <br/>
+                                                    <a th:id="'priority_'+${quote.workOrder}" href="#" class="otPriority"
+                                                       th:attr="data-quote=${quote.quoteCode}, data-work=${quote.workOrder}, data-quoteid=${quote.quoteId}, data-priority=${quote.priorityType}">
+                                                        <i class="mdi mdi-priority-high"></i> Prioridad
                                                     </a>
                                                 </div>
                                                 <span class="dragula-handle"></span>
@@ -299,6 +352,47 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="otPriorityDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title">Actualizar Prioridad</h4>
+                    <input type="hidden" id="priorityQuoteId"/>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark" id="otPriorityWorkOrder">&nbsp;</h5>
+                    <div class="form-group">
+                        <label for="otPriorityType">Prioridad:</label>
+                        <select id="otPriorityType" name="otPriorityType" class="form-control">
+                            <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.PriorityType).values() }" th:value="${item}" th:text="${item.description}"/>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="otPriorityUpdateBtn" href="#" class="btn btn-primary updatedOtPriority">Actualizar</a>&nbsp;
+                    <a id="otPriorityCancelBtn" href="#" class="btn btn-light" data-dismiss="modal">Cancelar</a>&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="updatedOtPriorityDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-colored-header bg-primary">
+                    <h4 class="modal-title" id="primary-header-modalLabel2">Prioridad Actualizada</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="mt-0 text-dark">Su cambio en prioridad ha sido guardado correctamente</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light otRefresh" data-dismiss="modal">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -488,6 +582,42 @@
                         console.log('error');
                     }
                 });
+            });
+
+            $('.otPriority').on('click', function(){
+                $('#priorityQuoteId').val($('#'+this.id).data('quoteid'));
+                $('#otPriorityWorkOrder').text('Orden: ' + $('#'+this.id).data('work'));
+                $('#otPriorityType').val($('#'+this.id).data('priority'));
+                $('#otPriorityDialog').modal('show');
+            });
+
+            $('.updatedOtPriority').on('click', function(){
+                $.ajax({
+                    url: '/api/quote/priority',
+                    type: "post",
+                    data: {
+                        userId: /*[[${session.username}]]*/ 'default',
+                        quoteId: $("#priorityQuoteId").val(),
+                        priority: $("#otPriorityType").val()
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        $("#otPriorityType").val('');
+                        $('#otPriorityDialog').modal('hide');
+                        $('#updatedOtPriorityDialog').modal('show');
+                    },
+                    error: function () {
+                        console.log('error');
+                    }
+                });
+            });
+
+            $('.otRefresh').on('click', function(){
+                $(location).prop('href', 'production?priorityType='+$("#priorityType").val());
+            });
+
+            $('.otReload').on('change', function(){
+                $(location).prop('href', 'production?priorityType='+$("#priorityType").val());
             });
         });
     </script>

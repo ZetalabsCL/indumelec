@@ -195,6 +195,15 @@ public class ApiQuoteController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @RequestMapping("/api/quote/priority")
+    public ResponseEntity priority(@RequestParam("userId") String userId, @RequestParam("quoteId") Long quoteId, @RequestParam("priority") String priority) {
+        User user = userService.getUserByMail(userId);
+
+        quoteService.updatePriorityQuote(user, quoteId, priority);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     private Function<Quote, QuoteWrapper> getQuotes = (t) -> {
         QuoteWrapper quoteWrapper = new QuoteWrapper();
         quoteWrapper.setQuoteId(t.getQuoteId());
@@ -208,6 +217,7 @@ public class ApiQuoteController {
         quoteWrapper.setAmount(IndumelecFormatter.numberFormat.format(t.getAmount()));
         quoteWrapper.setContact(t.getContact());
         quoteWrapper.setPhone(t.getPhone());
+        quoteWrapper.setPriorityType(t.getPriorityType());
 
         Long businessDays = getBusinessDays(LocalDate.now(), t.getDeliveryDate());
         quoteWrapper.setDaysLeft(businessDays.intValue());
@@ -320,6 +330,10 @@ public class ApiQuoteController {
 
         quote.setWorkOrder(map.get("workOrder"));
         quote.setQuoteCode(map.get("quoteCode"));
+
+        if (map.get("priorityType")!=null) {
+            quote.setPriorityType(PriorityType.valueOf(map.get("priorityType")));
+        }
 
         return quote;
     }

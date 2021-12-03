@@ -91,6 +91,9 @@ public class Quote {
     @Column(name = "business_days", length = 50)
     private Integer businessDays;
 
+    @Column(name = "priority")
+    private PriorityType priorityType;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonBackReference

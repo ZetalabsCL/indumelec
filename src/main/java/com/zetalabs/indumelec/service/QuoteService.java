@@ -5,6 +5,7 @@ import com.zetalabs.indumelec.model.Quote;
 import com.zetalabs.indumelec.model.QuoteHistory;
 import com.zetalabs.indumelec.model.User;
 import com.zetalabs.indumelec.model.types.InvoiceType;
+import com.zetalabs.indumelec.model.types.PriorityType;
 import com.zetalabs.indumelec.model.types.Status;
 import com.zetalabs.indumelec.repository.CompanyRepository;
 import com.zetalabs.indumelec.repository.QuoteRepository;
@@ -61,6 +62,7 @@ public class QuoteService {
         quoteRepository.save(quote);
 
         quote.setQuoteCode(getQuoteCode(quote));
+        quote.setPriorityType(PriorityType.NORMAL);
         quoteRepository.save(quote);
     }
 
@@ -70,6 +72,7 @@ public class QuoteService {
         dbQuote.getQuoteDetails().clear();
         dbQuote.setQuoteDetails(quote.getQuoteDetails());
         dbQuote.setAmount(quote.getAmount());
+        dbQuote.setPriorityType(quote.getPriorityType());
         dbQuote.getQuoteHistories().add(getQuoteHistory(user, dbQuote.getStatus(), "Cotizacion Actualizada"));
 
         quoteRepository.save(dbQuote);
@@ -179,6 +182,16 @@ public class QuoteService {
 
         quote.setLastUpdate(LocalDateTime.now());
         quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.COMMENTED, "Nuevo Comentario", comments));
+
+        quoteRepository.save(quote);
+    }
+
+    public void updatePriorityQuote(User loggedUser, Long quoteId, String priority){
+        Quote quote = quoteRepository.getById(quoteId);
+
+        quote.setLastUpdate(LocalDateTime.now());
+        quote.setPriorityType(PriorityType.valueOf(priority));
+        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.UPDATE_PRIORITY, "Prioridad Actualizada"));
 
         quoteRepository.save(quote);
     }

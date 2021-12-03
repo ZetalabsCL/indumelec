@@ -16,6 +16,7 @@ public enum Status {
     COMPLETED("Completada"),
     RETURNED("Regresada"),
     UPDATE_DELIVERY("Fecha Entrega Actualizada"),
+    UPDATE_PRIORITY("Prioridad Actualizada"),
     COMMENTED("Comentario Agregado");
 
     private String description;

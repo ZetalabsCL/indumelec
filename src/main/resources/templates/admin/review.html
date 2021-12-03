@@ -49,6 +49,14 @@
                                     <input id="deliveryDate" name="deliveryDate" type="text" class="form-control" readonly="readonly">
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="priorityType">Prioridad:</label>
+                                    <select id="priorityType" name="priorityType" class="form-control">
+                                        <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.PriorityType).values() }" th:value="${item}" th:text="${item.description}"/>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -303,6 +311,7 @@
                     $("#name").val(data.company);
                     $("#contact").val(data.contact);
                     $("#phone").val(data.phone);
+                    $("#priorityType").val(data.priorityType);
 
                     var count=0;
                     data.details.forEach(function(detail){
