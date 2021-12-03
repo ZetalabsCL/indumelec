@@ -193,9 +193,11 @@ public class QuoteService {
     public void updatePriorityQuote(User loggedUser, Long quoteId, String priority){
         Quote quote = quoteRepository.getById(quoteId);
 
+        PriorityType priorityType = PriorityType.valueOf(priority);
         quote.setLastUpdate(LocalDateTime.now());
-        quote.setPriorityType(PriorityType.valueOf(priority));
-        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.UPDATE_PRIORITY, "Prioridad Actualizada"));
+        quote.setPriorityType(priorityType);
+        quote.getQuoteHistories().add(getQuoteHistory(loggedUser, Status.UPDATE_PRIORITY,
+                "Prioridad Actualizada", "Nueva prioridad " + priorityType.getDescription()));
 
         quoteRepository.save(quote);
     }
