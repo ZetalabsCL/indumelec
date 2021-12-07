@@ -4,7 +4,7 @@
       layout:decorate="~{fragments/layout}">
 
 <th:block layout:fragment="content">
-    <form method="post">
+    <form method="post" action="download" id="frmDownload">
         <input type="hidden" id="userId" name="userId" value="" />
         <div class="row">
             <div class="col-12">
@@ -13,19 +13,19 @@
                         <h4 class="header-title">Generacion de Reporte </h4>
                         <br>
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label for="deliveryDateFrom">Fecha Entrega Desde:</label>
                                     <input type="text" class="form-control date" id="deliveryDateFrom" name="deliveryDateFrom" data-toggle="date-picker" data-single-date-picker="true" readonly="readonly" />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label for="deliveryDateTo">Fecha Entrega Hasta:</label>
                                     <input type="text" class="form-control date" id="deliveryDateTo" name="deliveryDateTo" data-toggle="date-picker" data-single-date-picker="true" readonly="readonly" />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label for="priorityType">Prioridad:</label>
                                     <select id="priorityType" name="priorityType" class="form-control">
@@ -120,6 +120,10 @@
                         "Diciembre"
                     ]
                 }
+            });
+
+            $(".generateReport").on('click', function(){
+                $( "#frmDownload" ).submit();
             });
         });
     </script>
