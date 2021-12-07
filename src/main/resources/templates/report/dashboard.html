@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+
+<th:block layout:fragment="content">
+    <form method="post">
+        <input type="hidden" id="userId" name="userId" value="" />
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="header-title">Generacion de Reporte </h4>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="deliveryDateFrom">Fecha Entrega Desde:</label>
+                                    <input type="text" class="form-control date" id="deliveryDateFrom" name="deliveryDateFrom" data-toggle="date-picker" data-single-date-picker="true" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="deliveryDateTo">Fecha Entrega Hasta:</label>
+                                    <input type="text" class="form-control date" id="deliveryDateTo" name="deliveryDateTo" data-toggle="date-picker" data-single-date-picker="true" readonly="readonly" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="priorityType">Prioridad:</label>
+                                    <select id="priorityType" name="priorityType" class="form-control">
+                                        <option value="ALL">Todas</option>
+                                        <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.PriorityType).values() }"
+                                                th:value="${item}" th:text="${item.description}"/>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <a id="generateReportBtn" href="#" class="btn btn-success generateReport" th:text="'Generar Reporte'"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</th:block>
+
+<th:block layout:fragment="script">
+    <script>
+        $(document).ready(function() {
+            $('#deliveryDateFrom').daterangepicker({
+                singleDatePicker: true,
+                opens: 'center',
+                startDate: moment().startOf('day').subtract(1, 'month').format('DD/MM/YYYY'),
+                endDate: moment().endOf('day').subtract(1, 'month').format('DD/MM/YYYY'),
+                locale: {
+                    format: 'DD/MM/YYYY',
+                    firstDay: 1,
+                    daysOfWeek: [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    monthNames: [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ]
+                }
+            });
+
+            $('#deliveryDateTo').daterangepicker({
+                singleDatePicker: true,
+                opens: 'center',
+                startDate: moment().startOf('day').format('DD/MM/YYYY'),
+                endDate: moment().endOf('day').format('DD/MM/YYYY'),
+                locale: {
+                    format: 'DD/MM/YYYY',
+                    firstDay: 1,
+                    daysOfWeek: [
+                        "Do",
+                        "Lu",
+                        "Ma",
+                        "Mi",
+                        "Ju",
+                        "Vi",
+                        "Sa"
+                    ],
+                    monthNames: [
+                        "Enero",
+                        "Febrero",
+                        "Marzo",
+                        "Abril",
+                        "Mayo",
+                        "Junio",
+                        "Julio",
+                        "Agosto",
+                        "Septiembre",
+                        "Octubre",
+                        "Noviembre",
+                        "Diciembre"
+                    ]
+                }
+            });
+        });
+    </script>
+</th:block>
+</html>
