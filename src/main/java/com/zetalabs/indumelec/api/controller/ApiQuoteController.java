@@ -14,6 +14,7 @@ import com.zetalabs.indumelec.utils.FormUtils;
 import com.zetalabs.indumelec.utils.IndumelecFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,7 @@ public class ApiQuoteController {
 
     @RequestMapping("/api/quote/reviewList")
     public Map<String, Object> quoteReviewList() {
-        List<Quote> quoteList = quoteService.getQuoteListByStatus(Status.REVIEW);
+        List<Quote> quoteList = quoteService.getQuoteListByStatus(Status.REVIEW, StringUtils.EMPTY);
 
         List<QuoteWrapper> resultList  = quoteList.stream().map(getQuotes).collect(Collectors.toList());
 
@@ -67,7 +68,7 @@ public class ApiQuoteController {
 
     @RequestMapping("/api/quote/deliveryList")
     public Map<String, Object> quoteDeliveryList() {
-        List<Quote> quoteList = quoteService.getQuoteListByStatus(Status.DELIVERY);
+        List<Quote> quoteList = quoteService.getQuoteListByStatus(Status.DELIVERY, StringUtils.EMPTY);
 
         List<QuoteWrapper> resultList  = quoteList.stream().map(getQuotes).collect(Collectors.toList());
 

@@ -14,6 +14,10 @@ public interface QuoteRepository extends JpaRepository<Quote, Long> {
 
     List<Quote> getQuotesByStatusEqualsAndPriorityTypeEqualsOrderByDeliveryDate(Status status, PriorityType priorityType);
 
+    List<Quote> getQuotesByStatusEqualsAndWorkOrderIsContainingOrderByDeliveryDate(Status status, String workOrder);
+
+    List<Quote> getQuotesByStatusEqualsAndPriorityTypeEqualsAndWorkOrderIsContainingOrderByDeliveryDate(Status status, PriorityType priorityType, String workOrder);
+
     List<Quote> getQuotesByDeliveryDateBetween(LocalDate from, LocalDate to);
 
     List<Quote> getQuotesByDeliveryDateBetweenAndPriorityType(LocalDate from, LocalDate to, PriorityType priorityType);

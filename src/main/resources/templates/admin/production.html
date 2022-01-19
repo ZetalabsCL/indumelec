@@ -34,14 +34,19 @@
                     </p>
 
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-7">
                             <div class="form-group row">
                                 <label for="priorityType" class="col-sm-2">Prioridad:</label>
-                                <select id="priorityType" name="priorityType" class="form-control col-sm-2 otReload">
+                                <select id="priorityType" name="priorityType" class="form-control col-sm-2">
                                     <option value="ALL" th:selected="${priorityType==null}">Todas</option>
                                     <option th:each="item : ${ T(com.zetalabs.indumelec.model.types.PriorityType).values() }"
                                             th:value="${item}" th:text="${item.description}" th:selected="${priorityType!=null && item.equals(priorityType)}"/>
                                 </select>
+                                <label for="workOrderFilter" class="col-sm-2">Orden:</label>
+                                <input id="workOrderFilter" name="workOrderFilter" type="text" class="form-control col-sm-2" th:value="${workOrderFilter}" />
+                                <div class="col-sm-1">
+                                    <button type="button" class="btn btn-light otFilter">Buscar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -52,7 +57,7 @@
                             <div class="bg-light p-2">
                                 <h5 class="mt-0" th:text="${quotes.status.description.toUpperCase}" />
                                 <div th:id="${quotes.status.id}" class="py-2" th:title="${quotes.status.description}" th:attr="data-code=${quotes.status.name}">
-                                    <div class="card mb-0 mt-2" th:each="quote : ${quotes.quoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
+                                    <div class="card mb-0 mt-2 orderElement" th:each="quote : ${quotes.quoteList}" th:id="${quote.quoteId}" th:attr="data-work=${quote.workOrder}, data-quote=${quote.quoteCode}">
                                         <div class="card-body">
                                             <div class="media">
                                                 <div class="media-body">
@@ -466,11 +471,11 @@
             });
 
             $('.otRefresh').on('click', function(){
-                $(location).prop('href', 'production?priorityType='+$("#priorityType").val());
+                $(location).prop('href', 'production?priorityType='+$("#priorityType").val()+'&workOrderFilter='+$("#workOrderFilter").val());
             });
 
-            $('.otReload').on('change', function(){
-                $(location).prop('href', 'production?priorityType='+$("#priorityType").val());
+            $('.otFilter').on('click', function(){
+                $(location).prop('href', 'production?priorityType='+$("#priorityType").val()+'&workOrderFilter='+$("#workOrderFilter").val());
             });
         });
     </script>

@@ -39,12 +39,20 @@ public class QuoteService {
         return quoteRepository.getInProgressQuotes();
     }
 
-    public List<Quote> getQuoteListByStatus(Status status){
-        return quoteRepository.getQuotesByStatusEqualsOrderByDeliveryDate(status);
+    public List<Quote> getQuoteListByStatus(Status status, String workOrder){
+        if (StringUtils.isNotEmpty(workOrder)) {
+            return quoteRepository.getQuotesByStatusEqualsAndWorkOrderIsContainingOrderByDeliveryDate(status, workOrder);
+        } else {
+            return quoteRepository.getQuotesByStatusEqualsOrderByDeliveryDate(status);
+        }
     }
 
-    public List<Quote> getQuoteListByStatusAndPriorityType(Status status, PriorityType priorityType){
-        return quoteRepository.getQuotesByStatusEqualsAndPriorityTypeEqualsOrderByDeliveryDate(status, priorityType);
+    public List<Quote> getQuoteListByStatusAndPriorityType(Status status, PriorityType priorityType, String workOrder){
+        if (StringUtils.isNotEmpty(workOrder)) {
+            return quoteRepository.getQuotesByStatusEqualsAndPriorityTypeEqualsAndWorkOrderIsContainingOrderByDeliveryDate(status, priorityType, workOrder);
+        } else {
+            return quoteRepository.getQuotesByStatusEqualsAndPriorityTypeEqualsOrderByDeliveryDate(status, priorityType);
+        }
     }
 
     @Transactional
