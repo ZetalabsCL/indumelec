@@ -5,6 +5,7 @@ import com.zetalabs.indumelec.model.types.PriorityType;
 import com.zetalabs.indumelec.model.types.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,9 +15,16 @@ public interface QuoteRepository extends JpaRepository<Quote, Long> {
 
     List<Quote> getQuotesByStatusEqualsAndPriorityTypeEqualsOrderByDeliveryDate(Status status, PriorityType priorityType);
 
-    List<Quote> getQuotesByStatusEqualsAndWorkOrderIsContainingOrderByDeliveryDate(Status status, String workOrder);
+    @Query("select q from Quote q where q.status=:status " +
+            "and (q.workOrder like CONCAT('%',:filter,'%') or q.company.name  like CONCAT('%',:filter,'%')) " +
+            "order by q.deliveryDate")
+    List<Quote> getQuotesByFilters(@Param("status") Status status, @Param("filter") String filter);
 
-    List<Quote> getQuotesByStatusEqualsAndPriorityTypeEqualsAndWorkOrderIsContainingOrderByDeliveryDate(Status status, PriorityType priorityType, String workOrder);
+    @Query("select q from Quote q where q.status=:status and q.priorityType=:priorityType " +
+            "and (q.workOrder like CONCAT('%',:filter,'%') or q.company.name  like CONCAT('%',:filter,'%')) " +
+            "order by q.deliveryDate")
+    List<Quote> getQuotesByFilters(
+            @Param("status") Status status, @Param("priorityType") PriorityType priorityType, @Param("filter") String filter);
 
     List<Quote> getQuotesByDeliveryDateBetween(LocalDate from, LocalDate to);
 

@@ -26,46 +26,46 @@ public class ProductionController {
     @RequestMapping(value={"/admin/production"}, method = RequestMethod.GET)
     public ModelAndView dashboard(Model model,
                                   @RequestParam(value = "priorityType", required = false) String priorityType,
-                                  @RequestParam(value = "workOrderFilter", required = false) String workOrderFilter){
+                                  @RequestParam(value = "filter", required = false) String filter){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin/production");
 
-        model.addAttribute("workOrderFilter", workOrderFilter);
+        model.addAttribute("filter", filter);
         if (StringUtils.isNotEmpty(priorityType) && !"ALL".equals(priorityType)) {
             model.addAttribute("priorityType", PriorityType.valueOf(priorityType));
-            model.addAttribute("quotesList", getQuoteDetailsByPriority(PriorityType.valueOf(priorityType), workOrderFilter));
+            model.addAttribute("quotesList", getQuoteDetailsByPriority(PriorityType.valueOf(priorityType), filter));
         } else {
-            model.addAttribute("quotesList", getQuoteDetails(workOrderFilter));
+            model.addAttribute("quotesList", getQuoteDetails(filter));
         }
 
         return modelAndView;
     }
 
-    private List<ProductionWrapper> getQuoteDetails(String workOrder){
+    private List<ProductionWrapper> getQuoteDetails(String filter){
         List<ProductionWrapper> resultList = new ArrayList<>();
 
-        resultList.add(new ProductionWrapper(Status.PROJECT, quoteService.getQuoteListByStatus(Status.PROJECT, workOrder)));
-        resultList.add(new ProductionWrapper(Status.CUT, quoteService.getQuoteListByStatus(Status.CUT, workOrder)));
-        resultList.add(new ProductionWrapper(Status.PRODUCTION, quoteService.getQuoteListByStatus(Status.PRODUCTION, workOrder)));
-        resultList.add(new ProductionWrapper(Status.BUILD, quoteService.getQuoteListByStatus(Status.BUILD, workOrder)));
-        resultList.add(new ProductionWrapper(Status.DELIVERY, quoteService.getQuoteListByStatus(Status.DELIVERY, workOrder)));
+        resultList.add(new ProductionWrapper(Status.PROJECT, quoteService.getQuoteListByStatus(Status.PROJECT, filter)));
+        resultList.add(new ProductionWrapper(Status.CUT, quoteService.getQuoteListByStatus(Status.CUT, filter)));
+        resultList.add(new ProductionWrapper(Status.PRODUCTION, quoteService.getQuoteListByStatus(Status.PRODUCTION, filter)));
+        resultList.add(new ProductionWrapper(Status.BUILD, quoteService.getQuoteListByStatus(Status.BUILD, filter)));
+        resultList.add(new ProductionWrapper(Status.DELIVERY, quoteService.getQuoteListByStatus(Status.DELIVERY, filter)));
 
         return resultList;
     }
 
-    private List<ProductionWrapper> getQuoteDetailsByPriority(PriorityType priorityType, String workOrder){
+    private List<ProductionWrapper> getQuoteDetailsByPriority(PriorityType priorityType, String filter){
         List<ProductionWrapper> resultList = new ArrayList<>();
 
         resultList.add(new ProductionWrapper(Status.PROJECT,
-                quoteService.getQuoteListByStatusAndPriorityType(Status.PROJECT, priorityType, workOrder)));
+                quoteService.getQuoteListByStatusAndPriorityType(Status.PROJECT, priorityType, filter)));
         resultList.add(new ProductionWrapper(Status.CUT,
-                quoteService.getQuoteListByStatusAndPriorityType(Status.CUT, priorityType, workOrder)));
+                quoteService.getQuoteListByStatusAndPriorityType(Status.CUT, priorityType, filter)));
         resultList.add(new ProductionWrapper(Status.PRODUCTION,
-                quoteService.getQuoteListByStatusAndPriorityType(Status.PRODUCTION, priorityType, workOrder)));
+                quoteService.getQuoteListByStatusAndPriorityType(Status.PRODUCTION, priorityType, filter)));
         resultList.add(new ProductionWrapper(Status.BUILD,
-                quoteService.getQuoteListByStatusAndPriorityType(Status.BUILD, priorityType, workOrder)));
+                quoteService.getQuoteListByStatusAndPriorityType(Status.BUILD, priorityType, filter)));
         resultList.add(new ProductionWrapper(Status.DELIVERY,
-                quoteService.getQuoteListByStatusAndPriorityType(Status.DELIVERY, priorityType, workOrder)));
+                quoteService.getQuoteListByStatusAndPriorityType(Status.DELIVERY, priorityType, filter)));
 
         return resultList;
     }
