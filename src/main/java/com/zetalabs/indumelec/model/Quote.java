@@ -1,11 +1,26 @@
 package com.zetalabs.indumelec.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.zetalabs.indumelec.model.types.*;
+import com.zetalabs.indumelec.model.types.DeliveryType;
+import com.zetalabs.indumelec.model.types.InvoiceType;
+import com.zetalabs.indumelec.model.types.PaymentType;
+import com.zetalabs.indumelec.model.types.PriorityType;
+import com.zetalabs.indumelec.model.types.SignatureType;
+import com.zetalabs.indumelec.model.types.Status;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -101,19 +116,16 @@ public class Quote {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "quote_id")
-    @OrderBy("order_id ASC")
     @JsonBackReference
     private SortedSet<QuoteDetail> quoteDetails;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "quote_id")
-    @OrderBy("entry_date DESC")
     @JsonBackReference
     private SortedSet<QuoteHistory> quoteHistories;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "quote_id")
-    @OrderBy("entry_date ASC")
     @JsonBackReference
     private SortedSet<QuoteDocument> quoteDocuments;
 }

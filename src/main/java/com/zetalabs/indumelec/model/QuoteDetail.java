@@ -1,10 +1,19 @@
 package com.zetalabs.indumelec.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -21,16 +30,16 @@ public class QuoteDetail implements Serializable, Comparable<QuoteDetail> {
     @Column(name = "order_id")
     private Integer orderId;
 
-    @Column(name = "description")
     @Lob
+    @Column(name = "description", length = 8192)
     private String description;
 
-    @Column(name = "measure")
     @Lob
+    @Column(name = "measure")
     private String measure;
 
-    @Column(name = "notes")
     @Lob
+    @Column(name = "notes", length = 8192)
     private String notes;
 
     @Column(name = "quantity")

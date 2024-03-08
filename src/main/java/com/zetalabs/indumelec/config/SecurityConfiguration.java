@@ -4,19 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -33,13 +33,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private IndumelecAuthenticationHandler indumelecAuthenticationHandler;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-        .usersByUsernameQuery(usersQuery)
-        .authoritiesByUsernameQuery(rolesQuery)
-        .dataSource(dataSource)
-        .passwordEncoder(bCryptPasswordEncoder);
+    @Bean
+    public UserDetailsService jdbcUserDetailsService(DataSource dataSource) {
+        JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
+        manager.setUsersByUsernameQuery(usersQuery);
+        manager.setAuthoritiesByUsernameQuery(rolesQuery);
+        return manager;
     }
 
     @Bean
@@ -47,17 +46,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new HttpSessionEventPublisher();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/", "/login", "/logoutInfo", "/sessionExpired").permitAll()
-                .antMatchers("/api/**").permitAll()
-                .antMatchers("/dashboard").hasAnyAuthority("Admin","User")
-                .antMatchers("/accessDenied").hasAnyAuthority("Admin","User")
-                .antMatchers("/quote/**").hasAnyAuthority("Admin","User")
-                .antMatchers("/admin/**").hasAuthority("Admin")
-                .antMatchers("/user/**").hasAuthority("User")
-                .anyRequest().authenticated();
+    @Bean
+    public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests((authz) -> authz
+                        .requestMatchers("/", "/login", "/logoutInfo", "/sessionExpired").permitAll()
+                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/dashboard").hasAnyAuthority("Admin","User")
+                        .requestMatchers("/accessDenied").hasAnyAuthority("Admin","User")
+                        .requestMatchers("/quote/**").hasAnyAuthority("Admin","User")
+                        .requestMatchers("/admin/**").hasAuthority("Admin")
+                        .requestMatchers("/user/**").hasAuthority("User")
+                        .requestMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/fonts/**").permitAll()
+                        .anyRequest().authenticated());
 
         http.csrf()
                 .disable()
@@ -68,24 +68,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .passwordParameter("password");
 
-        http.logout()
+        http.logout((logout) -> logout
                 .logoutUrl("/logout")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/logoutInfo");
+                .logoutSuccessUrl("/logoutInfo"));
 
-        http.exceptionHandling()
-                .accessDeniedPage("/accessDenied");
+        http.exceptionHandling((exception) -> exception
+                        .accessDeniedPage("/accessDenied"));
 
-        http.sessionManagement()
+        http.sessionManagement((sessionManagement) -> sessionManagement
                 .sessionFixation().migrateSession()
                 .invalidSessionUrl("/invalidSession")
                 .maximumSessions(1)
-                .expiredUrl("/sessionExpired");
-    }
+                .expiredUrl("/sessionExpired"));
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/fonts/**");
+        return http.build();
     }
 }
