@@ -4,17 +4,8 @@ import com.zetalabs.indumelec.api.dto.AbstractWrapper;
 import com.zetalabs.indumelec.api.dto.QuoteDetailWrapper;
 import com.zetalabs.indumelec.api.dto.QuoteHistoryWrapper;
 import com.zetalabs.indumelec.api.dto.QuoteWrapper;
-import com.zetalabs.indumelec.model.Company;
-import com.zetalabs.indumelec.model.Holiday;
-import com.zetalabs.indumelec.model.Quote;
-import com.zetalabs.indumelec.model.QuoteDetail;
-import com.zetalabs.indumelec.model.QuoteHistory;
-import com.zetalabs.indumelec.model.User;
-import com.zetalabs.indumelec.model.types.DeliveryType;
-import com.zetalabs.indumelec.model.types.InvoiceType;
-import com.zetalabs.indumelec.model.types.PaymentType;
-import com.zetalabs.indumelec.model.types.SignatureType;
-import com.zetalabs.indumelec.model.types.Status;
+import com.zetalabs.indumelec.model.*;
+import com.zetalabs.indumelec.model.types.*;
 import com.zetalabs.indumelec.service.HolidayService;
 import com.zetalabs.indumelec.service.QuoteHistoryService;
 import com.zetalabs.indumelec.service.QuoteService;
@@ -22,6 +13,8 @@ import com.zetalabs.indumelec.service.UserService;
 import com.zetalabs.indumelec.utils.FormUtils;
 import com.zetalabs.indumelec.utils.IndumelecFormatter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,11 +29,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -61,7 +50,7 @@ public class ApiQuoteController {
 
     @RequestMapping("/api/quote/reviewList")
     public Map<String, Object> quoteReviewList() {
-        List<Quote> quoteList = quoteService.getQuoteListByStatus(Status.REVIEW);
+        List<Quote> quoteList = quoteService.getQuoteListByStatus(Status.REVIEW, StringUtils.EMPTY);
 
         List<QuoteWrapper> resultList  = quoteList.stream().map(getQuotes).collect(Collectors.toList());
 
@@ -79,7 +68,7 @@ public class ApiQuoteController {
 
     @RequestMapping("/api/quote/deliveryList")
     public Map<String, Object> quoteDeliveryList() {
-        List<Quote> quoteList = quoteService.getQuoteListByStatus(Status.DELIVERY);
+        List<Quote> quoteList = quoteService.getQuoteListByStatus(Status.DELIVERY, StringUtils.EMPTY);
 
         List<QuoteWrapper> resultList  = quoteList.stream().map(getQuotes).collect(Collectors.toList());
 
@@ -208,6 +197,28 @@ public class ApiQuoteController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @RequestMapping("/api/quote/priority")
+    public ResponseEntity priority(@RequestParam("userId") String userId, @RequestParam("quoteId") Long quoteId, @RequestParam("priority") String priority) {
+        User user = userService.getUserByMail(userId);
+
+        quoteService.updatePriorityQuote(user, quoteId, priority);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @RequestMapping("/api/quote/verifyOt")
+    public ResponseEntity verifyOt(@RequestParam("workOrderId") String workOrderId) {
+        List<Quote> quoteList = quoteService.getQuoteListByWorkOrder(workOrderId);
+
+        ResponseEntity response = new ResponseEntity<>("0", HttpStatus.OK);
+
+        if (CollectionUtils.isNotEmpty(quoteList)) {
+            response = new ResponseEntity<>("1", HttpStatus.OK);
+        }
+
+        return response;
+    }
+
     private Function<Quote, QuoteWrapper> getQuotes = (t) -> {
         QuoteWrapper quoteWrapper = new QuoteWrapper();
         quoteWrapper.setQuoteId(t.getQuoteId());
@@ -221,6 +232,7 @@ public class ApiQuoteController {
         quoteWrapper.setAmount(IndumelecFormatter.numberFormat.format(t.getAmount()));
         quoteWrapper.setContact(t.getContact());
         quoteWrapper.setPhone(t.getPhone());
+        quoteWrapper.setPriorityType(t.getPriorityType());
 
         Long businessDays = getBusinessDays(LocalDate.now(), t.getDeliveryDate());
         quoteWrapper.setDaysLeft(businessDays.intValue());
@@ -333,6 +345,10 @@ public class ApiQuoteController {
 
         quote.setWorkOrder(map.get("workOrder"));
         quote.setQuoteCode(map.get("quoteCode"));
+
+        if (map.get("priorityType")!=null) {
+            quote.setPriorityType(PriorityType.valueOf(map.get("priorityType")));
+        }
 
         return quote;
     }

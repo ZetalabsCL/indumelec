@@ -1,5 +1,6 @@
 package com.zetalabs.indumelec.api.dto;
 
+import com.zetalabs.indumelec.model.types.PriorityType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ public class QuoteWrapper extends AbstractWrapper {
     private String reference;
     private String amount;
     private Integer daysLeft;
+    private PriorityType priorityType;
 
     private List<QuoteDetailWrapper> details;
 }

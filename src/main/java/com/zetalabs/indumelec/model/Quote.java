@@ -1,26 +1,11 @@
 package com.zetalabs.indumelec.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.zetalabs.indumelec.model.types.DeliveryType;
-import com.zetalabs.indumelec.model.types.InvoiceType;
-import com.zetalabs.indumelec.model.types.PaymentType;
-import com.zetalabs.indumelec.model.types.SignatureType;
-import com.zetalabs.indumelec.model.types.Status;
+import com.zetalabs.indumelec.model.types.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -105,6 +90,9 @@ public class Quote {
 
     @Column(name = "business_days", length = 50)
     private Integer businessDays;
+
+    @Column(name = "priority")
+    private PriorityType priorityType;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
