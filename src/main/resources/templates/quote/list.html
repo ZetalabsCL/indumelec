@@ -114,7 +114,8 @@
                     {
                         'title': "Fecha de Entrega",
                         'data': 'deliveryDate',
-                        'className': 'text-center'
+                        'className': 'text-center',
+                        'render': function(data, type) { return type === 'sort' ? moment(data, 'DD/MM/YYYY', true).format('YYYYMMDD') : data }
                     },
                     {
                         'title': "Di&aacute;s Restantes",

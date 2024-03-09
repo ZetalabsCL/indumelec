@@ -121,8 +121,10 @@
                         }
                     },
                     {'data': 'company'},
-                    {'data': 'entryDate', 'className': 'text-center'},
-                    {'data': 'deliveryDate', 'className': 'text-center'},
+                    {'data': 'entryDate', 'className': 'text-center',
+                        'render': function(data, type) { return type === 'sort' ? moment(data, 'DD/MM/YYYY', true).format('YYYYMMDD') : data }},
+                    {'data': 'deliveryDate', 'className': 'text-center',
+                        'render': function(data, type) { return type === 'sort' ? moment(data, 'DD/MM/YYYY', true).format('YYYYMMDD') : data }},
                     {'data': 'reference'},
                     {'data': 'amount', 'className': 'text-right'},
                     {
@@ -193,8 +195,10 @@
                         }
                     },
                     {'data': 'company'},
-                    {'data': 'entryDate', 'className': 'text-center'},
-                    {'data': 'deliveryDate', 'className': 'text-center'},
+                    {'data': 'entryDate', 'className': 'text-center',
+                        'render': function(data, type) { return type === 'sort' ? moment(data, 'DD/MM/YYYY', true).format('YYYYMMDD') : data }},
+                    {'data': 'deliveryDate', 'className': 'text-center',
+                        'render': function(data, type) { return type === 'sort' ? moment(data, 'DD/MM/YYYY', true).format('YYYYMMDD') : data }},
                     {'data': 'reference'},
                     {'data': 'amount', 'className': 'text-right'},
                     {

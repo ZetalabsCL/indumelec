@@ -370,7 +370,8 @@
                         data: { quoteId: $('#'+this.id).data('quoteid') }
                     },
                     columns: [
-                        {'data': 'entryDate'},
+                        {'data': 'entryDate',
+                            'render': function(data, type) { return type === 'sort' ? moment(data, 'DD/MM/YYYY', true).format('YYYYMMDD') : data }},
                         {'data': 'description'},
                         {'data': 'comments'},
                         {'data': 'user'}
